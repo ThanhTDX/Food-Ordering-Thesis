@@ -32,7 +32,7 @@ Your terminal should look like this
 Move to "app" directory
 
 ```
-cd food-ordering
+cd app
 ```
 
 and execute this command
