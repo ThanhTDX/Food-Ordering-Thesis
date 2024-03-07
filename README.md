@@ -1,6 +1,6 @@
 # Food-Ordering-Thesis
 
-Made with Django
+Made with Django. Link to project: <https://github.com/ThanhTDX/Food-Ordering-Thesis/>
 
 ## Version
 
