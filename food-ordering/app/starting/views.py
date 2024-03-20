@@ -1,22 +1,34 @@
 from django.http import HttpResponse
 from django.template import loader
 
-def main(request):
-  template = loader.get_template('main.html')
+def index(request):
+  template = loader.get_template('index.html')
   return HttpResponse(template.render())
 
-def link1(request):
-  template = loader.get_template('link1.html')
+def about(request):
+  template = loader.get_template('about.html')
   return HttpResponse(template.render())
 
-def link2(request):
-  template = loader.get_template('link2.html')
+def booking(request):
+  template = loader.get_template('booking.html')
   return HttpResponse(template.render())
 
-def link3(request):
-  template = loader.get_template('link3.html')
+def contact(request):
+  template = loader.get_template('contact.html')
   return HttpResponse(template.render())
 
-def link4(request):
-  template = loader.get_template('link4.html')
+def menu(request):
+  template = loader.get_template('menu.html')
+  return HttpResponse(template.render())
+
+def service(request):
+  template = loader.get_template('service.html')
+  return HttpResponse(template.render())
+
+def team(request):
+  template = loader.get_template('team.html')
+  return HttpResponse(template.render())
+
+def testimonial(request):
+  template = loader.get_template('testimonial.html')
   return HttpResponse(template.render())
