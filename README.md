@@ -2,6 +2,8 @@
 
 Made with Django. Link to project: <https://github.com/ThanhTDX/Food-Ordering-Thesis/>
 
+Frontend: Bootstrap 5
+
 ## Version
 
 - Python: 3.12.2. Download Python [here](https://www.python.org/downloads/release/python-3122/)
