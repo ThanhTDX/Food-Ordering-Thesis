@@ -34,7 +34,7 @@ Your terminal should look like this
 Move to "app" directory
 
 ```
-cd app
+cd  food-ordering/app
 ```
 
 and execute this command
