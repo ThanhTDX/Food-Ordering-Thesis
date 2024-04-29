@@ -25,10 +25,22 @@ def service(request):
   template = loader.get_template('service.html')
   return HttpResponse(template.render())
 
-def team(request):
-  template = loader.get_template('team.html')
+def reservation(request):
+  template = loader.get_template('reservation.html')
+  return HttpResponse(template.render())
+
+def order(request):
+  template = loader.get_template('order.html')
   return HttpResponse(template.render())
 
 def testimonial(request):
   template = loader.get_template('testimonial.html')
+  return HttpResponse(template.render())
+
+def login(request):
+  template = loader.get_template('login.html')
+  return HttpResponse(template.render())
+
+def register(request):
+  template = loader.get_template('login.html')
   return HttpResponse(template.render())

@@ -15,16 +15,14 @@
     // Initiate the wowjs
     new WOW().init();
 
-
     // Sticky Navbar
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 45) {
-            $('.navbar').addClass('sticky-top shadow-sm');
-        } else {
-            $('.navbar').removeClass('sticky-top shadow-sm');
-        }
-    });
-    
+    // $(window).scroll(function () {
+    //     if ($(this).scrollTop() > 45) {
+    //         $('.navbar').addClass('sticky-top shadow-sm');
+    //     } else {
+    //         $('.navbar').addClass('sticky-top shadow-sm');
+    //     }
+    // });
     
     // Dropdown on mouse hover
     const $dropdown = $(".dropdown");
@@ -90,6 +88,26 @@
         $('#videoModal').on('hide.bs.modal', function (e) {
             $("#video").attr('src', $videoSrc);
         })
+    });
+
+    $(document).ready(function() {
+    $("#checkTable").click(function() {
+        if ($(this).is(":checked")) {
+        $("#extraForm").removeClass("d-none");
+        } else {
+        $("#extraForm").addClass("d-none");
+        }
+    });
+    });
+
+    $(document).ready(function() {
+    $("#checkVIP").click(function() {
+        if ($(this).is(":checked")) {
+        $("#extraForm2").removeClass("d-none");
+        } else {
+        $("#extraForm2").addClass("d-none");
+        }
+    });
     });
 
 
