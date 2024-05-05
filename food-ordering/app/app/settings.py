@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'starting',
     'bootstrap5',
+    'django_admin_logs',
 ]
 
 MIDDLEWARE = [
@@ -78,8 +79,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'food_ordering',
+        'USER': 'root',
+        'PASSWORD': 'thangthanhlathanh',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -126,3 +131,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Allow a superuser to delete the admin logs (True)
+DJANGO_ADMIN_LOGS_DELETABLE = True
+
+# View the logs in admin page (True)
+DJANGO_ADMIN_LOGS_ENABLED = True
