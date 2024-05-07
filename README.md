@@ -13,33 +13,33 @@ Frontend: Bootstrap 5
 
 Go to food-ordering
 
-```
+```terminal
 cd food-ordering
 ```
 
 and execute this command
 
-```
+```terminal
 activate
 ```
 
 Your terminal should look like this
 
-```
-(food-ordering) D:\Github\Food-Ordering-Thesis\food-ordering>
+```terminal
+(food-ordering) <Your Directory>\Food-Ordering-Thesis\food-ordering>
 ```
 
 ## Run the program
 
 Move to "app" directory
 
-```
+```terminal
 cd  food-ordering/app
 ```
 
 and execute this command
 
-```
+```terminal
 python manage.py runserver
 ```
 
