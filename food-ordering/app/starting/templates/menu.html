@@ -1,7 +1,6 @@
 {% extends "master.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block title %} Menu {% endblock %}
 
 {% block head %} {% endblock %} {% block body %}
 <div class="container-xxl bg-white p-5">
@@ -22,64 +21,26 @@
             </div>
             <div class="tab-class text-center wow" data-wow-delay="0.1s">
                 <div class="tab-content">
-                    <div id="tab-1" class="tab-pane fade show p-0 active">
+                    <div id="tab-1" class="tab-pane fade show p-0 active listProduct">
                         <div class="row g-4 py-4">
-                            <div class="col-lg-3 border border-1 border-warning rounded-4 mx-0">
+                            {% for food in foodlist %}
+                            <div class="col-lg-3 item">
                                 <div class="col-md-12" style="padding-left: 0px;  padding-right: 0px;">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="../static/img/menu-1.jpg" alt="" style="width: 100%;">
+                                    <img class="flex-shrink-0 img-fluid rounded" src="../static/img/menu-2.jpg" alt="" style="width: 100%;">
                                 </div>
                                 <div class="d-flex align-items-center menu-page">
                                     <div class="w-100 d-flex flex-column text-start px-4">
                                         <h5 class="d-flex justify-content-between">
-                                            <span>Cơm gà xối mỡ</span>
+                                            <span>{{ food.name }}</span>
                                         </h5>
                                         <h5 class="d-flex justify-content-end">
-                                            <span class="text-primary">VND110.000đ</span>
+                                            <span class="text-primary">VND{{ food.price }}</span>
                                         </h5>
                                         <button> Add to Cart
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 border border-1 border-warning rounded-4 mx-0">
-                                <div class="col-md-12" style="padding-left: 0px;  padding-right: 0px;">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="../static/img/menu-2.jpg" alt="" style="width: 100%;">
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="w-100 d-flex flex-column text-start px-4">
-                                        <h5 class="d-flex justify-content-between">
-                                            <span>Chicken Burger</span>
-                                            <span class="text-primary">$115</span>
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 border border-1 border-warning rounded-4 mx-0">
-                                <div class="col-md-12" style="padding-left: 0px;  padding-right: 0px;">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="../static/img/menu-3.jpg" alt="" style="width: 100%;">
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="w-100 d-flex flex-column text-start px-4">
-                                        <h5 class="d-flex justify-content-between">
-                                            <span>Chicken Burger</span>
-                                            <span class="text-primary">$115</span>
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 border border-1 border-warning rounded-4 ms-0">
-                                <div class="col-md-12" style="padding-left: 0px;  padding-right: 0px;">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="../static/img/menu-4.jpg" alt=""
-                                        style="width: 100%;">
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <div class="w-100 d-flex flex-column text-start px-4">
-                                        <h5 class="d-flex justify-content-between">
-                                            <span>Chicken Burger</span>
-                                            <span class="text-primary">$115</span>
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -91,5 +52,3 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 </div>
 {% endblock %}
-
-</html>
