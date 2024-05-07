@@ -380,3 +380,30 @@ CREATE TABLE IF NOT EXISTS CUSTOMER_CREATES_ORDERING(
         ON UPDATE NO ACTION
 );
 COMMIT;
+
+
+--
+-- Import data for USER 
+--
+
+INSERT INTO USER(phone_num, password, full_name, email) VALUES
+(123456789, 'user1', 'Nguyen Van A', NULL),
+(222222222, 'user2', 'Tran Van B', NULL)
+;
+COMMIT;
+
+--
+-- Import data for FOOD
+--
+
+INSERT INTO FOOD(name, price, nutrition_value, type) VALUES
+("Thịt lợn", 110000, NULL, NULL),
+("Cơm gà xối mỡ", 200000, NULL, NULL),
+("Súp gà", 235000, NULL, NULL),
+("Cháo lòng", 43000, NULL, NULL),
+("Bánh tráng", 34000, NULL, NULL),
+("Bánh mì trứng", 11000, NULL, NULL),
+("Hủ tiếu", 20000, NULL, NULL),
+("Kem", 7000, NULL, NULL)
+;
+COMMIT;
