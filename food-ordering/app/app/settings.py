@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'starting',
     'bootstrap5',
     'django_admin_logs',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +139,13 @@ DJANGO_ADMIN_LOGS_DELETABLE = True
 
 # View the logs in admin page (True)
 DJANGO_ADMIN_LOGS_ENABLED = True
+
+# Setup Crispy Template Pack for Bootstrap 5
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK="bootstrap5"
+
+# Login redirect
+LOGIN_REDIRECT_URL = '/'
+
+# Logout redirect
+LOGOUT_REDIRECT_URL = '/'
