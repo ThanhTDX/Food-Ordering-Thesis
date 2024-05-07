@@ -1,7 +1,10 @@
-from django.http import HttpResponse
-from django.shortcuts import render,redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.template import loader
-from . forms import CreateUserForm , LoginForm
+from django.contrib.auth import authenticate , login , logout
+from django.contrib import messages
+from . forms import RegisterForm , LoginForm ,  ReservationForm
+from . models import Food
 
 # - Authentication models and functions
 
@@ -21,13 +24,33 @@ def contact(request):
   return render(request, 'contact.html')
 
 def menu(request):
-  return render(request, 'menu.html')
+  template = 'menu.html'
+  context = {}
+  context["foodlist"] = Food.objects.all()
+  return render(request, template, context)
 
 def service(request):
   return render(request, 'service.html')
 
 def reservation(request):
-  return render(request, 'reservation.html')
+  form = ReservationForm()
+  template = 'reservation.html'
+  
+  # CREATE RESERVATION FUNCTION
+  if request.method == 'POST' :
+    form = ReservationForm(request.POST)
+    if form.is_valid():
+      customer_name = request.POST.get('customer_name')
+      phone_num = request.POST.get('phone_num')
+      vip_room = request.POST.get('vip_room')
+      eat_time = request.POST.get('eat_time')
+      num_of_people = request.POST.get('num_of_people')
+      review = request.POST.get('review')
+      form.save()
+      return HttpResponseRedirect('/')
+  
+  context = {'reservationForm':form}
+  return render(request, template, context)
 
 def order(request):
   return render(request, 'order.html')
@@ -39,7 +62,8 @@ def login(request):
   form = LoginForm()
   template = 'login.html'
   
-  if request.method == 'POST' :
+  # LOGIN FUNCTION (Post)
+  if request.method == 'POST':
     form = LoginForm(request, data=request.POST)
     if form.is_valid():
       username = request.POST.get('username')
@@ -49,25 +73,31 @@ def login(request):
       
       if user is not None:
         auth.login(request, user)
-        return redirect("index")
+        return HttpResponseRedirect("/")
+      else:
+        message.success(request, ("There was an error logging in."))
+        return HttpResponseRedirect("/login")
+
       
+
   context = {'loginform':form}
   return render(request, template, context=context)
 
-def user_logout(request):
-    auth.logout(request)
-    return request("")
+def logout(request):
+    logout(request)
+    message.success(request,("You have logged out."))
+    return HttpResponseRedirect("/")
 
 def register(request):
   
     template = 'register.html'  
-    form = CreateUserForm()
+    form = RegisterForm()
     if request.method == "POST":
-        form = CreateUserForm(request.POST) 
+        form = RegisterForm(request.POST) 
         if form.is_valid():
             form.save()
-            return redirect("index")
+            return HttpResponseRedirect("/")
 
-    context = {'registerform':form}
+    context = {'registerForm':form}
 
     return render(request, template, context=context)

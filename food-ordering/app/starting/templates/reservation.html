@@ -1,4 +1,5 @@
 {% extends "master.html" %}
+{% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,31 +37,34 @@
                         Reservation
                     </h1>
                     <h1 class="text-white mb-4">Book A Table Online</h1>
-                    <form>
-                        <div class="row g-3">
+                    <form action="" method="POST" autocomplete="off">
+                        {% csrf_token %}
+                        {{ reservationForm|crispy }}
+                        <!-- <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="name" placeholder="Your Name" />
-                                    <label for="name">Your Name</label>
+                                    <label for="name">{{field.customer_name}}</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="email" placeholder="Your Email" />
-                                    <label for="email">Your Email</label>
+                                    <input type="phone" class="form-control" id="phonenum" placeholder="Phone Number" />
+                                    <label for="phone">{{field.phone_num}}</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating date" id="date3" data-target-input="nearest">
                                     <input type="text" class="form-control datetimepicker-input" id="datetime"
                                         placeholder="Date & Time" data-target="#date3" data-toggle="datetimepicker" />
-                                    <label for="datetime">Date & Time</label>
+                                    <label for="datetime">{{field.eat_time}}</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" id="numOfPeople" placeholder="Number of people" />
-                                    <label for="select1">Number Of People</label>
+                                    <input type="number" class="form-control" id="numOfPeople"
+                                        placeholder="Number of people" />
+                                    <label for="select1">{{field.num_of_people}}</label>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -87,7 +91,7 @@
                                     <label class="form-check-label" for="flexCheckDefault">
                                         Choose VIP room?
                                     </label>
-                                    
+
                                 </div>
                             </div>
                             <div id="extraForm2" class="col-md-12 d-none">
@@ -107,13 +111,17 @@
                                     <label for="message">Special Request</label>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">
-                                    Book Now
-                                </button>
-                            </div>
+
+                            
+
+                        </div> -->
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary w-100 py-3" name="Book Now" value="Book Now">
+                                Book Now
+                            </button>
                         </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
@@ -136,7 +144,7 @@
             </div>
         </div>
     </div>
-    <!-- Reservation Start -->
+    <!-- Reservation End -->
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
