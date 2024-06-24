@@ -37,11 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'starting',
+    
     'bootstrap5',
     'django_admin_logs',
     'crispy_forms',
     'crispy_bootstrap5',
+    
+    'starting',
+    'menu',
 ]
 
 MIDDLEWARE = [
