@@ -52,14 +52,14 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0 pe-4">
                     <a href="/" class="nav-item nav-link">Home</a>
-                    <a href="about" class="nav-item nav-link">About</a>
-                    <a href="menu" class="nav-item nav-link">Menu</a>
-                    <a href="testimonial" class="nav-item nav-link">Comment</a>
+                    <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
+                    <a href="{% url 'menu' %}" class="nav-item nav-link">Menu</a>
+                    <a href="{% url 'testimonial' %}" class="nav-item nav-link">Comment</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Booking</a>
                         <div class="dropdown-menu m-0">
-                            <a href="reservation" class="dropdown-item">Reservation</a>
-                            <a href="order" class="dropdown-item">Ordering</a>
+                            <a href="{% url 'reservation' %}" class="dropdown-item">Reservation</a>
+                            <a href="{% url 'order' %}" class="dropdown-item">Ordering</a>
                         </div>
                     </div>
                     <a href="contact" class="nav-item nav-link">Contact</a>
