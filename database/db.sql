@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS FOOD(
     name VARCHAR(255),
     price FLOAT,
     nutrition_value BLOB,
+    image_link VARCHAR(255),
     type VARCHAR(255),
     PRIMARY KEY (food_id)
 );
@@ -396,14 +397,14 @@ COMMIT;
 -- Import data for FOOD
 --
 
-INSERT INTO FOOD(name, price, nutrition_value, type) VALUES
-("Thịt lợn", 110000, NULL, NULL),
-("Cơm gà xối mỡ", 200000, NULL, NULL),
-("Súp gà", 235000, NULL, NULL),
-("Cháo lòng", 43000, NULL, NULL),
-("Bánh tráng", 34000, NULL, NULL),
-("Bánh mì trứng", 11000, NULL, NULL),
-("Hủ tiếu", 20000, NULL, NULL),
-("Kem", 7000, NULL, NULL)
+INSERT INTO FOOD(name, price, nutrition_value, type, image_link) VALUES
+("Thịt lợn", 110000, NULL, NULL, "../static/img/menu-1.jpg"),
+("Cơm gà xối mỡ", 200000, NULL, NULL, "../static/img/menu-2.jpg"),
+("Súp gà", 235000, NULL, NULL, "../static/img/menu-3.jpg"),
+("Cháo lòng", 43000,  "afddsfasdfsdasdgasgasgasdfgdfagdafg", "chao long", "../static/img/menu-4.jpg"),
+("Bánh tráng", 34000, NULL, NULL, "../static/img/menu-5.jpg"),
+("Bánh mì trứng", 11000, NULL, NULL, "../static/img/menu-6.jpg"),
+("Hủ tiếu", 20000, NULL, NULL, "../static/img/menu-7.jpg"),
+("Kem", 7000, NULL, NULL, "../static/img/menu-8.jpg")
 ;
 COMMIT;
