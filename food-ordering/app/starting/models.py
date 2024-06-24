@@ -33,6 +33,7 @@ class Food(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     nutrition_value = models.TextField(blank=True, null=True)
+    image_link = models.ImageField(blank=True, null=True)
     type = models.CharField(max_length=255, blank=True, null=True)
     
     def __str__(self):
