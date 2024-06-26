@@ -153,7 +153,7 @@ cython_debug/
 
 
 # Custom Ignore
-**/include
+**/Include/
 **/pyvenv.cfg
 **/Scripts/
 **/share/
