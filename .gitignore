@@ -154,6 +154,6 @@ cython_debug/
 
 # Custom Ignore
 **/Include/
-**/pyvenv.cfg
+**/*.cfg
 **/Scripts/
 **/share/
