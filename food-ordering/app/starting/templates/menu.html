@@ -1,0 +1,54 @@
+{% extends "master.html" %}
+
+{% block title %} Menu {% endblock %}
+
+{% block head %} {% endblock %} {% block body %}
+<div class="container-xxl bg-white p-5">
+    <!-- Spinner Start -->
+    <!-- <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div> -->
+    <!-- Spinner End -->
+
+    <!-- Menu Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow pt-4" data-wow-delay="0.1s">
+                <h1 class="mb-5">Menu</h1>
+            </div>
+            <div class="tab-class text-center wow" data-wow-delay="0.1s">
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane fade show p-0 active listProduct">
+                        <div class="row g-4 py-4">
+                            {% for food in foodlist %}
+                            <div class="col-lg-3 item">
+                                <div class="col-md-12" style="padding-left: 0px;  padding-right: 0px;">
+                                    <img class="flex-shrink-0 img-fluid rounded" src="../static/img/menu-2.jpg" alt="" style="width: 100%;">
+                                </div>
+                                <div class="d-flex align-items-center menu-page">
+                                    <div class="w-100 d-flex flex-column text-start px-4">
+                                        <h5 class="d-flex justify-content-between">
+                                            <span>{{ food.name }}</span>
+                                        </h5>
+                                        <h5 class="d-flex justify-content-end">
+                                            <span class="text-primary">VND{{ food.price }}</span>
+                                        </h5>
+                                        <button> Add to Cart
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Menu End -->
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+{% endblock %}
