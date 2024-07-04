@@ -1,54 +1,137 @@
 {% extends "master.html" %}
-
-{% block title %} Menu {% endblock %}
-
-{% block head %} {% endblock %} {% block body %}
-<div class="container-xxl bg-white p-5">
-    <!-- Spinner Start -->
-    <!-- <div id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div> -->
-    <!-- Spinner End -->
-
-    <!-- Menu Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow pt-4" data-wow-delay="0.1s">
+{% block title %}Menu{% endblock %}
+{% block head %}{% endblock %}
+{% block body %}
+    <!-- Body Start -->
+    <div class="container-xxl bg-secondary p-5">
+        <!-- Spinner Start -->
+        <!-- <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> -->
+        <!-- Spinner End -->
+        <!-- Menu Start -->
+        <div class="container p-2">
+            <div class="text-center pt-4" data-wow-delay="0.1s">
                 <h1 class="mb-5">Menu</h1>
             </div>
-            <div class="tab-class text-center wow" data-wow-delay="0.1s">
-                <div class="tab-content">
-                    <div id="tab-1" class="tab-pane fade show p-0 active listProduct">
-                        <div class="row g-4 py-4">
+            <div class="tab-class text-center" data-wow-delay="0.1s">
+                <div class="tab-content justify-content-between">
+                    <div id="scorllable"
+                         class="col-lg-3 overflow-visible border border-primary float-start">
+                        <h1>CARD TITLE</h1>
+                        <div class="input-group rounded">
+                            <input type="search"
+                                   class="form-control rounded"
+                                   placeholder="Search"
+                                   aria-label="Search"
+                                   aria-describedby="search-addon" />
+                            <span class="input-group-text border-0" id="search-addon">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-4">
+                                <input type="radio" id="html" name="fav_language" value="HTML" />
+                                <label for="html">HTML</label>
+                            </div>
+                            <div class="col-5">
+                                <input type="radio" id="js" name="fav_language" value="JavaScript" />
+                                <label for="html">JavaScript</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="radio" id="css" name="fav_language" value="CSS" />
+                                <label for="css">CSS</label>
+                            </div>
+                        </div>
+                        <div class="justify-content-start">
+                            <div class="display-5 align-content-start">Tags</div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-3 m-1 btn btn-primary text-dark h5">Breakfast</div>
+                            <div class="col-3 m-1 btn btn-primary text-dark h5">Breakfast</div>
+                            <div class="col-3 m-1 btn btn-primary text-dark h5">Breakfast</div>
+                            <div class="col-3 m-1 btn btn-primary text-dark h5">Breakfast</div>
+                            <div class="col-3 m-1 btn btn-primary text-dark h5">Breakfast</div>
+                            <div class="col-3 m-1 btn btn-primary text-dark h5">Breakfast</div>
+                        </div>
+                    </div>
+                    <div id="tab-1"
+                         class="tab-pane fade show active justify-content-center row justify-content-lg-end">
+                        <div class="col-lg-9 row border border-primary">
                             {% for food in foodlist %}
-                            <div class="col-lg-3 item">
-                                <div class="col-md-12" style="padding-left: 0px;  padding-right: 0px;">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="../static/img/menu-2.jpg" alt="" style="width: 100%;">
-                                </div>
-                                <div class="d-flex align-items-center menu-page">
-                                    <div class="w-100 d-flex flex-column text-start px-4">
-                                        <h5 class="d-flex justify-content-between">
-                                            <span>{{ food.name }}</span>
-                                        </h5>
-                                        <h5 class="d-flex justify-content-end">
-                                            <span class="text-primary">VND{{ food.price }}</span>
-                                        </h5>
-                                        <button> Add to Cart
+                                <div class="col-sm-6 col-lg-4 item rounded-top py-1 px-1">
+                                    <div class="col-lg-12">
+                                        <img class="flex-shrink-0 img-fluid rounded border border-dark"
+                                             src="../static/img/menu-2.jpg"
+                                             alt=""
+                                             width="100%"
+                                             height="100%" />
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="w-100 d-flex flex-column text-start">
+                                            <h4 class="d-flex justify-content-between">
+                                                <span>{{ food.name }}</span>
+                                            </h4>
+                                            <h5 class="d-flex justify-content-end">
+                                                <span class="text-primary">VND{{ food.price }}</span>
+                                            </h5>
+                                            <div class="row justify-content-center">
+                                                <div class="col-5 btn btn-primary text-dark float-start me-2" href="">Add to Cart</div>
+                                                <div class="col-5 btn btn-info text-dark float-end ms-2" href="">Add to Menu</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             {% endfor %}
+                        </div>
+                    </div>
+                    <div id="tab-2"
+                         class="tab-pane fade show active justify-content-center row justify-content-lg-end">
+                        <div class="col-lg-9 mb-3 mb-lg-5 border border-primary">
+                            <div class="overflow-hidden table-nowrap table-card">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead class="small text-uppercase bg-body text-muted">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Price</th>
+                                                <th>a</th>
+                                                <th>a</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for food in foodlist %}
+                                                <tr class="align-middle">
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div>
+                                                                <div class="h6 mb-0 lh-1">{{ food.name }}</div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ food.price }}</td>
+                                                    <td>
+                                                        <div class="col-5 btn btn-primary text-dark float-center" href="">Add to Cart</div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-5 btn btn-info text-dark float-center" href="">Add to Menu</div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Menu End -->
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
-    <!-- Menu End -->
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-</div>
+    <!-- Body End -->
 {% endblock %}
