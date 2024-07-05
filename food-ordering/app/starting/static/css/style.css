@@ -45,6 +45,7 @@
   font-weight: 500;
   text-transform: uppercase;
   transition: 0.5s;
+  cursor:pointer;
 }
 
 .btn.btn-primary,
@@ -496,4 +497,86 @@ body {
 table th {
   font-weight: 600;
   background-color: #eeecfd !important;
+}
+
+/* cartTab */
+
+.icon-cart {
+  position: relative;
+}
+
+.icon-cart span {
+  background-color: red;
+  position: relative;
+  top: 50%;
+  right: -20px;
+  width: 30px;
+  height: 30px;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cartTab {
+  background-color: #353432;
+  color: #eee;
+  width: 400px;
+  max-width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-rows: 70px 1fr 70px;
+}
+
+.cartTab h1 {
+  padding: 20px;
+  margin: 0;
+  font-weight: 300;
+}
+
+.cartTab .btn {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cartTab .btn button {
+  background-color: #e8bc0e;
+  border: none;
+  font-family: Poppins;
+  font-weight: 500;
+}
+
+.cartTab .btn button.close {
+  background-color: #eee;
+}
+
+.cartTab .listCart {
+  overflow: auto;
+}
+
+.cartTab .listCart::-webkit-scrollbar {
+  width: 0;
+}
+
+.cartTab {
+  right: -400px;
+  transition: 0.5s;
+}
+
+body.activeTabCart .cartTab {
+  right: 0;
+}
+
+body.activeTabCart .container {
+  transform: translateX(-250px);
+}
+
+.closeBtn {
+}
+
+.checkOutBtn {
 }
