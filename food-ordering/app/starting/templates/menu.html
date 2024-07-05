@@ -20,6 +20,7 @@
                 <div class="tab-content justify-content-between">
                     <div id="scrollable" class="col-lg-3 overflow-visible border float-start">
                         <h1>CARD TITLE</h1>
+                        {% comment %} Search Function {% endcomment %}
                         <div class="input-group rounded">
                             <input type="search"
                                    class="form-control rounded"
@@ -30,6 +31,7 @@
                                 <i class="fas fa-search"></i>
                             </span>
                         </div>
+                        {% comment %} View list Function {% endcomment %}
                         <div class="row justify-content-between">
                             <div class="btn btn-light col-3 float-start">
                                 <svg class="w-6 h-6 text-gray-800 dark:text-white"
@@ -58,17 +60,17 @@
                         <div class="justify-content-start">
                             <div class="display-5 align-content-start">Tags</div>
                         </div>
-                        <div class="row justify-content-between">
-                            <div class="col-4 m-1 btn btn-primary text-dark h5">Breakfast</div>
+                        {% comment %} Tags class {% endcomment %}
+                        <div class="row justify-content-between text-center align-items-center">
+                            <div class="col-5 m-1 btn btn-primary text-dark h5">Breakfast</div>
                             <div class="col-3 m-1 btn btn-primary text-dark h5">Lunch</div>
                             <div class="col-3 m-1 btn btn-primary text-dark h5">Dinner</div>
-                            <div class="col-3 m-1 btn btn-primary text-dark h5">Desert</div>
-                            <div class="col-3 m-1 btn btn-primary text-dark h5">Hot Pot</div>
+                            <div class="col-4 m-1 btn btn-primary text-dark h5">Desert</div>
+                            <div class="col-4 m-1 btn btn-primary text-dark h5">Hot Pot</div>
                             <div class="col-3 m-1 btn btn-primary text-dark h5">Meat</div>
                         </div>
                     </div>
-                    <div id="tab-1"
-                         class="tab-pane fade show active justify-content-center row justify-content-lg-end">
+                    <div id="tab-1" class="tab-pane fade show active justify-content-center row justify-content-lg-end float-end">
                         <div class="col-lg-9 row border">
                             {% for food in foodlist %}
                                 <div class="col-sm-6 col-lg-4 item rounded-top py-1 px-1">
@@ -97,8 +99,7 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div id="tab-2"
-                         class="tab-pane fade show active justify-content-center row justify-content-lg-end">
+                    <div id="tab-2" class="tab-pane fade show active justify-content-center row justify-content-lg-end float-end">
                         <div class="col-lg-9 mb-3 mb-lg-5 border">
                             <div class="overflow-hidden table-nowrap table-card">
                                 <div class="table-responsive">
