@@ -34,21 +34,22 @@ def service(request):
 
 def reservation(request):
   form = ReservationForm()
-  template = 'reservation.html'
+  template = 'reservation/reservation.html'
   
   # CREATE RESERVATION FUNCTION
   if request.method == 'POST' :
     form = ReservationForm(request.POST)
     if form.is_valid():
-      customer_name = request.POST.get('customer_name')
-      phone_num = request.POST.get('phone_num')
-      vip_room = request.POST.get('vip_room')
-      eat_time = request.POST.get('eat_time')
-      num_of_people = request.POST.get('num_of_people')
-      review = request.POST.get('review')
+      customer_name = form.cleaned_data('customer_name')
+      phone_num = form.cleaned_data('phone_num')
+      vip_room = form.cleaned_data('vip_room')
+      eat_time = form.cleaned_data('eat_time')
+      num_of_people = form.cleaned_data('num_of_people')
+      review = form.cleaned_data('review')
       form.save()
       return HttpResponseRedirect('/')
-  
+  else:
+    form = ReservationForm()
   context = {'reservationForm':form}
   return render(request, template, context)
 
