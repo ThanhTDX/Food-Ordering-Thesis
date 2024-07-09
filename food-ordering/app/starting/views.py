@@ -11,30 +11,30 @@ from . models import Food
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 
-def index(request):
-  return render(request, 'index.html')
+def MainView(request):
+  return render(request, 'main.html')
 
-def about(request):
+def AboutView(request):
   return render(request, 'about.html')
 
-def booking(request):
+def BookingView(request):
   return render(request, 'booking.html')
 
-def contact(request):
+def ContactView(request):
   return render(request, 'contact.html')
 
-def menu(request):
+def MenuView(request):
   template = 'menu.html'
   context = {}
   context["foodlist"] = Food.objects.all()
   return render(request, template, context)
 
-def service(request):
+def ServiceView(request):
   return render(request, 'service.html')
 
-def reservation(request):
+def ReservationView(request):
   form = ReservationForm()
-  template = 'reservation/reservation.html'
+  template = 'reservation/index.html'
   
   # CREATE RESERVATION FUNCTION
   if request.method == 'POST' :
@@ -50,16 +50,20 @@ def reservation(request):
       return HttpResponseRedirect('/')
   else:
     form = ReservationForm()
+  
+  # Rendering forms and put in context
+  # rendered_form = ReservationForm.render("reservation/reservationForm.html")
   context = {'reservationForm':form}
+  
   return render(request, template, context)
 
-def order(request):
+def OrderView(request):
   return render(request, 'order.html')
 
-def testimonial(request):
+def TestimonialView(request):
   return render(request, 'testimonial.html')
 
-def login(request):
+def LoginView(request):
   form = LoginForm()
   template = 'login.html'
   
@@ -84,12 +88,12 @@ def login(request):
   context = {'loginform':form}
   return render(request, template, context=context)
 
-def logout(request):
+def LogoutView(request):
     logout(request)
     message.success(request,("You have logged out."))
     return HttpResponseRedirect("/")
 
-def register(request):
+def RegisterView(request):
   
     template = 'register.html'  
     form = RegisterForm()
