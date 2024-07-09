@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         {% load bootstrap5 %}
         {% bootstrap_css %} {% bootstrap_javascript %}
@@ -71,8 +71,8 @@
                         <img class="btn btn-primary img-fluid ms-2"
                              src="../static/img/shopping-cart-icon.png"
                              alt=""
-                             style="width: 42px;
-                                    height: 42px">
+                             height="42px"
+                             width="42px">
                     </a>
                     <a href="order" class="btn btn-primary py-2 px-4">Create Order</a>
                     {% if user.is_authenticated %}
@@ -131,7 +131,7 @@
                 <div class="copyright">
                     <div class="row">
                         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            &copy; <a class="border-bottom" href="#">Nguyen Duy Thanh 2024</a>, All
+                            <a class="border-bottom" href="#">Nguyen Duy Thanh 2024</a>, All
                             Right Reserved.
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
                             Designed By

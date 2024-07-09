@@ -1,7 +1,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <meta charset="utf-8" />
     <title>Log in</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -52,7 +52,9 @@
                     <div class="col-lg-6 d-none d-lg-flex">
                         <img src="../static/img/loginphoto.jpg"
                              alt="Trendy Pants and Shoes"
-                             class="w-100 rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5 " />
+                             class="w-100 rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5"
+                             heigth="0"
+                             width="0" />
                     </div>
                     <div class="col-lg-6">
                         <div class="card-body py-5 px-md-5">
@@ -60,7 +62,7 @@
                                 <i class="fa fa-utensils me-3"></i>Traditional
                                 Restaurant
                             </h1>
-                            <form method="POST" autocomplete="off">
+                            <form method="post" autocomplete="off">
                                 {% csrf_token %}
                                 {{ registerForm|crispy }}
                                 <!-- Register button -->

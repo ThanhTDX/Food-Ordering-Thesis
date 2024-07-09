@@ -8,7 +8,11 @@
             {{ c.price }}
             {{ c.nutrition_value }}
             {{ c.type }}
-            <img class="" src="{{ c.image_link.url }}">
+            <img class="border border-rounded"
+                 src="{{ c.image_link.url }}"
+                 alt=""
+                 height="0"
+                 width="0">
         {% endfor %}
     </div>
 {% endblock %}

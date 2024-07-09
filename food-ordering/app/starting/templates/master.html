@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         {% load bootstrap5 %}
         {% bootstrap_css %} {% bootstrap_javascript %}
@@ -76,7 +76,6 @@
                              height="30px">
                         <span class="bg-danger position-absolute top-50 start-50 text-light justify-content-center align-items-center rounded-circle">0</span>
                     </div>
-                        
                     <div class="cartTab bg-dark text-light w-40 float-end position-fixed justify-content-center">
                         <h1 class="text-light">Shopping Cart</h1>
                         <div class="listCart">Show item here</div>
@@ -100,8 +99,7 @@
             </nav>
         </div>
         <!-- Navbar & Hero End -->
-        {% block body %}
-        {% endblock %}
+        {% block body %}{% endblock %}
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-light footer pt-3 mt-3 wow fadeIn"
              data-wow-delay="0.1s">
@@ -134,7 +132,7 @@
                 <div class="copyright">
                     <div class="row">
                         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            &copy; <a class="border-bottom" href="#">Nguyen Duy Thanh 2024</a>, All
+                            <a class="border-bottom" href="#">Nguyen Duy Thanh 2024</a>, All
                             Right Reserved.
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
                             Designed By
