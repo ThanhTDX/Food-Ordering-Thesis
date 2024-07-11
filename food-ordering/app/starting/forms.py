@@ -1,26 +1,9 @@
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.forms import ModelForm
-from django.forms.widgets import PasswordInput, TextInput
+from django.forms.widgets import TextInput
 from . models import Reservation
 
-
-# - Create/Register a user
-
-class RegisterForm(UserCreationForm):
-
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
-
-# - Authentication Form
-
-class LoginForm(AuthenticationForm):
-    username = forms.CharField(label="Username", widget=TextInput())
-    password = forms.CharField(label="Password", widget=PasswordInput())
-    
-    
 # Reservation Form
 
 VIP_CHOICES = ( 
@@ -40,8 +23,8 @@ TABLES_CHOICES = (
 class ReservationForm(forms.ModelForm):
     customer_name = forms.CharField(label="Customer Name", max_length=100)
     phone_num = forms.IntegerField(label="Phone Number")
-    vip_room = forms.ChoiceField(label="VIP Room", choices=VIP_CHOICES)
-    table = forms.MultipleChoiceField(label="Table Choice", choices=TABLES_CHOICES)
+    vip_room = forms.ChoiceField(label="VIP Room", choices=VIP_CHOICES, required=False)
+    table = forms.MultipleChoiceField(label="Table Choice", choices=TABLES_CHOICES, required=False)
     
     eat_time = forms.DateTimeField(
         label="Eat Time",
@@ -72,8 +55,6 @@ class ReservationForm(forms.ModelForm):
         
     def __init__(self, *args, **kwargs):
         super(ReservationForm, self).__init__(*args, **kwargs)
-        self.fields['vip_room'].required = False
-        self.fields['table'].required = False
 
 # Ordering Form
 
