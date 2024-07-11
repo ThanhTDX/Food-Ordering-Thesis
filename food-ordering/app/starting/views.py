@@ -29,14 +29,18 @@ def MenuView(request):
   context["foodlist"] = Food.objects.all()
   return render(request, template, context)
 
+def MenuItemView(request, id):
+  template = 'menu-item.html'
+  context = {}
+  return render(request, template, context)
+
 def ServiceView(request):
   return render(request, 'service.html')
 
 def ReservationView(request):
-  form = ReservationForm()
   template = 'reservation/index.html'
   
-  # CREATE RESERVATION FUNCTION
+  # POST REQUEST
   if request.method == 'POST' :
     form = ReservationForm(request.POST)
     if form.is_valid():
@@ -48,13 +52,12 @@ def ReservationView(request):
       review = form.cleaned_data('review')
       form.save()
       return HttpResponseRedirect('/')
+  
+   # GET REQUEST 
   else:
     form = ReservationForm()
   
-  # Rendering forms and put in context
-  # rendered_form = ReservationForm.render("reservation/reservationForm.html")
-  context = {'reservationForm':form}
-  
+  context = {'reservationForm' : form }
   return render(request, template, context)
 
 def OrderView(request):
