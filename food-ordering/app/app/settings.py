@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     
     'starting',
+    'restaurant',
+    'user'
 ]
 
 MIDDLEWARE = [
