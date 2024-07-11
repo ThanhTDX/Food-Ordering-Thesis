@@ -1,15 +1,9 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader
-from django.contrib.auth import authenticate , login , logout
 from django.contrib import messages
-from . forms import RegisterForm , LoginForm ,  ReservationForm
+from . forms import ReservationForm
 from . models import Food
-
-# - Authentication models and functions
-
-from django.contrib.auth.models import auth
-from django.contrib.auth import authenticate, login, logout
 
 def MainView(request):
   return render(request, 'main.html')
@@ -65,47 +59,3 @@ def OrderView(request):
 
 def TestimonialView(request):
   return render(request, 'testimonial.html')
-
-def LoginView(request):
-  form = LoginForm()
-  template = 'login.html'
-  
-  # LOGIN FUNCTION (Post)
-  if request.method == 'POST':
-    form = LoginForm(request, data=request.POST)
-    if form.is_valid():
-      username = request.POST.get('username')
-      password = request.POST.get('password')
-      
-      user = authenticate(request, username=username, password=password)
-      
-      if user is not None:
-        auth.login(request, user)
-        return HttpResponseRedirect("/")
-      else:
-        message.success(request, ("There was an error logging in."))
-        return HttpResponseRedirect("/login")
-
-      
-
-  context = {'loginform':form}
-  return render(request, template, context=context)
-
-def LogoutView(request):
-    logout(request)
-    message.success(request,("You have logged out."))
-    return HttpResponseRedirect("/")
-
-def RegisterView(request):
-  
-    template = 'register.html'  
-    form = RegisterForm()
-    if request.method == "POST":
-        form = RegisterForm(request.POST) 
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect("/")
-
-    context = {'registerForm':form}
-
-    return render(request, template, context=context)
