@@ -90,7 +90,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'food_ordering',
         'USER': 'root',
-        'PASSWORD': 'Thanhvaviet!!',
+        'PASSWORD': 'thangthanhlathanh',
         'HOST': 'localhost',
         'PORT': '3306',
     }
