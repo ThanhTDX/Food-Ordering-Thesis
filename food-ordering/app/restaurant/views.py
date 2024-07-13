@@ -5,6 +5,8 @@ from . models import Food
 from . forms import ReservationForm
 # Create your views here.
 
+
+
 def ReservationView(request):
   template = 'restaurant/reservation.html'
   
