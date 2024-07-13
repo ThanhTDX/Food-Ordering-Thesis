@@ -23,7 +23,7 @@ class ReservationForm(forms.ModelForm):
     )
 
     customer_name = forms.CharField(label="Customer Name", max_length=100)
-    phone_num = forms.IntegerField(label="Phone Number")
+    phone_num = forms.CharField(label="Phone Number")
     vip_room = forms.ChoiceField(label="VIP Room", choices=VIP_CHOICES, required=False)
     table = forms.MultipleChoiceField(label="Table Choice", choices=TABLES_CHOICES, required=False)
     
