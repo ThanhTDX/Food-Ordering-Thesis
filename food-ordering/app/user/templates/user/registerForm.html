@@ -1,0 +1,12 @@
+{% load crispy_forms_tags %}
+<form method="post" autocomplete="off" class="form-control">
+    {% csrf_token %}
+    {{ registerForm|crispy }}
+    <!-- Register button -->
+    <button type="submit"
+            data-mdb-button-init
+            data-mdb-ripple-init
+            class="btn btn-primary w-100 mb-4"
+            name="register"
+            value="register">Register</button>
+</form>

@@ -1,0 +1,24 @@
+{% load crispy_forms_tags %}
+<form method="post" autocomplete="off" class="form-login form-control">
+    {% csrf_token %}
+    {{ loginform|crispy }}
+    {% comment %}
+                        <!-- Email input -->
+                        <div class="form-outline mb-4" data-mdb-input-init>
+                            <input type="tel" id="phoneLogIn" class="form-control" />
+                            <label class="form-label" for="phoneLogIn">Phone Number</label>
+                        </div>
+                        <!-- Password input -->
+                        <div class="form-outline" data-mdb-input-init>
+                            <input type="password" id="form2Example2" class="form-control" />
+                            <label class="form-label" for="form2Example2">Password</label>
+                        </div> 
+    {% endcomment %}
+    <!-- Submit button -->
+    <button type="submit"
+            data-mdb-button-init
+            data-mdb-ripple-init
+            class="btn btn-primary w-100 mb-4"
+            name="signIn"
+            value="signIn">Sign in</button>
+</form>
