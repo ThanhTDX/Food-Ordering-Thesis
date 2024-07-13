@@ -25,9 +25,9 @@
                 <div class="col-lg-6 d-none d-lg-flex">
                     <img src="{% static 'img/loginphoto.jpg' %}"
                          alt=""
-                         class="w-100 rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5"
-                         heigth="0"
-                         width="0" />
+                         class="rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5"
+                         height="100%"
+                         width="100%" />
                 </div>
                 <div class="col-lg-6">
                     <div class="card-body py-5 px-md-5">
@@ -37,28 +37,6 @@
                         </h1>
                         {% include 'user/loginForm.html' %}
                         <!-- 2 column grid layout for inline styling -->
-                        <div class="row mb-4">
-                            <div class="col d-flex justify-content-start">
-                                <!-- Checkbox -->
-                                <div class="form-check">
-                                    <input class="form-check-input"
-                                           type="checkbox"
-                                           value=""
-                                           id="form2Example31"
-                                           checked />
-                                    <label class="form-check-label" for="form2Example31">Remember me</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-4 justify-content-between">
-                            <!-- Simple link -->
-                            <p>
-                                <a href="{% url 'register' %}">Create new account</a>
-                            </p>
-                            <p>
-                                <a href="#!">Forgot password?</a>
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>
