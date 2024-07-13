@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 from django.template import loader
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate , login , logout
@@ -21,18 +21,18 @@ def LoginView(request):
       
       if user is not None:
         auth.login(request, user)
-        return HttpResponseRedirect("/")
+        return redirect("main")
       else:
         message.success(request, ("There was an error logging in."))
-        return HttpResponseRedirect("/login")
+        return redirect("login")
 
   context = {'loginform':form}
   return render(request, template, context=context)
 
 def LogoutView(request):
     logout(request)
-    message.success(request,("You have logged out."))
-    return HttpResponseRedirect("/login")
+    # message.success(request,("You have logged out."))
+    return redirect("login")
 
 
 def RegisterView(request):
@@ -43,11 +43,13 @@ def RegisterView(request):
         form = RegisterForm(request.POST) 
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect("/login")
+            return redirect("login")
 
     context = {'registerForm':registerForm}
 
     return render(request, template, context)
 
 def UserPageView(request):
-    return HttpResponse("<h1> USER PAGE </h1>")
+  template = 'user/userPage.html'
+  context = {}
+  return render(request, template, context)
