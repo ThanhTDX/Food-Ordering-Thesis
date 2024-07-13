@@ -1,0 +1,45 @@
+<div id="tab-2"
+     class="tab-pane fade show active row col-lg-9 offset-lg-3 p-0 m-0 d-flex align-self-end">
+    <div class="mb-3 mb-lg-5 border">
+        <div class="overflow-hidden table-nowrap table-card">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="small text-uppercase bg-body text-muted">
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Tags</th>
+                            <th>a</th>
+                            <th>a</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for food in foodlist %}
+                            <tr class="align-middle">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <div class="h6 mb-0 lh-1">{{ food.name }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ food.price }}</td>
+                                <td>
+                                    <div class="btn rounded-1 btn-secondary mx-1">Meat</div>
+                                    <div class="btn rounded-1 btn-secondary mx-1">Breakfast</div>
+                                    <div class="btn rounded-1 btn-secondary mx-1">Desert</div>
+                                </td>
+                                <td>
+                                    <div class="col btn btn-primary text-dark float-center" href="">Add to Cart</div>
+                                </td>
+                                <td>
+                                    <div class="col btn btn-info text-dark float-center" href="">Add to Menu</div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

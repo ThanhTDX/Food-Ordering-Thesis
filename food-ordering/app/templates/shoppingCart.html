@@ -1,0 +1,19 @@
+{% load static %}
+<div class="icon-cart btn btn-primary px-3 mx-1">
+    <img class="img-fluid rounded"
+         src="{% static 'img/shopping-cart-icon.png' %}"
+         alt=""
+         width="24px"
+         height="24px">
+    {% comment %} <span class="bg-danger position-relative top-50 start-50 text-light justify-content-center align-items-center rounded-circle">0</span> {% endcomment %}
+</div>
+<div class="cartTab bg-dark text-light w-40 float-end position-fixed justify-content-center">
+    <h1 class="text-light">Shopping Cart</h1>
+    <div class="listCart">Show item here</div>
+    <div class="row justify-content-center">
+        <div class="btn btn-light col-5 float-start mx-1 closeBtn">
+            <div class="text-center">CLOSE</div>
+        </div>
+        <div class="btn btn-primary col-5 float-end mx-1 checkOutBtn ">CHECKOUT</div>
+    </div>
+</div>

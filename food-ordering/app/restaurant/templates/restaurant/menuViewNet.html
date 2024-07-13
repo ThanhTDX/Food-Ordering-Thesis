@@ -1,0 +1,37 @@
+<div class="d-flex row position-relative top-0 end-0">
+    <div id="tab-1" class="tab-pane fade show active col-lg-9">
+        <div class="row border align-self-end pe-0 ps-2">
+            {% for food in foodlist %}
+                <div class="col-sm-6 col-lg-4 item rounded-top py-1 px-1">
+                    <div class="col-lg-12">
+                        <img class="flex-shrink-0 img-fluid rounded border border-dark"
+                             src="{{ food.image_link.url }}"
+                             alt=""
+                             width="100%"
+                             height="100%" />
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="w-100 d-flex flex-column text-start">
+                            <h4 class="d-flex justify-content-between">
+                                <span>{{ food.name }}</span>
+                            </h4>
+                            <h5 class="d-flex justify-content-end">
+                                <span class="text-primary">VND{{ food.price }}</span>
+                            </h5>
+                            {% for tag in tags %}{% endfor %}
+                            <div class="row justify-content-between mb-2 px-2">
+                                <div class="col btn btn-secondary rounded-1 mx-1">Meat</div>
+                                <div class="col btn btn-secondary rounded-1 mx-1">Breakfast</div>
+                                <div class="col btn btn-secondary rounded-1 mx-1">Desert</div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-5 btn btn-primary text-dark float-start me-2" href="">Add to Cart</div>
+                                <div class="col-5 btn btn-info text-dark float-end ms-2" href="">Add to Menu</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
