@@ -17,6 +17,31 @@ class Food(models.Model):
         managed = False
         db_table = 'food'
         
+class FoodTag(models.Model):
+    food = models.OneToOneField(Food, models.DO_NOTHING)
+    tag = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'food_tag'
+        
+class FoodHasPromotion(models.Model):
+    food = models.OneToOneField(Food, models.DO_NOTHING)
+    promotion = models.OneToOneField('Promotion', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'food_has_promotion'
+        
+class Promotion(models.Model):
+    promotion_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    decrease_price = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'promotion'
+        
     
 class Reservation(models.Model):
     reservation_id = models.AutoField(primary_key=True)
