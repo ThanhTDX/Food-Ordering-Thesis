@@ -173,7 +173,8 @@ CREATE TABLE IF NOT EXISTS RESERVATION(
 	reservation_id INT NOT NULL AUTO_INCREMENT UNIQUE,
     customer_name VARCHAR(255),
     phone_num INT,
-    eat_time DATETIME,
+    eat_time TIME,
+    eat_date DATE,
     num_of_people INT(2),
     review BLOB,
     PRIMARY KEY (reservation_id)
@@ -199,7 +200,7 @@ COMMIT;
 
 CREATE TABLE IF NOT EXISTS RESERVATION_VIP(
 	reservation_id INT NOT NULL UNIQUE,
-    table_name varchar(255),
+    vip_name varchar(255),
     FOREIGN KEY (reservation_id) REFERENCES RESERVATION(reservation_id)
     	ON DELETE NO ACTION
         ON UPDATE NO ACTION
