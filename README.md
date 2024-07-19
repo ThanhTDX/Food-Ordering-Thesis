@@ -9,7 +9,7 @@ Frontend template is from [HTML Codex](https://htmlcodex.com/bootstrap-restauran
 ## Version
 
 - Python: 3.12.2. Download Python [here](https://www.python.org/downloads/release/python-3122/)
-- Django: 5.0.3. Download Django [here](https://www.djangoproject.com/download/)
+- Django: 4.2.11. Download Django [here](https://www.djangoproject.com/download/)
 
 ## Other Django addons used in the project
 
