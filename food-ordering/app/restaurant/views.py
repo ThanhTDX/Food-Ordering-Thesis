@@ -58,7 +58,8 @@ def MenuView(request):
   template = 'restaurant/menu.html'
   context = {}
   context = {
-    "foodlist" : Food.objects.all()
+    'foodlist' : Food.objects.all(),
+    'foodtag' : FoodTag.objects.all()
   }
   return render(request, template, context)
 
