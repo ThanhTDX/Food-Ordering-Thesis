@@ -10,7 +10,7 @@ COMMIT;
 
 CREATE TABLE IF NOT EXISTS USER(
 	user_id INT NOT NULL AUTO_INCREMENT UNIQUE,
-    phone_num INT NOT NULL UNIQUE,
+    phone_num VARCHAR(15) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(255),
     email VARCHAR(255),
@@ -87,7 +87,7 @@ COMMIT;
 --
 
 CREATE TABLE IF NOT EXISTS FOOD_TAG(
-	food_id INT NOT NULL UNIQUE,
+	food_id INT NOT NULL,
     tag VARCHAR(255),
     FOREIGN KEY (food_id) REFERENCES FOOD(food_id)
     	ON DELETE NO ACTION
@@ -171,11 +171,12 @@ COMMIT;
 
 CREATE TABLE IF NOT EXISTS RESERVATION(
 	reservation_id INT NOT NULL AUTO_INCREMENT UNIQUE,
-    customer_name VARCHAR(255),
-    phone_num INT,
+    customer_name VARCHAR(255) NOT NULL,
+    phone_num VARCHAR(15) NOT NULL,
     eat_time TIME,
     eat_date DATE,
     num_of_people INT(2),
+    special_message BLOB,
     review BLOB,
     PRIMARY KEY (reservation_id)
 );
@@ -189,8 +190,8 @@ CREATE TABLE IF NOT EXISTS RESERVATION_TABLE(
 	reservation_id INT NOT NULL UNIQUE,
     table_name varchar(255),
     FOREIGN KEY (reservation_id) REFERENCES RESERVATION(reservation_id)
-    	ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+    	ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 COMMIT;
 
@@ -202,8 +203,8 @@ CREATE TABLE IF NOT EXISTS RESERVATION_VIP(
 	reservation_id INT NOT NULL UNIQUE,
     vip_name varchar(255),
     FOREIGN KEY (reservation_id) REFERENCES RESERVATION(reservation_id)
-    	ON DELETE NO ACTION
-        ON UPDATE NO ACTION
+    	ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 COMMIT;
 
@@ -342,7 +343,7 @@ COMMIT;
 CREATE TABLE IF NOT EXISTS ORDERING(
 	ordering_id INT NOT NULL AUTO_INCREMENT UNIQUE,
     orderer_name VARCHAR(255),
-    phone_num INT,
+    phone_num VARCHAR(15),
     receive_address VARCHAR(255),
 	review BLOB,
     PRIMARY KEY (ordering_id)
@@ -389,8 +390,8 @@ COMMIT;
 --
 
 INSERT INTO USER(phone_num, password, full_name, email) VALUES
-(123456789, 'user1', 'Nguyen Van A', NULL),
-(222222222, 'user2', 'Tran Van B', NULL)
+('123456789', 'user1', 'Nguyen Van A', NULL),
+('222222222', 'user2', 'Tran Van B', NULL)
 ;
 COMMIT;
 
@@ -407,5 +408,25 @@ INSERT INTO FOOD(name, price, nutrition_value, type, image_link) VALUES
 ("Bánh mì trứng", 11000, NULL, NULL, "../static/img/menu-6.jpg"),
 ("Hủ tiếu", 20000, NULL, NULL, "../static/img/menu-7.jpg"),
 ("Kem", 7000, NULL, NULL, "../static/img/menu-8.jpg")
+;
+COMMIT;
+--
+-- Import data for FOOD
+--
+
+INSERT INTO FOOD_TAG VALUES
+((SELECT food_id FROM FOOD WHERE food_id ='1'), "Breakfast"),
+((SELECT food_id FROM FOOD WHERE food_id ='1'), "Meat"),
+((SELECT food_id FROM FOOD WHERE food_id ='2'), "Chicken"),
+((SELECT food_id FROM FOOD WHERE food_id ='2'), "Rice"),
+((SELECT food_id FROM FOOD WHERE food_id ='3'), "Soup"),
+((SELECT food_id FROM FOOD WHERE food_id ='3'), "Chicken"),
+((SELECT food_id FROM FOOD WHERE food_id ='4'), "Desert"),
+((SELECT food_id FROM FOOD WHERE food_id ='5'), "Bread"),
+((SELECT food_id FROM FOOD WHERE food_id ='5'), "Egg"),
+((SELECT food_id FROM FOOD WHERE food_id ='6'), "Dinner"),
+((SELECT food_id FROM FOOD WHERE food_id ='7'), "Soup"),
+((SELECT food_id FROM FOOD WHERE food_id ='8'), "Desert"),
+((SELECT food_id FROM FOOD WHERE food_id ='8'), "Dinner")
 ;
 COMMIT;
