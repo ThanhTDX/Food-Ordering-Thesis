@@ -11,6 +11,13 @@ Frontend template is from [HTML Codex](https://htmlcodex.com/bootstrap-restauran
 - Python: 3.12.2. Download Python [here](https://www.python.org/downloads/release/python-3122/)
 - Django: 5.0.3. Download Django [here](https://www.djangoproject.com/download/)
 
+## Other Django addons used in the project
+
+- djlint:
+- cripsy
+- django REST framework
+- django-widget-tweaks
+
 ## Create virtual environment
 
 Go to food-ordering
