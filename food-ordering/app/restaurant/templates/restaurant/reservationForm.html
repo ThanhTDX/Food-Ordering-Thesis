@@ -1,10 +1,11 @@
 {% load crispy_forms_tags %}
+{% load widget_tweaks %}
 <form action="" method="post" autocomplete="off" class="form-control">
     {% csrf_token %}
     <div class="row">
         {{ reservationForm|crispy }}
-        {% comment %} {{ reservationTable|crispy }} {% endcomment %}
-        {% comment %} {{ reservationVip|crispy }} {% endcomment %}
+        {{ reservationTable|crispy }}
+        {{ reservationVip|crispy }}
         {% comment %} <div class="col-12">
             {{ reservationForm.customer_name.as_field_group }}
             {{ reservationForm.customer_name.errors }}

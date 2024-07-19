@@ -42,10 +42,13 @@ INSTALLED_APPS = [
     'django_admin_logs',
     'crispy_forms',
     'crispy_bootstrap5',
+    'widget_tweaks',
+    "phonenumber_field",
     
     'starting',
     'restaurant',
-    'user'
+    'user',
+    'api'
 ]
 
 MIDDLEWARE = [

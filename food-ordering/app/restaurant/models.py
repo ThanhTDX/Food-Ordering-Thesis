@@ -1,4 +1,5 @@
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
 
@@ -45,8 +46,8 @@ class FoodHasPromotion(models.Model):
     
 class Reservation(models.Model):
     reservation_id = models.AutoField(primary_key=True)
-    customer_name = models.CharField(max_length=255, blank=True, null=True)
-    phone_num = models.IntegerField(blank=True, null=True)
+    customer_name = models.CharField(max_length=255, blank=False)
+    phone_num = PhoneNumberField(blank=False, region='VN')
     eat_date = models.DateField(blank=True, null=True)
     eat_time = models.TimeField(blank=True, null=True)
     num_of_people = models.IntegerField(blank=True, null=True)
@@ -61,7 +62,7 @@ class Reservation(models.Model):
         db_table = 'reservation'
 
 class ReservationTable(models.Model):
-    reservation = models.OneToOneField(Reservation, models.DO_NOTHING)
+    reservation = models.ForeignKey(Reservation, models.DO_NOTHING)
     table_name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
@@ -70,7 +71,7 @@ class ReservationTable(models.Model):
 
 
 class ReservationVip(models.Model):
-    reservation = models.OneToOneField(Reservation, models.DO_NOTHING)
+    reservation = models.ForeignKey(Reservation, models.DO_NOTHING)
     vip_name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:

@@ -1,8 +1,10 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 from django.template import loader
-from . models import Food
+from . models import Food , FoodTag
 from . forms import ReservationForm , ReservationTableForm , ReservationVipForm
+import datetime
+from datetime import date
 # Create your views here.
 
 
@@ -17,21 +19,21 @@ def ReservationView(request):
     reservation_vip = ReservationVipForm(request.POST)
     
     if reservation_form.is_valid() and reservation_table.is_valid() and reservation_vip.is_valid():
-      # customer_name = reservation_form.cleaned_data('customer_name')
-      # phone_num = reservation_form.cleaned_data('phone_num')
+      cleaned_form = reservation_form.cleaned_data
+      new_data = reservation_form.save(commit=False)
+      new_data.eat_date = datetime.date(date.today().year, cleaned_form['eat_month'], cleaned_form['eat_date'])
+      new_data.eat_time = datetime.time(cleaned_form['eat_hour'], cleaned_form['eat_minute'], 0)
+      new_data.save()
       
-      # eat_date = reservation_form.cleaned_data('eat_date')
-      # eat_time = reservation_form.cleaned_data('eat_time')
-      # num_of_people = reservation_form.cleaned_data('num_of_people')
-      # special_message = reservation_form.cleaned_data('special_message')
+      table_data = reservation_table.save(commit=False)
+      table_data.reservation = new_data
+      table_data.save()
       
-      # table = reservation_table.cleaned_data('table_name')
-      # vip_room = reservation_vip.cleaned_data('vip_room')
+      vip_data = reservation_vip.save(commit=False)
+      vip_data.reservation = new_data
+      vip_data.save()
       
-      reservation_form.save()
-      reservation_table.save()
-      reservation_vip.save()
-      return HttpResponseRedirect('/')
+      return redirect("main")
   
    # GET REQUEST 
   else:
@@ -55,7 +57,10 @@ def OrderView(request):
 def MenuView(request):
   template = 'restaurant/menu.html'
   context = {}
-  context["foodlist"] = Food.objects.all()
+  context = {
+    'foodlist' : Food.objects.all(),
+    'foodtag' : FoodTag.objects.all()
+  }
   return render(request, template, context)
 
 def MenuItemView(request, id):
