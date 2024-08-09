@@ -1,38 +1,106 @@
 {% load crispy_forms_tags %}
 {% load widget_tweaks %}
-<form action="" method="post" autocomplete="off" class="form-control">
-    {% csrf_token %}
-    <div class="row">
-        {{ reservationForm|crispy }}
-        {{ reservationTable|crispy }}
-        {{ reservationVip|crispy }}
-        {% comment %} <div class="col-12">
-            {{ reservationForm.customer_name.as_field_group }}
-            {{ reservationForm.customer_name.errors }}
-            <label for="{{ reservationForm.customer_name.id_for_label }}">Customer Name:</label>
-            {{ reservationForm.customer_name }}
+<div class="container">
+    <form action="" method="post" autocomplete="off">
+        <div class="row">
+            <div class="col-12">
+                <label for="inputName" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="inputName" />
+            </div>
+            <div class="col-6">
+                <label for="inputPhoneNum" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="inputPhoneNum" />
+            </div>
+            <div class="col-6">
+                <label for="inputNumOfPeople" class="form-label">Number of People:</label>
+                <input type="number" class="form-control" id="inputNumOfPeople" />
+            </div>
+            <div class="col-12">
+                <label for="inputNumOfPeople" class="form-label">Eat Time:</label>
+            </div>
+            <div class="col-12 row g-2 justify-content-evenly">
+                <div class="col-6 row p-0 justify-content-center me-1">
+                    <div class="col-5">
+                        <input type="number" class="form-control" id="eatDate" />
+                    </div>
+                    <div class="col-1 mx-1 p-0 justify-content-center align-items-center">
+                        <p>/</p>
+                    </div>
+                    <div class="col-5 pe-2">
+                        <input type="number" class="form-control" id="inputNumOfPeople" />
+                    </div>
+                </div>
+                <div class="col-6 row p-0 justify-content-center ms-1">
+                    <div class="col-5 ps-2">
+                        <input type="number" class="form-control" id="eatDate" />
+                    </div>
+                    <div class="col-1 mx-auto p-0 justify-content-center align-items-center">
+                        <p>:</p>
+                    </div>
+                    <div class="col-5">
+                        <select class="form-select" name="inputMinute" id="inputMinute">
+                            <option value="">00</option>
+                            <option value="">15</option>
+                            <option value="">30</option>
+                            <option value="">45</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <label for="inputLocation" class="form-label">Location:</label>
+            </div>
+            <div class="col-12 mb-2">
+                <select class="form-select" name="inputLocation" id="inputLocation">
+                    <option value="VoThiSau">123 Vo Thi Sau, District 1</option>
+                    <option value="CachMangThang8">25 Cach Mang Thang 8, District 3</option>
+                    <option value="TruongChinh">32 Truong Chinh, District Thu Duc</option>
+                </select>
+            </div>
         </div>
-        <div class="col-12">{{ reservationForm.phone_num.as_field_group }}</div>
-        <div class="col-5">{{ reservationForm.eat_time.as_field_group }}</div>
-        <div class="col-5">{{ reservationForm.vip_room.as_field_group }}</div>
-        <div class="col-12">{{ reservationForm.eat_time.as_field_group }}</div> {% endcomment %}
-        <div class="col-12">
-            <button type="submit"
-                    class="btn btn-primary w-100 py-3"
-                    name="Book Now"
-                    value="Book Now">Book Now</button>
-        </div>
-    </div>
-</form>
-{% comment %} <form action="" method="post" autocomplete="off">
-    {% csrf_token %}
-    <div class="row">
-        {{ reservationForm|crispy }}
-        {{ reservationTable|crispy }}
-        {{ reservationVip|crispy }}
-        <div class="fieldWrapper">{{ reservationForm.customer_name.as_field_group }}</div>
-    </div>
+        <button type="submit"
+                class="btn btn-primary w-100 py-3 mb-2"
+                name="Book Now"
+                value="Book Now">Book Now</button>
+    </form>
+</div>
+{% comment %}
+<form action="" method="post" autocomplete="off">
+  {% csrf_token %}
+  <div class="row">
+    {{ reservationForm|crispy }} {{ reservationTable|crispy }} {{
+    reservationVip|crispy }}
     <div class="col-12">
-        <button type="submit" class="btn btn-primary w-100 py-3" name="Book Now" value="Book Now">Book Now</button>
+      {{ reservationForm.customer_name.as_field_group }} {{
+      reservationForm.customer_name.errors }}
+      <label for="{{ reservationForm.customer_name.id_for_label }}">Customer Name:</label>
+      {{ reservationForm.customer_name }}
     </div>
-</form> {% endcomment %}
+    <div class="col-12">{{ reservationForm.phone_num.as_field_group }}</div>
+    <div class="col-5">{{ reservationForm.eat_time.as_field_group }}</div>
+    <div class="col-5">{{ reservationForm.vip_room.as_field_group }}</div>
+    <div class="col-12">{{ reservationForm.eat_time.as_field_group }}</div>
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary w-100 py-3" name="Book Now" value="Book Now">
+        Book Now
+      </button>
+    </div>
+  </div>
+</form>
+{% endcomment %} {% comment %}
+<form action="" method="post" autocomplete="off">
+  {% csrf_token %}
+  <div class="row">
+    {{ reservationForm|crispy }} {{ reservationTable|crispy }} {{
+    reservationVip|crispy }}
+    <div class="fieldWrapper">
+      {{ reservationForm.customer_name.as_field_group }}
+    </div>
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary w-100 py-3" name="Book Now" value="Book Now">
+      Book Now
+    </button>
+  </div>
+</form>
+{% endcomment %}

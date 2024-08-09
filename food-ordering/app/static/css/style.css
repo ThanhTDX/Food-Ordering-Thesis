@@ -574,9 +574,3 @@ body.activeTabCart .cartTab {
 body.activeTabCart .container {
   transform: translateX(-250px);
 }
-
-.closeBtn {
-}
-
-.checkOutBtn {
-}

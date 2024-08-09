@@ -1,5 +1,6 @@
+{% load static %}
 <div class="d-flex row position-relative top-0 end-0">
-    <div id="tab-1" class="tab-pane fade show active col-lg-9">
+    <div id="tab-1" class="tab-pane fade show active">
         <div class="row border align-self-end pe-0 ps-2">
             {% for food in foodlist %}
                 <div class="col-sm-6 col-lg-4 item rounded-top py-1 px-1">
@@ -18,7 +19,6 @@
                             <h5 class="d-flex justify-content-end">
                                 <span class="text-primary">VND{{ food.price }}</span>
                             </h5>
-                            {% for tag in tags %}{% endfor %}
                             <div class="row justify-content-between mb-2 px-2">
                                 <div class="col btn btn-secondary rounded-1 mx-1">Meat</div>
                                 <div class="col btn btn-secondary rounded-1 mx-1">Breakfast</div>
