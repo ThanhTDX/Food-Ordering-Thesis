@@ -4,16 +4,16 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col } from "react-bootstrap";
-import { menuList } from "../action/menuActions";
+import { menuSelector } from "../slices/menuSlice";
 
 function Home() {
   const dispatch = useDispatch();
-  const menu = useSelector((state) => state.menuList);
-  const { error, loading, products } = menu;
+  const menu = useSelector(menuSelector);
+  const { error, loading } = menu;
 
-  useEffect(() => {
-    dispatch(menuList());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(menuList());
+  // }, []);
 
   return (
     <div>
@@ -24,11 +24,11 @@ function Home() {
         <Message variant="danger">{error}</Message>
       ) : (
         <Row>
-          {products.map((product) => (
+          {/* {products.map((product) => (
             <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
               <Menu product={product} exact />
             </Col>
-          ))}
+          ))} */}
         </Row>
       )}
     </div>

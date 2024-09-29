@@ -1,25 +1,19 @@
-import { combineReducers, applyMiddleware } from "redux";
+
 import { configureStore } from "@reduxjs/toolkit";
-import { thunk } from "redux-thunk";
-import {
-  menuListReducer,
-  menuItemReducer,
-} from "./reducers/menuReducers";
-import { composeWithDevTools } from "@redux-devtools/extension";
-
-const reducer = combineReducers({
-  menuList: menuListReducer,
-  menuItem: menuItemReducer,
-});
-
-const initialState = {};
-
-const middleware = [thunk];
+import cartReducer from "./slices/cartSlice";
+import customMenuReducer from "./slices/customMenuSlice";
+import menuReducer from "./slices/menuSlice";
+import resevationReducer from "./slices/reservationSlice";
 
 const store = configureStore(
-  { reducer },
-  initialState,
-  composeWithDevTools(applyMiddleware(...middleware))
+  {
+    reducer: {
+      cart: cartReducer,
+      customMenu: customMenuReducer,
+      menu: menuReducer,
+      reservation: resevationReducer,
+    },
+  }
 );
 
 export default store;

@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 
 function Header() {
   return (
-    <header>
+    <header className="mb-4">
       <Navbar
         bg="dark"
         variant="dark"
@@ -20,9 +20,9 @@ function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <LinkContainer to="/cart">
+              <LinkContainer to="/menu">
                 <Nav.Link>
-                  <i className="fas fa-shopping-cart"></i> Cart
+                  <i className="fas fa-shopping-cart"></i> Menu
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer to="/reservation">

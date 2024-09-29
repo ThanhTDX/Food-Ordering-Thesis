@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Food
+from .models import *
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import FoodSerializer
+from .serializers import *
 
 # Create your views here.
 
@@ -16,6 +16,9 @@ def getRoutes(request):
     'api/menu/create',
     'api/menu/upload',
     'api/menu/<id>',
+    'api/menu/ingredient',
+    'api/menu/tag',
+    'api/menu/type',
   ]
   return Response(routes)
 
@@ -33,4 +36,25 @@ def getAllFood(request):
 def getFoodDetailById(request, pk):
   menuItem = Product.objects.get(_id=pk)
   serializer = ProductSerializer(menuItem, many=False)
+  return Response(serializer.data)
+
+# /api/menu/ingredient
+@api_view(['GET'])
+def getAllFoodIngredient(request):
+  data = FoodIngredient.objects.all()
+  serializer = FoodIngredientSerializer(data, many=True)
+  return Response(serializer.data)
+
+# /api/menu/tag
+@api_view(['GET'])
+def getAllFoodTag(request):
+  data = FoodTag.objects.all()
+  serializer = FoodTagSerializer(data, many=True)
+  return Response(serializer.data)
+
+# /api/menu/type
+@api_view(['GET'])
+def getAllFoodType(request):
+  data = FoodType.objects.all()
+  serializer = FoodTypeSerializer(data, many=True)
   return Response(serializer.data)
