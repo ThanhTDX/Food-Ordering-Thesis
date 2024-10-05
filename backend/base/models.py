@@ -35,6 +35,7 @@ class Food(models.Model):
   food_tag = models.ManyToManyField(FoodTag, null=True, blank=True)
   ingredient = models.ManyToManyField(FoodIngredient, null=True, blank=True)
   nutrition_value = models.CharField(max_length=256, null=True, blank=True)
+  number_people_eating = models.IntegerField(null=True, blank=True, default=0)
   
   def __str__(self):
     return str(self.name)

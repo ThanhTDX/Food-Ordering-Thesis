@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 
-import MenuItem from "../components/MenuItem";
 
+import MenuList from '../components/MenuList'
 import CustomMenu from "../components/CustomMenu";
 import MenuUtility from "../components/MenuUtility";
 
@@ -16,11 +16,12 @@ import { menuSelector, fetchAllFood } from "../slices/menuSlice";
 function Menu() {
   const dispatch = useDispatch();
   const menu = useSelector(menuSelector);
-  const {
-    error,
-    loading,
-    menuItems,
-  } = menu;
+  const { error, loading, menuItems } = menu;
+
+  const [menuView, setMenuView] = useState("card");
+  const [menuSearchKeyWord, setKeyWord] = useState("");
+  const [menuSearchTags, setTags] = useState([]);
+  const [menuSearchType, setType] = useState("");
 
   useEffect(() => {
     dispatch(fetchAllFood());
@@ -37,19 +38,24 @@ function Menu() {
           <Col md={0} lg={4} className="">
             <Container fluid>
               <Stack direction="vertical" gap={5}>
-                <MenuUtility />
                 <CustomMenu />
               </Stack>
             </Container>
           </Col>
           <Col md={12} lg={8} className="">
-            <Row>
-              {menuItems.map((item) => (
-                <Col key={item._id} sm={12} md={6} lg={4}>
-                  <MenuItem item={item} exact />
-                </Col>
-              ))}
-            </Row>
+            <MenuUtility
+              setMenuView={setMenuView}
+              setKeyWord={setKeyWord}
+              setTags={setTags}
+              setType={setType}
+            />
+            <MenuList
+              menuItems={menuItems}
+              menuView={menuView}
+              menuSearchKeyWord={menuSearchKeyWord}
+              menuSearchTags={menuSearchTags}
+              menuSearchType={menuSearchType}
+            />
           </Col>
         </Row>
       )}

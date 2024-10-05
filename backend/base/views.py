@@ -19,6 +19,7 @@ def getRoutes(request):
     'api/menu/ingredient',
     'api/menu/tag',
     'api/menu/type',
+    'api/users/login'
   ]
   return Response(routes)
 

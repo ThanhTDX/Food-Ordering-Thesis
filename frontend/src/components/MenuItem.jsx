@@ -6,18 +6,24 @@ import { useDispatch } from "react-redux";
 import { addMenuItem } from "../slices/customMenuSlice";
 
 function MenuItem({ item }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleAddItemToCart = (item) => {
-    console.log(item)
-  }
+    console.log(item);
+    // TODO : create cartSlice and add this
+  };
   const handleAddItemToMenu = (item) => {
-    dispatch(addMenuItem(item))
-  }
+    dispatch(addMenuItem(item));
+  };
+
+  const handleAddTag = (tag) => {
+    console.log(tag);
+    // TODO : change tag view and add this
+  };
 
   return (
     <Card className="my-3 p-3 rounded border-dark menu-item">
       <Link to={`/menu/${item._id}`}>
-        <Card.Img src={item.image} />
+        <Card.Img src={item.image} className="hover-zoom"/>
       </Link>
 
       <Card.Body>
@@ -42,37 +48,39 @@ function MenuItem({ item }) {
             <p>
               <strong>Tags: </strong>
             </p>
-            {item.food_tag.map((tag) => (
-              <Button disabled className="m-1" key={tag}>
-                {tag}
-              </Button>
-            ))}
+            <Row>
+              {item.food_tag.map((tag) => (
+                <Col className="col-6">
+                  <Button
+                    className="menu-item--tag"
+                    key={tag._id}
+                    onClick={() => handleAddTag(tag)}
+                  >
+                    {tag}
+                  </Button>
+                </Col>
+              ))}
+            </Row>
           </div>
         </Stack>
       </Card.Body>
       <Card.Footer>
-        <Container>
-          <Row>
-            <Col sm={6}>
-              <Button
-                variant="warning"
-                className="btn btn-block w-100"
-                onClick={() => handleAddItemToCart(item)}
-              >
-                <i className="fa-solid fa-cart-shopping"></i>
-              </Button>
-            </Col>
-            <Col sm={6}>
-              <Button
-                variant="warning"
-                className="btn btn-block w-100"
-                onClick={() => handleAddItemToMenu(item)}
-              >
-                <i className="fa-solid fa-book-open"></i>
-              </Button>
-            </Col>
-          </Row>
-        </Container>
+        <Stack direction="horizontal" gap={3}>
+          <Button
+            variant="warning"
+            className="btn btn-block w-100"
+            onClick={() => handleAddItemToCart(item)}
+          >
+            <i className="fa-solid fa-cart-shopping"></i>
+          </Button>
+          <Button
+            variant="warning"
+            className="btn btn-block w-100"
+            onClick={() => handleAddItemToMenu(item)}
+          >
+            <i className="fa-solid fa-book-open"></i>
+          </Button>
+        </Stack>
       </Card.Footer>
     </Card>
   );

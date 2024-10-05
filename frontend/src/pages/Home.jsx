@@ -9,29 +9,16 @@ import { menuSelector } from "../slices/menuSlice";
 function Home() {
   const dispatch = useDispatch();
   const menu = useSelector(menuSelector);
-  const { error, loading } = menu;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // useEffect(() => {
   //   dispatch(menuList());
   // }, []);
 
   return (
-    <div>
-      <h1>Latest Products</h1>
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant="danger">{error}</Message>
-      ) : (
-        <Row>
-          {/* {products.map((product) => (
-            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-              <Menu product={product} exact />
-            </Col>
-          ))} */}
-        </Row>
-      )}
-    </div>
+    loading ? <Loader /> : error ? <Message variant="danger">{error}</Message>  : 
+    <Menu/>
   );
 }
 

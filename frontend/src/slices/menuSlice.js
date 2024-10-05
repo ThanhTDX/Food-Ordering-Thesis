@@ -1,61 +1,45 @@
 import axios from "axios";
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import * as menuApi from "../api/menuApi";
 
-export const fetchAllFood = createAsyncThunk("api/menu", async () => {
-  try {
-    const menuList = await axios.get(`/api/menu/`).then((response) => {
-      return response.data;
-    });
-    const menuIngredient = await axios
-      .get(`/api/menu/ingredient`)
-      .then((response) => {
-        return response.data;
+export const fetchAllFood = createAsyncThunk(
+  "api/menu",
+  async (_, thunkAPI) => {
+    try {
+      const menuItems = await menuApi.fetchAllFood();
+      const menuIngredient = await menuApi.fetchAllFoodIngredient();
+      const menuTag = await menuApi.fetchAllFoodTags();
+      const menuType = await menuApi.fetchAllFoodType();
+      menuItems.map((menuItem) => {
+        menuItem.food_tag.map((tag) => {
+          const key = Object.keys(menuItem.food_tag).find(
+            (key) => menuItem.food_tag[key] === tag
+          );
+          menuItem.food_tag[key] = menuTag[tag] ? menuTag[tag].name : "Unknown";
+          return tag;
+        });
+        menuItem.food_type =
+          menuType[menuItem.food_type] !== undefined
+            ? menuType[menuItem.food_type].name
+            : "Unknown";
+        menuItem.ingredient.map((item) => {
+          const key = Object.keys(menuItem.ingredient).find(
+            (key) => menuItem.ingredient[key] === item
+          );
+          menuItem.ingredient[key] = menuIngredient[item]
+            ? menuIngredient[item].name
+            : "Unknown";
+          return item;
+        });
+        return menuItem;
       });
-    const menuTag = await axios.get(`/api/menu/tag`).then((response) => {
-      return response.data;
-    });
-    const menuType = await axios.get(`/api/menu/type`).then((response) => {
-      return response.data;
-    });
-    menuList.map((menuItem) => {
-      menuItem.food_tag.map((tag) => {
-        const key = Object.keys(menuItem.food_tag).find(
-          (key) => menuItem.food_tag[key] === tag
-        );
-        menuItem.food_tag[key] = menuTag[tag] ? menuTag[tag].name : "Unknown";
-      });
-      menuItem.food_type =
-        menuType[menuItem.food_type] !== undefined
-          ? menuType[menuItem.food_type].name
-          : "Unknown"; 
-      menuItem.ingredient.map((item) => {
-        const key = Object.keys(menuItem.ingredient).find(
-          (key) => menuItem.ingredient[key] === item
-        );
-        menuItem.ingredient[key] = menuIngredient[item]
-          ? menuIngredient[item].name
-          : "Unknown";
-      });
-    });
-    return menuList;
-  } catch (error) {
-    return error.response && error.response.data.message
-      ? error.response.data.message
-      : error.message;
+      return menuItems;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
-
-export const fetchAllFoodTag = createAsyncThunk("api/menu/tag", async () => {
-  try {
-    const { data } = await axios.get(`/api/menu/tag`);
-    return data;
-  } catch (error) {
-    return error.response && error.response.data.message
-      ? error.response.data.message
-      : error.message;
-  }
-});
+);
 
 export const fetchFoodById = createAsyncThunk("api/menu/<:id>", async (id) => {
   try {
@@ -71,24 +55,11 @@ export const fetchFoodById = createAsyncThunk("api/menu/<:id>", async (id) => {
 export const menuSlice = createSlice({
   name: "menu",
   initialState: {
-    menuItems: [
-      {
-        name: "",
-        price: -1,
-        nutrition_value: [],
-        count_in_stock: -1,
-        image: "",
-        tags: [],
-        food_type: "",
-        ingredients: [],
-      },
-    ],
+    menuItems: [],
     error: "",
     loading: true,
   },
-  reducers: {
-    
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchAllFood.pending, (state, action) => {
@@ -98,7 +69,7 @@ export const menuSlice = createSlice({
         // action.payload = menuItems
         state.loading = false;
         state.menuItems = action.payload;
-        state.error = "";
+        state.error = null;
       })
       .addCase(fetchAllFood.rejected, (state, action) => {
         // action.payload = error
@@ -112,7 +83,6 @@ export const menuSlice = createSlice({
         // action.payload = menuItem
         state.loading = false;
         state.menuItems = action.payload;
-        state.error = "";
       })
       .addCase(fetchFoodById.rejected, (state, action) => {
         // action.payload = error
