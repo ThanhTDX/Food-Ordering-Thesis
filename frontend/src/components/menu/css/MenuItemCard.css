@@ -1,0 +1,113 @@
+.menu-item--card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.menu-item--card--promotion {
+  background-color: red;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 4px;
+  padding-right: 4px;
+  font-size: medium;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.menu-item--card--hot {
+  height: 25px;
+  width: 45px;
+  background-color: red;
+  color: #fff;
+  border: 2px;
+  display: flex;
+  justify-content: center;
+  border-radius: 6px;
+  align-items: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.menu-item--card--image img {
+  max-height: 135px;
+  height: 100%;
+  width: 100%;
+  border: 1px rgb(177, 174, 174) solid;
+}
+.menu-item--card--image__mask {
+  background: rgba(0, 0, 0, 0);
+}
+
+.menu-item--card--image__mask:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+.menu-item--card--title {
+  font-weight: bold;
+  color: black;
+  margin: 0;
+}
+
+.menu-item--card--title:hover {
+  text-decoration: underline;
+}
+
+.menu-item--card--tag span{
+  font-size: small;
+}
+
+.menu-item--card--tag:hover {
+  text-decoration: underline;
+}
+
+.menu-item--card--tag.inactive {
+  border: 1px rgb(175, 177, 36) solid;
+}
+
+.menu-item--card--tag.inactive:hover {
+  border: 1px rgb(206, 209, 15) solid;
+}
+
+.menu-item--card--tag.inactive:hover {
+  border: 1px rgb(206, 209, 15) solid;
+}
+
+.menu-item--card--tag.active {
+  border: 1px rgb(226, 230, 47) solid;
+  background-color: rgb(232, 234, 100);
+}
+
+.menu-item--card--tag.active:hover {
+  background-color: rgb(246, 249, 91);
+}
+
+.menu-item--card--tag.active:active {
+  background-color: rgb(246, 249, 91);
+}
+
+.menu-item--card--type {
+  font-size: medium;
+}
+
+.menu-item--card--type.active {
+  font-size: medium;
+}
+
+.menu-item--card--type.inactive {
+  font-size: medium;
+}
+
+.menu-item--add-to-cart {
+  background-color: rgb(225, 195, 79) !important;
+  border: solid 1px rgb(224, 184, 22);
+}
+
+.menu-item--add-to-cart:hover {
+  background-color: rgb(224, 185, 30) !important;
+}
+
+.menu-item--add-to-menu {
+  background-color: rgb(225, 195, 79) !important;
+  border: solid 1px rgb(224, 184, 22);
+}
+
+.menu-item--add-to-menu:hover {
+  background-color: rgb(224, 185, 30) !important;
+}

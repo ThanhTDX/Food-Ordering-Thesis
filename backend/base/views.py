@@ -59,3 +59,10 @@ def getAllFoodType(request):
   data = FoodType.objects.all()
   serializer = FoodTypeSerializer(data, many=True)
   return Response(serializer.data)
+
+# /api/comment
+@api_view(['GET'])
+def getAllComment(request):
+  data = Comment.objects.all()
+  serializer = FoodTypeSerializer(data, many=True)
+  return Response(serializer.data)

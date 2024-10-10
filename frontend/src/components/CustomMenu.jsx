@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Container, Button, Stack, Form } from "react-bootstrap";
+import React from "react";
+import { Container, Button, Stack } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
   customMenuSelector,
@@ -13,9 +13,9 @@ import {
   faArrowDown,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
-import MenuItem from "./MenuItem";
+import { nanoid } from "@reduxjs/toolkit";
 
-const CustomMenu = () => {
+const CustomMenu = ({ setToasts }) => {
   const dispatch = useDispatch();
   const customMenu = useSelector(customMenuSelector);
   const navigate = useNavigate();
@@ -35,6 +35,22 @@ const CustomMenu = () => {
 
   const handleDelete = (item) => {
     dispatch(removeMenuItem(item));
+
+    const DELETE = "DELETE";
+    const newToast = {
+      id: nanoid(),
+      data: item,
+      type: DELETE,
+      show: true,
+    };
+    setToasts((prevToasts) => [...prevToasts, newToast]);
+    setTimeout(() => {
+      setToasts((prevToasts) =>
+        prevToasts.map((toast) =>
+          toast.id === item.id ? { ...toast, show: false } : toast
+        )
+      );
+    }, 3000); // Adjust the duration as needed
   };
 
   return (
@@ -76,7 +92,7 @@ const CustomMenu = () => {
           })}
           <div>
             <h5>Price</h5>
-            {price}{" "}VND
+            {price} VND
           </div>
           <div className="custom-menu__report--wrapper">
             <h1>REPORT</h1>

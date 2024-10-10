@@ -8,34 +8,23 @@ import {
   Col,
   Dropdown,
   Collapse,
+  InputGroup,
 } from "react-bootstrap";
-import { fetchAllFoodTags, fetchAllFoodType } from "../api/menuApi";
+import { fetchAllFoodTags, fetchAllFoodType } from "../../api/menuApi";
 
-const MenuUtility = ({ setMenuView, setKeyWord, setTags, setType }) => {
+const MenuUtility = ({
+  handleMenuView,
+  handleUpdateKeyWord,
+  menuSearchTags,
+  handleUpdateTags,
+  menuSearchType,
+  handleUpdateType,
+}) => {
   const [foodTypeCollapse, setfoodTypeCollapse] = useState(false);
+  const [foodTag, setFoodTag] = useState([]);
+  const [foodType, setFoodType] = useState([]);
 
-  const [foodTag, setFoodTag] = useState(null);
-  const [foodType, setFoodType] = useState(null);
   const [error, setError] = useState(null);
-
-  const handleMenuView = (item) => {
-    setMenuView(item);
-  };
-
-  const handleUpdateKeyWord = (item) => {
-    setKeyWord(item);
-  };
-
-  const handleUpdateTags = (item) => {
-    // const tagExist = menuSearchTags.find((tag) => tag === item);
-    // if (tagExist) menuSearchTags.filter((tag) => tag === item);
-    // else menuSearchTags.push(item);
-    setTags(item);
-  };
-
-  const handleUpdateType = (item) => {
-    setType(item);
-  };
 
   useEffect(() => {
     const getData = async () => {
@@ -48,7 +37,7 @@ const MenuUtility = ({ setMenuView, setKeyWord, setTags, setType }) => {
         setFoodType(result2);
       } catch (error) {
         if (error.response) setError(error.response.data);
-        else console.log(`Error: ${error.message}`);
+        else setError(`Error: ${error.message}`);
       }
     };
     getData();
@@ -61,12 +50,13 @@ const MenuUtility = ({ setMenuView, setKeyWord, setTags, setType }) => {
         {foodTag && (
           <Row>
             {foodTag.map((tag) => (
-              <Col>
+              <Col key={tag._id}>
                 <Button
-                  variant="secondary"
+                  variant={
+                    menuSearchTags.includes(tag.name) ? "danger" : "secondary"
+                  }
                   className="btn btn-block px-3 m-auto"
-                  key={tag._id}
-                  onClick={() => handleUpdateTags(tag.name)}
+                  onClick={() => {handleUpdateTags(tag.name);}}
                 >
                   {tag.name}
                 </Button>
@@ -86,12 +76,14 @@ const MenuUtility = ({ setMenuView, setKeyWord, setTags, setType }) => {
           <Row>
             {foodType.map((type) => {
               return (
-                <Col>
+                <Col key={type._id}>
                   <Button
-                    variant="secondary"
+                    variant={
+                      menuSearchType === type.name ? "danger" : "secondary"
+                    }
                     className="btn btn-block px-3 w-100"
                     key={type._id}
-                    onClick={() => setType("Vegan")}
+                    onClick={() => handleUpdateType(type.name)}
                   >
                     {type.name}
                   </Button>
@@ -105,12 +97,14 @@ const MenuUtility = ({ setMenuView, setKeyWord, setTags, setType }) => {
             <Stack direction="horizontal" gap={2}>
               {foodType.slice(0, 3).map((type) => {
                 return (
-                  <Col>
+                  <Col key={type._id}>
                     <Button
-                      variant="secondary"
+                      variant={
+                        menuSearchType === type.name ? "danger" : "secondary"
+                      }
                       className="btn btn-block px-3 w-100"
                       key={type._id}
-                      onClick={() => setType(type.name)}
+                      onClick={() => handleUpdateType(type.name)}
                     >
                       {type.name}
                     </Button>
@@ -146,30 +140,36 @@ const MenuUtility = ({ setMenuView, setKeyWord, setTags, setType }) => {
   }
 
   return (
-    <Container>
+    <Container className="p-0 mb-4">
       <Stack direction="horizontal" gap={2}>
-        <Form.Control
-          type="text"
-          className="me-auto"
-          placeholder="Search..."
-          id="searchKeyWordinput"
-          onChange={(e) => setKeyWord(e.target.value)}
-        />
-        <div className="vr" />
-        <Button variant="outline-danger" onClick={() => setKeyWord("")}>
-          Reset
-        </Button>
+        <InputGroup>
+          <Form.Control
+            type="search"
+            className="me-auto"
+            placeholder="Search..."
+            id="searchKeyWordinput"
+            onChange={(e) => handleUpdateKeyWord(e.target.value)}
+          />
+          <div className="vr" />
+          <Button
+            variant="outline-danger"
+            onClick={() => handleUpdateKeyWord(null)}
+          >
+            Reset
+          </Button>
+        </InputGroup>
+
         <Button
           variant="warning"
           className="btn btn-block"
-          onClick={() => setMenuView("card")}
+          onClick={() => handleMenuView("card")}
         >
           <i className="fa-solid fa-table"></i>
         </Button>
         <Button
           variant="warning"
           className="btn btn-block"
-          onClick={() => setMenuView("list")}
+          onClick={() => handleMenuView("list")}
         >
           <i className="fa-solid fa-list"></i>
         </Button>

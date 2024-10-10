@@ -16,6 +16,7 @@ export const fetchAllFood = createAsyncThunk(
           const key = Object.keys(menuItem.food_tag).find(
             (key) => menuItem.food_tag[key] === tag
           );
+          console.log(menuItem,key)
           menuItem.food_tag[key] = menuTag[tag] ? menuTag[tag].name : "Unknown";
           return tag;
         });
@@ -92,6 +93,7 @@ export const menuSlice = createSlice({
   },
 });
 
+// eslint-disable-next-line no-empty-pattern
 export const {} = menuSlice.actions;
 
 export const menuSelector = (state) => state.menu;
