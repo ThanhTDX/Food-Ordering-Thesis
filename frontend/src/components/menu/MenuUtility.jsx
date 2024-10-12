@@ -8,9 +8,15 @@ import {
   Col,
   Dropdown,
   Collapse,
+  Accordion,
   InputGroup,
+  Card,
 } from "react-bootstrap";
 import { fetchAllFoodTags, fetchAllFoodType } from "../../api/menuApi";
+
+import "./css/MenuUtility.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 
 const MenuUtility = ({
   handleMenuView,
@@ -22,7 +28,8 @@ const MenuUtility = ({
 }) => {
   const [foodTypeCollapse, setfoodTypeCollapse] = useState(false);
   const [foodTag, setFoodTag] = useState([]);
-  const [foodType, setFoodType] = useState([]);
+  const [foodType, setFoodType] = useState("");
+  const [combo, setCombo] = useState("");
 
   const [error, setError] = useState(null);
 
@@ -50,13 +57,18 @@ const MenuUtility = ({
         {foodTag && (
           <Row>
             {foodTag.map((tag) => (
-              <Col key={tag._id}>
+              <Col key={tag._id} sm={6} md={4}>
                 <Button
-                  variant={
-                    menuSearchTags.includes(tag.name) ? "danger" : "secondary"
+                  variant={""}
+                  className={
+                    "menu-utility--tag px-3 mb-1 w-100 " +
+                    (menuSearchTags.includes(tag.name)
+                      ? "active"
+                      : "inactive")
                   }
-                  className="btn btn-block px-3 m-auto"
-                  onClick={() => {handleUpdateTags(tag.name);}}
+                  onClick={() => {
+                    handleUpdateTags(tag.name);
+                  }}
                 >
                   {tag.name}
                 </Button>
@@ -68,9 +80,13 @@ const MenuUtility = ({
     );
   }
 
+  function MenuCombo() {
+    return <Card>MenuCombo</Card>;
+  }
+
   function MenuType() {
     return (
-      <div>
+      <Card>
         <h3>Type</h3>
         {foodType && foodType.length < 5 && (
           <Row>
@@ -78,10 +94,11 @@ const MenuUtility = ({
               return (
                 <Col key={type._id}>
                   <Button
-                    variant={
-                      menuSearchType === type.name ? "danger" : "secondary"
+                    variant={""}
+                    className={
+                      "btn btn-block px-3 w-100 menu-utility--type " +
+                      (menuSearchType === type.name ? "active" : "inactive")
                     }
-                    className="btn btn-block px-3 w-100"
                     key={type._id}
                     onClick={() => handleUpdateType(type.name)}
                   >
@@ -99,10 +116,11 @@ const MenuUtility = ({
                 return (
                   <Col key={type._id}>
                     <Button
-                      variant={
-                        menuSearchType === type.name ? "danger" : "secondary"
+                      variant={""}
+                      className={
+                        "btn btn-block px-3 w-100 menu-utility--type " +
+                        (menuSearchType === type.name ? "active" : "inactive")
                       }
-                      className="btn btn-block px-3 w-100"
                       key={type._id}
                       onClick={() => handleUpdateType(type.name)}
                     >
@@ -111,16 +129,18 @@ const MenuUtility = ({
                   </Col>
                 );
               })}
-              <Button
+              {/* <Button
                 onClick={() => setfoodTypeCollapse(!foodTypeCollapse)}
-                aria-controls="example-collapse-text"
+                className=""
+                aria-controls="food-type-collapse"
                 aria-expanded={foodTypeCollapse}
               >
-                click
-              </Button>
+                <FontAwesomeIcon icon={faArrowDown}/>
+              </Button> */}
             </Stack>
-            <Collapse in={foodTypeCollapse}>
-              <div id="example-collapse-text">
+            {/* <Accordion defaultActiveKey={0}>
+              <Accordion.Item eventKey="0">
+                
                 <Stack direction="horizontal" gap={2}>
                   <Button variant="secondary">Vegan</Button>
                   <Button variant="secondary">Vegan</Button>
@@ -131,11 +151,11 @@ const MenuUtility = ({
                   <Button variant="secondary">Vegan</Button>
                   <Button variant="secondary">Vegan</Button>
                 </Stack>
-              </div>
-            </Collapse>
+              </Accordion.Item>
+            </Accordion> */}
           </>
         )}
-      </div>
+      </Card>
     );
   }
 
@@ -174,8 +194,15 @@ const MenuUtility = ({
           <i className="fa-solid fa-list"></i>
         </Button>
       </Stack>
-      <MenuTag />
-      <MenuType />
+      <Row>
+        <Col xs={6} sm={6} md={6} lg={8} xl={8}>
+          <MenuTag />
+          <MenuType />
+        </Col>
+        <Col xs={6} sm={6} md={6} lg={4} xl={4}>
+          <MenuCombo />
+        </Col>
+      </Row>
     </Container>
   );
 };

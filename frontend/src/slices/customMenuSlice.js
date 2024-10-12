@@ -4,13 +4,25 @@ const customMenuItemsFromStorage = localStorage.getItem("customMenuItems")
   ? JSON.parse(localStorage.getItem("customMenuItems"))
   : [];
 
+const initialPrice =
+  customMenuItemsFromStorage.length === 0
+    ? 0
+    : Object.keys(customMenuItemsFromStorage).reduce(function (previous, key) {
+        return (
+          previous +
+          Number(customMenuItemsFromStorage[key].price) *
+            Number(customMenuItemsFromStorage[key].qty)
+        );
+      }, 0);
+
 export const customMenuSlice = createSlice({
   name: "customMenu",
   initialState: {
     menuItems: customMenuItemsFromStorage,
+    menuCombo: [],
     numOfPeople: 0,
     nutritionValue: [],
-    price: 0,
+    price: initialPrice,
     loading: false,
     error: "",
   },
@@ -30,15 +42,10 @@ export const customMenuSlice = createSlice({
         menuItem = { ...menuItem, qty: 1 };
         state.menuItems.push(menuItem);
       }
-      state.price = Object.keys(state.menuItems).reduce(function (
-        previous,
-        key
-      ) {
-        return previous + Number(state.menuItems[key].price)*Number(state.menuItems[key].qty);
-      },
-      0);
+      state.price += Number(menuItem.price)
       localStorage.setItem("customMenuItems", JSON.stringify(state.menuItems));
     },
+
     updateMenuItem: (state, action) => {
       // action.payload = {menuItem, qty}
       const { menuItem, qty } = action.payload;
@@ -46,16 +53,7 @@ export const customMenuSlice = createSlice({
       state.menuItems.map(
         (item) => (item.qty = item._id === menuItem._id ? qty : item.qty)
       );
-      state.price = Object.keys(state.menuItems).reduce(function (
-        previous,
-        key
-      ) {
-        return (
-          previous +
-          Number(state.menuItems[key].price) * Number(state.menuItems[key].qty)
-        );
-      },
-      0);
+      state.price += Number(menuItem.price)*Number(menuItem.qty);
       localStorage.setItem("customMenuItems", JSON.stringify(state.menuItems));
     },
     removeMenuItem: (state, action) => {
@@ -64,17 +62,20 @@ export const customMenuSlice = createSlice({
       state.menuItems = state.menuItems.filter(
         (item) => item._id !== menuItem._id
       );
-      state.price = Object.keys(state.menuItems).reduce(function (
-        previous,
-        key
-      ) {
-        return (
-          previous +
-          Number(state.menuItems[key].price) * Number(state.menuItems[key].qty)
-        );
-      },
-      0);
+      state.price -= Number(menuItem.price) * Number(menuItem.qty);
       localStorage.setItem("customMenuItems", JSON.stringify(state.menuItems));
+    },
+    addCombo: (state, action) => {
+      // action.payload = menuItem
+      // TODO
+    },
+    removeCombo: (state, action) => {
+      // action.payload = menuItem
+      // TODO
+    },
+    updateCombo: (state, action) => {
+      // action.payload = menuItem
+      // TODO
     },
     evaluateCustomMenu: (state, action) => {
       // This is The Bread And Butter of the whole Project

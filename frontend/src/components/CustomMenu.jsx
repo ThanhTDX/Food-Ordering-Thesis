@@ -1,24 +1,33 @@
 import React from "react";
-import { Container, Button, Stack } from "react-bootstrap";
+import { Container, Button, Stack , Card} from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
   customMenuSelector,
   updateMenuItem,
   removeMenuItem,
 } from "../slices/customMenuSlice";
-import { useNavigate } from "react-router";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowUp,
   faArrowDown,
   faTrashCan,
+  faCheck,
+  faComment,
+  faTriangleExclamation,
+  faExclamation,
+  faCommentDots,
+  faCog,
 } from "@fortawesome/free-solid-svg-icons";
+
 import { nanoid } from "@reduxjs/toolkit";
+
+import "./CustomMenu.css"
+import formatVND from "../utils/formatVND";
 
 const CustomMenu = ({ setToasts }) => {
   const dispatch = useDispatch();
   const customMenu = useSelector(customMenuSelector);
-  const navigate = useNavigate();
   const { menuItems, price } = customMenu;
 
   const handleIncrement = (item) => {
@@ -32,6 +41,10 @@ const CustomMenu = ({ setToasts }) => {
   const handleUpdate = (item, qty) => {
     dispatch(updateMenuItem({ menuItem: item, qty: qty }));
   };
+
+  const handleEdit = () => {
+
+  }
 
   const handleDelete = (item) => {
     dispatch(removeMenuItem(item));
@@ -54,19 +67,27 @@ const CustomMenu = ({ setToasts }) => {
   };
 
   return (
-    <Container className="custom-menu--wrapper p-0">
-      <h2>Your Personal Menu</h2>
-      <Container className="custom-menu p-0">
+    <Card className="custom-menu__wrapper p-0">
+      <div className="d-flex align-items-center justify-content-between mb-2">
+        <h2 className="m-0">Your Personal Menu</h2>
+        <div className="custom-menu--edit-button rounded-2">
+          <Button variant="" className="" onClick={() => handleEdit()}>
+            <span className="me-1">Edit</span> <FontAwesomeIcon icon={faCog} size="lg" />
+          </Button>
+        </div>
+      </div>
+
+      <Container className="custom-menu--body p-0">
         <Stack gap={3}>
           {menuItems.map((item) => {
             return (
               <div
-                className="custom-menu__item--wrapper border rounded-3"
+                className="custom-menu--item__wrapper border rounded-3"
                 key={item._id}
               >
                 <img src={item.image} alt={item.image} />
-                <div className="custom-menu__title">{item.name}</div>
-                <div className="custom-menu__buttons">
+                <div className="custom-menu--title">{item.name}</div>
+                <div className="custom-menu--buttons d-flex align-items-center justify-content-around">
                   <div>{item.qty}</div>
                   <Button
                     variant="transparent"
@@ -90,19 +111,62 @@ const CustomMenu = ({ setToasts }) => {
               </div>
             );
           })}
-          <div>
-            <h5>Price</h5>
-            {price} VND
+          <div className="align-self-end">
+            <h5 className="d-inline">Price</h5> <vr> </vr>
+            <span>{formatVND(price)}</span>
           </div>
-          <div className="custom-menu__report--wrapper">
-            <h1>REPORT</h1>
+          <div className="custom-menu--report__wrapper">
+            <Container className="custom-menu--report__success border-dark p-3 ps-4">
+              <div className="">
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  size="xl"
+                  style={{ color: "#2ff906" }}
+                />
+                <span className="ms-3"> Looks Good To Me!</span>
+              </div>
+            </Container>
+
+            <Container className="custom-menu--report__initial border-dark p-3 ps-4">
+              <div className="">
+                <FontAwesomeIcon icon={faComment} size="xl" />
+                <span className="ms-3">Let's Start With This!</span>
+              </div>
+              <div></div>
+            </Container>
+
+            <Container className="custom-menu--report__warning border-dark p-3 ps-4">
+              <div className="">
+                <FontAwesomeIcon
+                  icon={faTriangleExclamation}
+                  size="xl"
+                  style={{ color: "#FFD43B" }}
+                />
+                <span className="ms-3">Hey You're Having Too Many Of ...</span>
+              </div>
+            </Container>
+
+            <Container className="custom-menu--report__warning border-dark p-3 ps-4">
+              <div className="">
+                <FontAwesomeIcon
+                  icon={faExclamation}
+                  size="xl"
+                  style={{ color: "#d42525" }}
+                />
+                <span className="ms-3">Combo Detected! Get This Too!</span>
+              </div>
+            </Container>
+
+            <Container className="custom-menu--report__warning border-dark p-3 ps-4">
+              <div className="">
+                <FontAwesomeIcon icon={faCommentDots} size="xl" />
+                <span className="ms-3">You Should Get More Of ...</span>
+              </div>
+            </Container>
           </div>
-          <Button variant="success" onClick={() => navigate("/checkout")}>
-            CHECKOUT
-          </Button>
         </Stack>
       </Container>
-    </Container>
+    </Card>
   );
 };
 

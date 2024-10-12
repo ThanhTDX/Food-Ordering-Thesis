@@ -16,7 +16,6 @@ export const fetchAllFood = createAsyncThunk(
           const key = Object.keys(menuItem.food_tag).find(
             (key) => menuItem.food_tag[key] === tag
           );
-          console.log(menuItem,key)
           menuItem.food_tag[key] = menuTag[tag] ? menuTag[tag].name : "Unknown";
           return tag;
         });
@@ -42,21 +41,50 @@ export const fetchAllFood = createAsyncThunk(
   }
 );
 
-export const fetchFoodById = createAsyncThunk("api/menu/<:id>", async (id) => {
-  try {
-    const { data } = await axios.get(`/api/menu/${id}`);
-    return data;
-  } catch (error) {
-    return error.response && error.response.data.message
-      ? error.response.data.message
-      : error.message;
+export const fetchFoodById = createAsyncThunk(
+  "api/menu/<:id>",
+  async (id, thunkAPI) => {
+    try {
+      const menuItem = await menuApi.fetchFoodById(id);
+      const menuIngredient = await menuApi.fetchAllFoodIngredient();
+      const menuTag = await menuApi.fetchAllFoodTags();
+      const menuType = await menuApi.fetchAllFoodType();
+
+      menuItem.food_tag.map((tag) => {
+        const key = Object.keys(menuItem.food_tag).find(
+          (key) => menuItem.food_tag[key] === tag
+        );
+        menuItem.food_tag[key] = menuTag[tag] ? menuTag[tag].name : "Unknown";
+        return tag;
+      });
+
+      menuItem.food_type =
+        menuType[menuItem.food_type] !== undefined
+          ? menuType[menuItem.food_type].name
+          : "Unknown";
+
+      menuItem.ingredient.map((item) => {
+        const key = Object.keys(menuItem.ingredient).find(
+          (key) => menuItem.ingredient[key] === item
+        );
+        menuItem.ingredient[key] = menuIngredient[item]
+          ? menuIngredient[item].name
+          : "Unknown";
+        return item;
+      });
+
+      return [menuItem];
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 export const menuSlice = createSlice({
   name: "menu",
   initialState: {
     menuItems: [],
+    menuCombos: [],
     error: "",
     loading: true,
   },

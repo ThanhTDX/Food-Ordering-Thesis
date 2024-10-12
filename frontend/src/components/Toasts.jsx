@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Toast, ToastContainer } from "react-bootstrap";
 
-function MenuToasts({toasts, setToasts}) {
+function Toasts({toasts, setToasts}) {
   return (
     <ToastContainer position="top-end" className="p-3">
       {toasts.map((toast) => (
@@ -21,4 +21,4 @@ function MenuToasts({toasts, setToasts}) {
   );
 }
 
-export default MenuToasts
+export default Toasts;

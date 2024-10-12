@@ -12,46 +12,10 @@ body {
   font-style: normal;
 }
 
-
 .menu-item img 
 {
   height: 150px;
   width: 100%;
-}
-
-.custom-menu--wrapper{
-  display: flex;
-  flex-direction: column;
-  align-items: space-evenly;
-  justify-content: center; 
-}
-
-.custom-menu--wrapper img{
-  height: 50px;
-  width: 30%;
-  min-width:75px;
-}
-
-.custom-menu__item--wrapper{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.custom-menu__title{
-  font-weight: bold;
-  width: 100%;
-  align-self: center;
-  margin-left: 5px;
-}
-
-.custom-menu__buttons{
-  width: 40%;
-}
-
-.custom-menu__buttons .btn{
-  padding: 2px;
 }
 
 .menu-item .menu-item--tag {

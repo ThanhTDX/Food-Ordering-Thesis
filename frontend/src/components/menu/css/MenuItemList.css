@@ -1,26 +1,26 @@
-.menu-item--list{
+.menu-item--list {
   background-color: #eee;
 }
 
-.menu-item--list--background__dark{
+.menu-item--list--background__dark {
   background-color: rgba(253, 253, 253, 0.15);
 }
 
-.menu-item--list--image img{
-  max-height:120px;
+.menu-item--list--image img {
+  max-height: 120px;
   height: 98%;
   width: 98%;
 }
 
-.menu-item--list--image__mask{
-  background: rgba(0,0,0,0)
+.menu-item--list--image__mask {
+  background: rgba(0, 0, 0, 0);
 }
 
-.menu-item--list--image__mask:hover{
-  background: rgba(0,0,0,0.2)
+.menu-item--list--image__mask:hover {
+  background: rgba(0, 0, 0, 0.2);
 }
 
-.menu-item--list--title h4{
+.menu-item--list--title h4 {
   color: black;
   margin: 0;
 }
@@ -50,7 +50,7 @@
   font-size: medium;
 }
 
-.menu-item--list--tag span{
+.menu-item--list--tag span {
   font-size: small;
 }
 
@@ -83,9 +83,37 @@
   background-color: rgb(246, 249, 91);
 }
 
+.menu-item--list--type {
+  font-size: medium;
+}
 
-.menu-item--list--tag span{
-  font-size: small;
+.menu-item--list--type:hover {
+  text-decoration: underline;
+}
+
+.menu-item--list--type.inactive {
+  border: 1px rgb(142, 177, 36) solid;
+}
+
+.menu-item--list--type.inactive:hover {
+  border: 1px rgb(206, 209, 15) solid;
+}
+
+.menu-item--list--type.inactive:active {
+  border: 1px rgb(206, 209, 15) solid;
+}
+
+.menu-item--list--type.active {
+  border: 1px rgb(163, 234, 100) solid;
+  background-color: rgb(163, 234, 100);
+}
+
+.menu-item--list--type.active:hover {
+  background-color: rgb(176, 237, 122);
+}
+
+.menu-item--list--type.active:hover {
+  background-color: rgb(176, 237, 122);
 }
 
 .menu-item--add-to-cart {

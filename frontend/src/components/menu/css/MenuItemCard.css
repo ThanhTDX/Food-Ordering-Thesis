@@ -58,11 +58,8 @@
 }
 
 .menu-item--card--tag.inactive {
-  border: 1px rgb(175, 177, 36) solid;
-}
-
-.menu-item--card--tag.inactive:hover {
-  border: 1px rgb(206, 209, 15) solid;
+  border: 1px rgb(231, 234, 51) solid;
+  background-color: rgb(253, 255, 158);
 }
 
 .menu-item--card--tag.inactive:hover {
@@ -86,12 +83,33 @@
   font-size: medium;
 }
 
-.menu-item--card--type.active {
-  font-size: medium;
+.menu-item--card--type:hover {
+  text-decoration: underline;
 }
 
 .menu-item--card--type.inactive {
-  font-size: medium;
+  border: 1px rgb(142, 177, 36) solid;
+}
+
+.menu-item--card--type.inactive:hover {
+  border: 1px rgb(206, 209, 15) solid;
+}
+
+.menu-item--card--type.inactive:active {
+  border: 1px rgb(206, 209, 15) solid;
+}
+
+.menu-item--card--type.active {
+  border: 1px rgb(163, 234, 100) solid;
+  background-color: rgb(163, 234, 100);
+}
+
+.menu-item--card--type.active:hover {
+  background-color: rgb(176, 237, 122);
+}
+
+.menu-item--card--type.active:hover {
+  background-color: rgb(176, 237, 122);
 }
 
 .menu-item--add-to-cart {

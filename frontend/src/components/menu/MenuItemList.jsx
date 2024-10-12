@@ -1,17 +1,14 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faStar as faStarSolid,
-  faStarHalfStroke,
-  faBookOpen,
-  faCartShopping,
-} from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+import { faBookOpen, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 import { Card, Stack, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import "./css/MenuItemList.css";
+
+import formatVND from "../../utils/formatVND";
+import StarRating from "../StarRating";
 
 function MenuItemList({
   item,
@@ -58,56 +55,7 @@ function MenuItemList({
               )}
             </Link>
 
-            <div className="d-flex flex-row">
-              <div className="text-warning mb-1 me-2">
-                <span>
-                  {item.rating >= 1 && <FontAwesomeIcon icon={faStarSolid} />}
-                  {item.rating >= 0 &&
-                    item.rating < 1 &&
-                    item.num_of_rating !== 0 && (
-                      <FontAwesomeIcon icon={faStarHalfStroke} />
-                    )}
-                  {item.num_of_rating === 0 && (
-                    <FontAwesomeIcon icon={faStarRegular} />
-                  )}
-                </span>
-                <span>
-                  {item.rating >= 2 && <FontAwesomeIcon icon={faStarSolid} />}
-                  {item.rating >= 1.5 && item.rating < 2 && (
-                    <FontAwesomeIcon icon={faStarHalfStroke} />
-                  )}
-                  {item.rating < 1.5 && (
-                    <FontAwesomeIcon icon={faStarRegular} />
-                  )}
-                </span>
-                <span>
-                  {item.rating >= 3 && <FontAwesomeIcon icon={faStarSolid} />}
-                  {item.rating >= 2.5 && item.rating < 3 && (
-                    <FontAwesomeIcon icon={faStarHalfStroke} />
-                  )}
-                  {item.rating < 2.5 && (
-                    <FontAwesomeIcon icon={faStarRegular} />
-                  )}
-                </span>
-                <span>
-                  {item.rating >= 4 && <FontAwesomeIcon icon={faStarSolid} />}
-                  {item.rating >= 3 && item.rating < 3.5 && (
-                    <FontAwesomeIcon icon={faStarHalfStroke} />
-                  )}
-                  {item.rating < 3 && <FontAwesomeIcon icon={faStarRegular} />}
-                </span>
-                <span>
-                  {item.rating >= 5 && <FontAwesomeIcon icon={faStarSolid} />}
-                  {item.rating >= 4 && item.rating < 4.5 && (
-                    <FontAwesomeIcon icon={faStarHalfStroke} />
-                  )}
-                  {item.rating < 4 && <FontAwesomeIcon icon={faStarRegular} />}
-                </span>
-                <span className="menu-item--list-rating ms-2">
-                  {item.num_of_rating}
-                </span>
-              </div>
-            </div>
+            <StarRating item={item} size={"md"}/>
             <div className="">
               <Stack gap={1} direction="horizontal">
                 {item.food_tag
@@ -128,13 +76,14 @@ function MenuItemList({
                   })}
               </Stack>
             </div>
-            <div className="mt-1">
-              <h5 className="d-inline align-items-center w-25">Type</h5>
+            <div className="mt-1 d-flex align-items-center justify-content-start">
+              <h5 className="m-0">Type</h5>
               <Button
-                variant={
-                  ""
+                variant={""}
+                className={
+                  "menu-item--list--type ms-3 w-100 " +
+                  (menuSearchType === item.food_type ? "active" : "inactive")
                 }
-                className={"menu-item--list--type ms-3 w-75 " + (menuSearchType === item.food_type ? "active" : "inactive")}
                 onClick={() => handleAddType(item.food_type)}
               >
                 <span className="">{item.food_type}</span>
@@ -151,9 +100,9 @@ function MenuItemList({
           >
             <Stack gap={2}>
               <div className="d-flex flex-column mb-1">
-                <h4 className="mb-1 me-1">VND{item.price}</h4>
+                <h4 className="mb-1 me-1">{formatVND(item.price)}</h4>
                 <span class="text-danger align-self-end">
-                  <s>VND{item.price}</s>
+                  <s>{formatVND(item.price)}</s>
                 </span>
                 <h6 class="text-success">Free shipping</h6>
               </div>

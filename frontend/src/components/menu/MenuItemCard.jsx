@@ -1,17 +1,17 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faStar as faStarSolid,
-  faStarHalfStroke,
   faBookOpen,
   faCartShopping,
 } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+
 
 import { Card, Stack, Button, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import "./css/MenuItemCard.css";
+import formatVND from "../../utils/formatVND";
+import StarRating from "../StarRating";
 
 function MenuItemCard({
   item,
@@ -23,13 +23,7 @@ function MenuItemCard({
   handleAddType,
 }) {
 
-  const formatVND = (num) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      currencyDisplay: "symbol",
-    }).format(num);
-  }
+  
 
   return (
     <Card className="menu-item--card mb-4">
@@ -52,7 +46,7 @@ function MenuItemCard({
                 alt={item.name}
                 className="d-flex align-self-center"
               />
-              <div class="menu-item--card--image__mask position-absolute top-0 start-0 d-flex justify-content-center align-items-center w-100 h-100 text-white fs-5"></div>
+              <div className="menu-item--card--image__mask position-absolute top-0 start-0 d-flex justify-content-center align-items-center w-100 h-100 text-white fs-5"></div>
             </div>
           </Link>
         </Container>
@@ -116,77 +110,14 @@ function MenuItemCard({
                 </Stack>
               )}
             </Stack>
-            <div className="d-flex flex-row">
-              <div className="text-warning align-self-end">
-                <span>
-                  {item.rating >= 1 && (
-                    <FontAwesomeIcon icon={faStarSolid} size={"xs"} />
-                  )}
-                  {item.rating >= 0 &&
-                    item.rating < 1 &&
-                    item.num_of_rating !== 0 && (
-                      <FontAwesomeIcon icon={faStarHalfStroke} size={"xs"} />
-                    )}
-                  {item.num_of_rating === 0 && (
-                    <FontAwesomeIcon icon={faStarRegular} size={"xs"} />
-                  )}
-                </span>
-                <span>
-                  {item.rating >= 2 && (
-                    <FontAwesomeIcon icon={faStarSolid} size={"xs"} />
-                  )}
-                  {item.rating >= 1.5 && item.rating < 2 && (
-                    <FontAwesomeIcon icon={faStarHalfStroke} size={"xs"} />
-                  )}
-                  {item.rating < 1.5 && (
-                    <FontAwesomeIcon icon={faStarRegular} size={"xs"} />
-                  )}
-                </span>
-                <span>
-                  {item.rating >= 3 && (
-                    <FontAwesomeIcon icon={faStarSolid} size={"xs"} />
-                  )}
-                  {item.rating >= 2.5 && item.rating < 3 && (
-                    <FontAwesomeIcon icon={faStarHalfStroke} size={"xs"} />
-                  )}
-                  {item.rating < 2.5 && (
-                    <FontAwesomeIcon icon={faStarRegular} size={"xs"} />
-                  )}
-                </span>
-                <span>
-                  {item.rating >= 4 && (
-                    <FontAwesomeIcon icon={faStarSolid} size={"xs"} />
-                  )}
-                  {item.rating >= 3 && item.rating < 3.5 && (
-                    <FontAwesomeIcon icon={faStarHalfStroke} size={"xs"} />
-                  )}
-                  {item.rating < 3 && (
-                    <FontAwesomeIcon icon={faStarRegular} size={"xs"} />
-                  )}
-                </span>
-                <span>
-                  {item.rating >= 5 && (
-                    <FontAwesomeIcon icon={faStarSolid} size={"xs"} />
-                  )}
-                  {item.rating >= 4 && item.rating < 4.5 && (
-                    <FontAwesomeIcon icon={faStarHalfStroke} size={"xs"} />
-                  )}
-                  {item.rating < 4 && (
-                    <FontAwesomeIcon icon={faStarRegular} size={"xs"} />
-                  )}
-                </span>
-                <span className="menu-item--card-rating ms-1">
-                  {item.num_of_rating}
-                </span>
-              </div>
-            </div>
+            <StarRating item={item} size={"md"}/>
           </div>
           <div className="d-flex justify-content-between align-items-center mt-1">
             <Button
               variant={
                 ""
               }
-              className={"menu-item--card--type w-100 me-3" + (menuSearchType === item.food_type ? "active" : "inactive")}
+              className={"menu-item--card--type w-100 me-3 " + (menuSearchType === item.food_type ? "active" : "inactive")}
               onClick={() => handleAddType(item.food_type)}
             >
               <span>{item.food_type}</span>

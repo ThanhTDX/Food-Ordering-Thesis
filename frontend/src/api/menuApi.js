@@ -12,6 +12,16 @@ export const fetchAllFood = async () => {
   }
 };
 
+export const fetchFoodById = async (id) => {
+  try {
+    const response = await axios.get(`/api/menu/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(error.config);
+    throw new Error(__handleError(error));
+  }
+};
+
 export const fetchAllFoodTags = async () => {
   try {
     const response = await axios.get(`/api/menu/tag`);

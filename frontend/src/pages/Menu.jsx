@@ -6,16 +6,19 @@ import Message from "../components/Message";
 import MenuList from "../components/menu/MenuList";
 import CustomMenu from "../components/CustomMenu";
 import MenuUtility from "../components/menu/MenuUtility";
+import MenuToasts from "../components/Toasts";
+
+import { useNavigate } from "react-router";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Row, Col, Stack, Container } from "react-bootstrap";
+import { Row, Col, Stack, Container, Button } from "react-bootstrap";
 
 import { menuSelector, fetchAllFood } from "../slices/menuSlice";
 
 import "./Menu.css";
-import MenuToasts from "../components/menu/MenuToasts";
 
 function Menu() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const menu = useSelector(menuSelector);
   const { error, loading } = menu;
@@ -54,7 +57,6 @@ function Menu() {
     if (menuSearchType) {
       menuItems = menuItems.filter((item) => item.food_type === menuSearchType);
     }
-    console.log("after", menuItems);
     setFilteredMenu(menuItems);
   }, [menu, menuSearchKeyWord, menuSearchTags, menuSearchType]);
 
@@ -86,10 +88,22 @@ function Menu() {
           <Message variant="danger">{error}</Message>
         ) : (
           <Row>
-            <Col md={0} lg={4} className="">
-              <Container fluid>
-                <Stack direction="vertical" gap={5}>
+            <Col md={0} lg={4} className="mb-3">
+              <Container fluid className="p-0">
+                <Stack direction="vertical" gap={2}>
                   <CustomMenu setToasts={setToasts} />
+                  <Button
+                    variant="success"
+                    onClick={() => navigate("/checkout")}
+                  >
+                    <span className="font-weight-bold">CHECKOUT</span>
+                  </Button>
+                  <Button
+                    variant="success"
+                    onClick={() => navigate("/reservation?customMenu=on")}
+                  >
+                    MAKE RESERVATION
+                  </Button>
                 </Stack>
               </Container>
             </Col>

@@ -1,8 +1,12 @@
 import React from 'react'
 
+import { Container, Row, Col } from 'react-bootstrap'
+
+import CustomMenu from '../components/CustomMenu'
+
 const Ordering = () => {
   return (
-    <div>Ordering</div>
+    <Container>Ordering</Container>
   )
 }
 

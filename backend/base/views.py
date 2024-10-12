@@ -35,8 +35,8 @@ def getAllFood(request):
 # '/api/menu/<id>/',
 @api_view(['GET'])
 def getFoodDetailById(request, pk):
-  menuItem = Product.objects.get(_id=pk)
-  serializer = ProductSerializer(menuItem, many=False)
+  food = Food.objects.get(_id=pk)
+  serializer = FoodSerializer(food, many=False)
   return Response(serializer.data)
 
 # /api/menu/ingredient
