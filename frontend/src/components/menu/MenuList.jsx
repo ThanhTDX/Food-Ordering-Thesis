@@ -66,7 +66,7 @@ function MenuList({
     return <h2> Sorry we don't have what you're looking for. </h2>;
   else if (menuView === "list")
     return (
-      <Container className="mt-3">
+      <Container className="mt-3 p-0">
         <Row>
           <Stack gap={2} direction="vertical">
             {currentMenu.map((item) => {

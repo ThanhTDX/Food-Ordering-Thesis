@@ -6,7 +6,14 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import *
 
+
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 # Create your views here.
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+  serializer_class = MyTokenObtainPairSerializer
 
 # /api
 @api_view(['GET'])
@@ -19,7 +26,8 @@ def getRoutes(request):
     'api/menu/ingredient',
     'api/menu/tag',
     'api/menu/type',
-    'api/users/login'
+    'api/users/login',
+    'api/users/profile'
   ]
   return Response(routes)
 
@@ -65,4 +73,11 @@ def getAllFoodType(request):
 def getAllComment(request):
   data = Comment.objects.all()
   serializer = FoodTypeSerializer(data, many=True)
+  return Response(serializer.data)
+
+# /api/users/profile
+@api_view(['GET'])
+def getUserProfile(request):
+  user = request.user
+  serializer = UserSerializer(user, many=False)
   return Response(serializer.data)

@@ -14,5 +14,7 @@ urlpatterns = [
     path('menu/<str:pk>', views.getFoodDetailById, name="FoodDetailById"),
     path('comment/',views.getAllComment, name="allComment"),
     
-    path('users/login', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    
+    path('users/profile',views.getUserProfile, name="userProfile"),
+    path('users/login', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
 ]

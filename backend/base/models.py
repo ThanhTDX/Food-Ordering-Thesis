@@ -3,6 +3,28 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+# class Staff(models.MOdel):
+#   class Role(models.TextChoices):
+#     MANAGER = 'MANAGER' , 'Manager'
+#     EMPLOYEE = 'EMPLOYEE' , 'Employee'
+#     IT_ADMIN = 'IT_ADMIN' , 'IT_admin'
+
+class UserCustomMenu(models.Model):
+  name = models.CharField(max_length=256, null=True, default="User")
+  user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+  # food_item = models.ManyToManyField("app.Model", verbose_name=_(""))
+  _id = models.AutoField(primary_key=True, editable=False)
+  
+  def __str__(self): 
+    return str(self.name)
+  
+# class UserCustomMenuCombo(models.Model):
+#   def __str__(self): 
+#     return str(self.name)
+
+
+
+
   
 class FoodTag(models.Model):
   name = models.CharField(max_length=256, null=True, blank=True)
@@ -34,42 +56,49 @@ class FoodPromotion(models.Model):
   
   def __str__(self):
     return str(self.name)
-  
-class FoodCombo(models.Model):
-  name = models.CharField(max_length=256, null=True, blank=True)
-  _id = models.AutoField(primary_key=True, editable=False)
-  
-  def __str__(self):
-    return str(self.name)
-  
 
 class Food(models.Model):
   name = models.CharField(max_length=256, null=True, blank=True)
   price = models.DecimalField(max_digits=8, decimal_places=0)
-  count_in_stock = models.IntegerField(null=True, blank=False, default=0)
-  food_type = models.ForeignKey(FoodType, on_delete=models.CASCADE, null=True)
   image = models.ImageField(null= True, blank=True)
-  _id = models.AutoField(primary_key=True, editable=False)
-  food_tag = models.ManyToManyField(FoodTag, blank=True)
-  ingredient = models.ManyToManyField(FoodIngredient, blank=True)
-  nutrition_value = models.CharField(max_length=256, null=True, blank=True)
-  number_people_eating = models.IntegerField(null=True, blank=True, default=0)
+  count_in_stock = models.IntegerField(null=True, blank=False, default=0)
+  type = models.ForeignKey(FoodType, on_delete=models.CASCADE, null=True, related_name="type")
+  tag = models.ManyToManyField(FoodTag, blank=True, related_name="tags")
+  ingredient = models.ManyToManyField(FoodIngredient, blank=True, default='')
+  nutrition_value = models.CharField(max_length=256, null=True, blank=True, default='')
+  num_ppl_eat = models.IntegerField(null=True, blank=True, default=1)
   is_hot = models.BooleanField(default=False)
+  _id = models.AutoField(primary_key=True, editable=False)
   
   rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
   num_of_rating = models.IntegerField(null=True, blank=False, default=0)
   
   def __str__(self):
-    return str(self.name)
+    return f"{str(self.name)} at {str(self.price)}"
   
+class FoodReview(models.Model):
+  name = models.CharField(max_length=100, null=False, default="Anonymous")
+  food = models.ForeignKey(Food, on_delete=models.CASCADE)
+  
+  
+class FoodCombo(models.Model):
+  name = models.CharField(max_length=256, null=True, blank=True)
+  food = models.ManyToManyField(Food)
+  _id = models.AutoField(primary_key=True, editable=False)
+  
+  def __str__(self):
+    return str(self.name)
+
+
 class Comment(models.Model):
   commenter_name = models.CharField(max_length=256, null=False, default="Commenter")
   description = models.TextField(null=True, blank=True)
+  # time = models.DateTimeField(default=)
   like_reaction = models.IntegerField(null=True, blank=True, default=0)
   dislike_reaction = models.IntegerField(null=True, blank=True, default=0)
   star_rating = models.DecimalField(max_digits=2, decimal_places=0)
   _id = models.AutoField(primary_key=True, editable=False)
-  reply_comment= models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+  reply_comment= models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
   food_id = models.ForeignKey(Food, on_delete=models.CASCADE, default=-1)
   
   def __str__(self):

@@ -62,9 +62,7 @@ const MenuUtility = ({
                   variant={""}
                   className={
                     "menu-utility--tag px-3 mb-1 w-100 " +
-                    (menuSearchTags.includes(tag.name)
-                      ? "active"
-                      : "inactive")
+                    (menuSearchTags.includes(tag.name) ? "active" : "inactive")
                   }
                   onClick={() => {
                     handleUpdateTags(tag.name);
@@ -161,39 +159,47 @@ const MenuUtility = ({
 
   return (
     <Container className="p-0 mb-4">
-      <Stack direction="horizontal" gap={2}>
-        <InputGroup>
-          <Form.Control
-            type="search"
-            className="me-auto"
-            placeholder="Search..."
-            id="searchKeyWordinput"
-            onChange={(e) => handleUpdateKeyWord(e.target.value)}
-          />
-          <div className="vr" />
-          <Button
-            variant="outline-danger"
-            onClick={() => handleUpdateKeyWord(null)}
-          >
-            Reset
-          </Button>
-        </InputGroup>
-
-        <Button
-          variant="warning"
-          className="btn btn-block"
-          onClick={() => handleMenuView("card")}
-        >
-          <i className="fa-solid fa-table"></i>
-        </Button>
-        <Button
-          variant="warning"
-          className="btn btn-block"
-          onClick={() => handleMenuView("list")}
-        >
-          <i className="fa-solid fa-list"></i>
-        </Button>
-      </Stack>
+      <Row>
+        <Col md={12} lg={5} className="">
+          <InputGroup>
+            <Form.Control
+              type="search"
+              className="me-auto"
+              placeholder="Search..."
+              id="searchKeyWordinput"
+              onChange={(e) => handleUpdateKeyWord(e.target.value)}
+            />
+            <div className="vr" />
+            <Button
+              variant="outline-danger"
+              onClick={() => handleUpdateKeyWord(null)}
+            >
+              Reset
+            </Button>
+          </InputGroup>
+        </Col>
+        <Col xs={9} md={10} lg={5} className="p-0">
+          <button></button>
+        </Col>
+        <Col xs={3} md={2} lg={2} className="">
+          <Stack direction="horizontal" gap={2} className="">
+            <Button
+              variant="warning"
+              className="btn btn-block w-100"
+              onClick={() => handleMenuView("card")}
+            >
+              <i className="fa-solid fa-table"></i>
+            </Button>
+            <Button
+              variant="warning"
+              className="btn btn-block w-100"
+              onClick={() => handleMenuView("list")}
+            >
+              <i className="fa-solid fa-list"></i>
+            </Button>
+          </Stack>
+        </Col>
+      </Row>
       <Row>
         <Col xs={6} sm={6} md={6} lg={8} xl={8}>
           <MenuTag />

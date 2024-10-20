@@ -81,7 +81,7 @@ function Menu() {
 
   return (
     <div className="roboto-slab">
-      <Container fluid>
+      <Container fluid className="p-0">
         {loading ? (
           <Loader />
         ) : error ? (
