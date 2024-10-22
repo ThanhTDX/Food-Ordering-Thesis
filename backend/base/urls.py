@@ -1,9 +1,5 @@
 from django.urls import path
 from . import views
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
 
 urlpatterns = [
     path('', views.getRoutes, name="routes"),
@@ -14,7 +10,5 @@ urlpatterns = [
     path('menu/<str:pk>', views.getFoodDetailById, name="FoodDetailById"),
     path('comment/',views.getAllComment, name="allComment"),
     
-    
-    path('users/profile',views.getUserProfile, name="userProfile"),
-    path('users/login', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
 ]
+

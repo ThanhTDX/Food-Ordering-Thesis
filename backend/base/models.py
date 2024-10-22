@@ -1,17 +1,21 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.utils import timezone
+from users.models import CustomUser
+
+
 
 # Create your models here.
 
-# class Staff(models.MOdel):
-#   class Role(models.TextChoices):
+# class Staff(models.Model):
+#   class UserRole(models.TextChoices):
 #     MANAGER = 'MANAGER' , 'Manager'
 #     EMPLOYEE = 'EMPLOYEE' , 'Employee'
 #     IT_ADMIN = 'IT_ADMIN' , 'IT_admin'
 
+
 class UserCustomMenu(models.Model):
   name = models.CharField(max_length=256, null=True, default="User")
-  user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+  user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False)
   # food_item = models.ManyToManyField("app.Model", verbose_name=_(""))
   _id = models.AutoField(primary_key=True, editable=False)
   
@@ -70,15 +74,26 @@ class Food(models.Model):
   is_hot = models.BooleanField(default=False)
   _id = models.AutoField(primary_key=True, editable=False)
   
+  def update_rating(self):
+    ratings = self.foodrating
+  
   rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
   num_of_rating = models.IntegerField(null=True, blank=False, default=0)
   
   def __str__(self):
-    return f"{str(self.name)} at {str(self.price)}"
+    return str(self.name)
   
 class FoodReview(models.Model):
   name = models.CharField(max_length=100, null=False, default="Anonymous")
+  user = models.ForeignKey(CustomUser, on_delete=models.SET_DEFAULT, default="")
   food = models.ForeignKey(Food, on_delete=models.CASCADE)
+  
+  rating = models.DecimalField(max_digits=2, decimal_places=0, default=0.0)
+  description = models.TextField(default="")
+  time_upload = models.DateTimeField(null=True, blank=True)
+  
+  def __str__(self):
+    return str(self.name)
   
   
 class FoodCombo(models.Model):
