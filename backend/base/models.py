@@ -1,21 +1,16 @@
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from users.models import CustomUser
 
+User = settings.AUTH_USER_MODEL
 
 
 # Create your models here.
 
-# class Staff(models.Model):
-#   class UserRole(models.TextChoices):
-#     MANAGER = 'MANAGER' , 'Manager'
-#     EMPLOYEE = 'EMPLOYEE' , 'Employee'
-#     IT_ADMIN = 'IT_ADMIN' , 'IT_admin'
-
 
 class UserCustomMenu(models.Model):
   name = models.CharField(max_length=256, null=True, default="User")
-  user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False)
+  user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
   # food_item = models.ManyToManyField("app.Model", verbose_name=_(""))
   _id = models.AutoField(primary_key=True, editable=False)
   
@@ -25,9 +20,6 @@ class UserCustomMenu(models.Model):
 # class UserCustomMenuCombo(models.Model):
 #   def __str__(self): 
 #     return str(self.name)
-
-
-
 
   
 class FoodTag(models.Model):
@@ -85,7 +77,7 @@ class Food(models.Model):
   
 class FoodReview(models.Model):
   name = models.CharField(max_length=100, null=False, default="Anonymous")
-  user = models.ForeignKey(CustomUser, on_delete=models.SET_DEFAULT, default="")
+  user = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default="")
   food = models.ForeignKey(Food, on_delete=models.CASCADE)
   
   rating = models.DecimalField(max_digits=2, decimal_places=0, default=0.0)

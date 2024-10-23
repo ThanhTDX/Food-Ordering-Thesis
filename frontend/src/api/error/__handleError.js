@@ -4,7 +4,7 @@ import noResponseError from "./requestError";
 
 const __handleError = (error) => {
   if (error.response) {
-    return defaultError(error.response.data);
+    return defaultError(error.response.data.detail);
   } else if (error.request) {
     return noResponseError(error.request);
   } else {

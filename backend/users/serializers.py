@@ -16,7 +16,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class UserSerializer(serializers.ModelSerializer):
   username = serializers.SerializerMethodField(read_only=True)
   _id = serializers.SerializerMethodField(read_only=True)
-  isAdmin = serializers.SerializerMethodField(read_only=True)
+  isSuperuser = serializers.SerializerMethodField(read_only=True)
   
   def get__id(self,obj):
     return obj.id
@@ -24,15 +24,15 @@ class UserSerializer(serializers.ModelSerializer):
   def get_username(self, obj):
     username = obj.username
     if username == '':
-      username = obj.phoner_number
+      username = obj.phone_number
     return username
   
-  def get_isAdmin(self,obj):
-    return obj.is_staff
+  def get_isSuperuser(self,obj):
+    return obj.is_superuser
   
   class Meta:
     model = CustomUser
-    fields = ['_id', 'phone_number', 'username', 'isAdmin']
+    fields = ['_id', 'phone_number', 'username', 'isSuperuser']
 
 class UserSerializerWithToken(UserSerializer):
   token = serializers.SerializerMethodField(read_only=True)
@@ -43,4 +43,4 @@ class UserSerializerWithToken(UserSerializer):
   
   class Meta:
     model = CustomUser
-    fields = ['_id', 'username', 'phone_number', 'isAdmin', 'token']
+    fields = ['_id', 'username', 'phone_number', 'isSuperuser', 'token'] 

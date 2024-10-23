@@ -9,19 +9,20 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
     add_form = CustomUserCreationForm
     change_form = CustomUserChangeForm
+    
     list_display = ('phone_number', 'username', 'role', 'last_login', 'is_staff', 'is_active')
-    list_filter = ('username', 'role')
+    list_filter = ('is_staff', 'role')
     ordering = ('phone_number',)
 
     fieldsets = (
         (None, {"fields": ("phone_number", "username", "password")}),
-        ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
+        ("Permissions", {"fields": ("is_staff", "is_active", "role", "groups", "user_permissions")}),
     )
     add_fieldsets = (
         (None, {
             "classes": ("wide",),
             "fields": (
-                "phone_number", "username", "password1", "password2"
+                "phone_number", "password1", "password2"
             )}
         ),
     )

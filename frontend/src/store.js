@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./slices/cartSlice";
 import customMenuReducer from "./slices/customMenuSlice";
 import menuReducer from "./slices/menuSlice";
+import userReducer from "./slices/userSlice";
 import resevationReducer from "./slices/reservationSlice";
 
 const store = configureStore(
@@ -11,7 +12,7 @@ const store = configureStore(
       cart: cartReducer,
       customMenu: customMenuReducer,
       menu: menuReducer,
-      reservation: resevationReducer,
+      user: userReducer,
     },
   }
 );

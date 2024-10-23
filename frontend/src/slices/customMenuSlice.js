@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const customMenuItemsFromStorage = localStorage.getItem("customMenuItems")
-  ? JSON.parse(localStorage.getItem("customMenuItems"))
+const customMenuItemsFromStorage = localStorage.getItem("customMenu")
+  ? JSON.parse(localStorage.getItem("customMenu"))
   : [];
 
 const initialPrice =
@@ -43,7 +43,7 @@ export const customMenuSlice = createSlice({
         state.menuItems.push(menuItem);
       }
       state.price += Number(menuItem.price)
-      localStorage.setItem("customMenuItems", JSON.stringify(state.menuItems));
+      localStorage.setItem("customMenu", JSON.stringify(state.menuItems));
     },
 
     updateMenuItem: (state, action) => {
@@ -54,7 +54,7 @@ export const customMenuSlice = createSlice({
         (item) => (item.qty = item._id === menuItem._id ? qty : item.qty)
       );
       state.price += Number(menuItem.price)*Number(menuItem.qty);
-      localStorage.setItem("customMenuItems", JSON.stringify(state.menuItems));
+      localStorage.setItem("customMenu", JSON.stringify(state.menuItems));
     },
     removeMenuItem: (state, action) => {
       // action.payload = menuItem
