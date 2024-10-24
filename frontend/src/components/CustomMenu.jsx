@@ -28,7 +28,8 @@ import formatVND from "../utils/formatVND";
 const CustomMenu = ({ setToasts }) => {
   const dispatch = useDispatch();
   const customMenu = useSelector(customMenuSelector);
-  const { menuItems, price } = customMenu;
+  const { menu, price } = customMenu;
+  const { menuItems, menuCombo} = menu
 
   const handleIncrement = (item) => {
     dispatch(updateMenuItem({ menuItem: item, qty: item.qty + 1 }));

@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
+const userFromStorage = localStorage.getItem("user")
+  ? JSON.parse(localStorage.getItem("user"))
+  : [];
+
 export const userLogin = createAsyncThunk(
   "api/users/login",
   async(phone_number, thunkAPI) => {
@@ -15,9 +19,7 @@ export const userLogin = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user_info: {
-      user_name: "",
-    },
+    user: userFromStorage,
     token: "",
     error: null,
     loading: true,

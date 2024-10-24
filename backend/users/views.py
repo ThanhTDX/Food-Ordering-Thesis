@@ -19,9 +19,6 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 User = get_user_model()
 
-class MyTokenObtainPairView(TokenObtainPairView):
-  serializer_class = MyTokenObtainPairSerializer
-  
 # /users
 @api_view(['GET'])
 def getRoutes(request):
@@ -35,7 +32,15 @@ def getRoutes(request):
   ]
   return Response(routes)
 
-# /users/profile
+# api/users/
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def getAllUsers(request):
+  user = User.objects.all()
+  serializer = UserSerializer(user, many=True)
+  return Response(serializer.data)
+
+# api/users/profile
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getUserProfile(request):
@@ -43,14 +48,21 @@ def getUserProfile(request):
   serializer = UserSerializer(user, many=False)
   return Response(serializer.data)
 
-@api_view(['GET'])
-@permission_classes([IsAdminUser])
-def getUsers(request):
-  user = User.objects.all()
-  serializer = UserSerializer(user, many=True)
-  return Response(serializer.data)
+# api/users/login
+# {
+#   'phone_number': 
+#   'password':
+# }
+#
+class MyTokenObtainPairView(TokenObtainPairView):
+  serializer_class = MyTokenObtainPairSerializer
 
 # /users/register
+# {
+#   'phone_number': 
+#   'password':
+# }
+#
 @api_view(['POST'])
 def registerCustomerUser(request):
   data = request.data

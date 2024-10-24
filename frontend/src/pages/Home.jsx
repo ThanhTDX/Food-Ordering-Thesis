@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Menu from "../pages/Menu";
+import MenuPage from "../pages/MenuPage";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,9 +16,12 @@ function Home() {
   //   dispatch(menuList());
   // }, []);
 
-  return (
-    loading ? <Loader /> : error ? <Message variant="danger">{error}</Message>  : 
-    <Menu/>
+  return loading ? (
+    <Loader />
+  ) : error ? (
+    <Message variant="danger">{error}</Message>
+  ) : (
+    <MenuPage />
   );
 }
 

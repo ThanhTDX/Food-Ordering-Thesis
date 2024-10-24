@@ -1,12 +1,12 @@
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Navigate } from 'react-router-dom'
 
 const PrivateRoute = ({children, ...rest}) => {
   const authenticated = false;
-  return(
+  return (
     <Route {...rest}>
-      {!authenticated ? <Redirect to="login" /> : children}
+      {!authenticated ? <Navigate to="login" /> : children}
     </Route>
-  )
+  );
 }
 
 export default PrivateRoute;

@@ -15,7 +15,7 @@ import { Row, Col, Stack, Container, Button } from "react-bootstrap";
 
 import { menuSelector, fetchAllFood } from "../slices/menuSlice";
 
-import "./Menu.css";
+import "./MenuPage.css";
 
 function Menu() {
   const navigate = useNavigate();

@@ -18,11 +18,14 @@ const initialPrice =
 export const customMenuSlice = createSlice({
   name: "customMenu",
   initialState: {
-    menuItems: customMenuItemsFromStorage,
-    menuCombo: [],
+    menu: {
+      menuItems: customMenuItemsFromStorage,
+      menuCombo: [],
+    },
+    price: initialPrice,
     numOfPeople: 0,
     nutritionValue: [],
-    price: initialPrice,
+    evaluation: [],
     loading: false,
     error: "",
   },
@@ -30,40 +33,40 @@ export const customMenuSlice = createSlice({
     addMenuItem: (state, action) => {
       // action.payload = menuItem
       let menuItem = action.payload;
-      const itemExist = state.menuItems.find(
+      const itemExist = state.menu.menuItems.find(
         (item) => item._id === menuItem._id
       );
       if (itemExist) {
-        state.menuItems.map(
+        state.menu.menuItems.map(
           (item) =>
             (item.qty = item._id === itemExist._id ? item.qty + 1 : item.qty)
         );
       } else {
         menuItem = { ...menuItem, qty: 1 };
-        state.menuItems.push(menuItem);
+        state.menu.menuItems.push(menuItem);
       }
       state.price += Number(menuItem.price)
-      localStorage.setItem("customMenu", JSON.stringify(state.menuItems));
+      localStorage.setItem("customMenu", JSON.stringify(state.menu.menuItems));
     },
 
     updateMenuItem: (state, action) => {
       // action.payload = {menuItem, qty}
       const { menuItem, qty } = action.payload;
       if (qty < 0) return;
-      state.menuItems.map(
+      state.menu.menuItems.map(
         (item) => (item.qty = item._id === menuItem._id ? qty : item.qty)
       );
       state.price += Number(menuItem.price)*Number(menuItem.qty);
-      localStorage.setItem("customMenu", JSON.stringify(state.menuItems));
+      localStorage.setItem("customMenu", JSON.stringify(state.menu.menuItems));
     },
     removeMenuItem: (state, action) => {
       // action.payload = menuItem
       const menuItem = action.payload;
-      state.menuItems = state.menuItems.filter(
+      state.menu.menuItems = state.menu.menuItems.filter(
         (item) => item._id !== menuItem._id
       );
       state.price -= Number(menuItem.price) * Number(menuItem.qty);
-      localStorage.setItem("customMenuItems", JSON.stringify(state.menuItems));
+      localStorage.setItem("customMenuItems", JSON.stringify(state.menu.menuItems));
     },
     addCombo: (state, action) => {
       // action.payload = menuItem
