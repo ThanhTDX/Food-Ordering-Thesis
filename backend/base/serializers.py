@@ -1,10 +1,5 @@
 from rest_framework import serializers
-from .models import *
-
-class FoodSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = Food 
-    fields = '__all__'
+from base.models import *
 
 class FoodIngredientSerializer(serializers.ModelSerializer):
   class Meta: 
@@ -21,8 +16,28 @@ class FoodTypeSerializer(serializers.ModelSerializer):
     model = FoodType
     fields = '__all__'
     
-class CommentSerializer(serializers.ModelSerializer):
+class FoodCommentSerializer(serializers.ModelSerializer):
   class Meta: 
-    model = Comment
+    model = FoodComment
+    fields = '__all__' 
+    
+class FoodSerializer(serializers.ModelSerializer):
+  tag = FoodTagSerializer(many=True, read_only=True)
+  type = FoodTypeSerializer(read_only=True)
+  
+  class Meta:
+    model = Food 
     fields = '__all__'
     
+class FoodComboItemSerializer(serializers.ModelSerializer):
+  food = FoodSerializer(many=False, read_only=True)
+  class Meta:
+    model = FoodComboItem
+    fields = '__all__'
+    
+class FoodComboSerializer(serializers.ModelSerializer):
+  food = FoodComboItemSerializer(many=True, read_only=True)
+  
+  class Meta:
+    model = FoodCombo
+    fields = '__all__'

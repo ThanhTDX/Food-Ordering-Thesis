@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm , UserChangeForm
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ('phone_number',) 
+        fields = ('phone_number', 'is_superuser') 
     
 class CustomUserChangeForm(UserChangeForm):
     class Meta:

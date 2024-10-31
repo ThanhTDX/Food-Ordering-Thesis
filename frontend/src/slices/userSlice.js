@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import { userLogin as apiLogin} from "../api/userApi";
 
 const userFromStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
@@ -7,21 +7,22 @@ const userFromStorage = localStorage.getItem("user")
 
 export const userLogin = createAsyncThunk(
   "api/users/login",
-  async(phone_number, thunkAPI) => {
+  async ({ phoneNumber, password }, thunkAPI) => {
     try {
-      
-    } catch (error){
+      const data = apiLogin(phoneNumber, password);
+      return data;
+    } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
-    };
+    }
   }
-)
+);
 
 const userSlice = createSlice({
   name: "user",
   initialState: {
     user: userFromStorage,
     token: "",
-    error: null,
+    error: "",
     loading: true,
   },
   reducers: {
@@ -33,9 +34,9 @@ const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(userLogin.fulfilled, (state, action) => {
-        // action.payload = 
+        // action.payload =
         state.loading = false;
-        state.user_info = action.payload;
+        state.user = action.payload;
         state.error = null;
 
         localStorage.setItem("user", JSON.stringify(state.user));
@@ -43,7 +44,7 @@ const userSlice = createSlice({
       .addCase(userLogin.rejected, (state, action) => {
         // action.payload = error
         state.loading = false;
-        state.error = action.payload
+        state.error = action.payload;
       });
   },
 });

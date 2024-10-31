@@ -1,16 +1,29 @@
 import React, { useRef, useState } from "react";
 import { Form, Stack, Button } from "react-bootstrap";
 import "./LoginForm.css";
+import { useDispatch } from "react-redux";
+
+import { userRegister as register } from "../../api/userApi";
 
 function RegisterForm({ setForm }) {
+  const dispatch = useDispatch();
   const formRef = useRef();
+  const [samePasswordError, setSamePasswordError] = useState(true)
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
-    console.log("formRef.current", formData);
     const values = Object.fromEntries(formData.entries());
-    console.log("Form Values:", values);
+    if (values["form-pass1"] !== values["form-pass2"]) return;
+    else {
+      const data = {
+        phoneNumber: values["form-tel"],
+        password: values["form-pass"],
+      };
+      dispatch(register(data));
+    }
   };
+
+  const checkSamePassword = () => {}
   return (
     <Form onSubmit={handleSubmit} ref={formRef}>
       <Stack gap={3} direction="vertical">

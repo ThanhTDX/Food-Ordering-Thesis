@@ -6,14 +6,14 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):      
-    def validate(self, attrs):
-        data = super().validate(attrs)
-        serializer = UserSerializerWithToken(self.user).data
-        for k, v in serializer.items() :
-          data[k] = v
-        return data
+  def validate(self, attrs):
+      data = super().validate(attrs)
+      serializer = UserSerializerWithToken(self.user).data
+      for k, v in serializer.items() :
+        data[k] = v
+      return data
 
-class UserSerializer(serializers.ModelSerializer):
+class CustomUserSerializer(serializers.ModelSerializer):
   username = serializers.SerializerMethodField(read_only=True)
   _id = serializers.SerializerMethodField(read_only=True)
   isSuperuser = serializers.SerializerMethodField(read_only=True)
@@ -34,7 +34,7 @@ class UserSerializer(serializers.ModelSerializer):
     model = CustomUser
     fields = ['_id', 'phone_number', 'username', 'isSuperuser']
 
-class UserSerializerWithToken(UserSerializer):
+class UserSerializerWithToken(CustomUserSerializer):
   token = serializers.SerializerMethodField(read_only=True)
   
   def get_token(self, obj): 
@@ -43,4 +43,4 @@ class UserSerializerWithToken(UserSerializer):
   
   class Meta:
     model = CustomUser
-    fields = ['_id', 'username', 'phone_number', 'isSuperuser', 'token'] 
+    fields = ['_id', 'username', 'phone_number', 'isSuperuser', 'token']

@@ -48,8 +48,12 @@ INSTALLED_APPS = [
     'django_extensions',
     
     # Self
-    'base',
-    'users'
+    'base.apps.BaseConfig',
+    'users',
+    'restaurant',
+    'user_profile',
+    'reservation',
+    'ordering',
 ]
 
 MIDDLEWARE = [
@@ -147,8 +151,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-MEDIA_URL = '/images/'
-MEDIA_ROOT = 'static/images'
+MEDIA_URL = '/user_content/'
+MEDIA_ROOT = os.path.join(BASE_DIR)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

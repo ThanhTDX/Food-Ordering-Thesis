@@ -1,16 +1,23 @@
 import React, { useRef, useState } from "react";
 import { Form, Stack, Button } from "react-bootstrap";
 import "./LoginForm.css";
+import { useDispatch } from "react-redux";
+
+import { userLogin as login } from "../../slices/userSlice";
 
 function LoginForm({ setForm }) {
+  const dispatch = useDispatch()
   const [rememberMe, setRememberMe] = useState(false);
   const formRef = useRef();
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
-    console.log("formRef.current", formData);
     const values = Object.fromEntries(formData.entries());
-    console.log("Form Values:", values);
+    const data = {
+      phoneNumber: values['form-tel'],
+      password: values['form-pass']
+    }
+    dispatch(login(data))
   };
 
   return (

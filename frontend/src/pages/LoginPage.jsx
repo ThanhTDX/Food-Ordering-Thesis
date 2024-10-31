@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
@@ -11,7 +11,17 @@ import ChangePasswordForm from "../components/login/ChangePasswordForm";
 import LoginStaffForm from "../components/login/LoginStaffForm";
 
 function LoginPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [form, setForm] = useState("login");
+  const userLogin = useSelector(userSelector);
+  const { error, loading, user } = userLogin;
+
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/users/profile");
+  //   }
+  // }, [user, navigate]);
 
   return (
     <Container

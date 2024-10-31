@@ -2,7 +2,7 @@ import axios from "axios";
 import __handleError from "./error/__handleError";
 
 // POST /api/users/login
-export const userLogin = async (phone_num, password) => {
+export const userLogin = async (phone_number, password) => {
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -10,9 +10,9 @@ export const userLogin = async (phone_num, password) => {
   };
   try {
     const response = await axios.post(
-      `/api/users/login`,
+      `/api/users/login/`,
       {
-        phone_number: phone_num,
+        phone_number: phone_number,
         password: password,
       },
       config
@@ -25,7 +25,7 @@ export const userLogin = async (phone_num, password) => {
 };
 
 // POST /api/users/register
-export const userRegister = async (phone_num, password) => {
+export const userRegister = async (phone_number, password) => {
   const config = {
     headers: {
       "Content-type": "application/json",
@@ -33,9 +33,9 @@ export const userRegister = async (phone_num, password) => {
   };
   try {
     const response = await axios.post(
-      `/api/users/register`,
+      `/api/users/register/`,
       {
-        phone_number: phone_num,
+        phone_number: phone_number,
         password: password,
       },
       config

@@ -10,7 +10,7 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     change_form = CustomUserChangeForm
     
-    list_display = ('phone_number', 'username', 'role', 'last_login', 'is_staff', 'is_active')
+    list_display = ('phone_number', 'username', 'role', 'last_login', 'is_staff', 'is_superuser')
     list_filter = ('is_staff', 'role')
     ordering = ('phone_number',)
 
@@ -22,7 +22,7 @@ class CustomUserAdmin(UserAdmin):
         (None, {
             "classes": ("wide",),
             "fields": (
-                "phone_number", "password1", "password2"
+                "phone_number", "password1", "password2", "is_superuser"
             )}
         ),
     )
