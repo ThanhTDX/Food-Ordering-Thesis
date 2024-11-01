@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import ReservationForm from "../components/reservation/ReservationForm";
 
+import reservationImage from "./img/2f67bc30f37cf8cc1c49e8d51fba0e435555d844-1800x1000.jpg"
+
 import { Container, Row, Col, Image } from "react-bootstrap";
 
 const Reservation = () => {
@@ -18,9 +20,8 @@ const Reservation = () => {
           {rightView === "picture" && (
             <Container className="p-0">
               <Image
-                src="https://cdn.sanity.io/images/fr9flhkd/main/2f67bc30f37cf8cc1c49e8d51fba0e435555d844-1800x1000.jpg?fm=webp&q=75&w=1280" // Replace with your image URL
+                src={reservationImage}
                 alt="Table Image"
-                
                 rounded // Optional: adds rounded corners
                 fluid // Optional: makes the image responsive
               />

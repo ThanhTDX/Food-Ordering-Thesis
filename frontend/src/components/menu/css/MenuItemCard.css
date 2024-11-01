@@ -58,25 +58,33 @@
 }
 
 .menu-item--card--tag.inactive {
-  border: 1px rgb(231, 234, 51) solid;
+  border: 1px rgb(175, 177, 36) solid;
   background-color: rgb(253, 255, 158);
 }
 
 .menu-item--card--tag.inactive:hover {
   border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(254, 255, 208);
+}
+
+.menu-item--card--tag.inactive:active {
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(254, 255, 208);
 }
 
 .menu-item--card--tag.active {
-  border: 1px rgb(226, 230, 47) solid;
-  background-color: rgb(232, 234, 100);
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(245, 247, 108);
 }
 
 .menu-item--card--tag.active:hover {
-  background-color: rgb(246, 249, 91);
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(241, 243, 121);
 }
 
 .menu-item--card--tag.active:active {
-  background-color: rgb(246, 249, 91);
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(254, 255, 195);
 }
 
 .menu-item--card--type {
@@ -89,27 +97,32 @@
 
 .menu-item--card--type.inactive {
   border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(225, 250, 148);
 }
 
 .menu-item--card--type.inactive:hover {
-  border: 1px rgb(206, 209, 15) solid;
+  border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(221, 237, 175);
 }
 
 .menu-item--card--type.inactive:active {
-  border: 1px rgb(206, 209, 15) solid;
+  border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(233, 243, 202);
 }
 
 .menu-item--card--type.active {
-  border: 1px rgb(163, 234, 100) solid;
+  border: 1px rgb(139, 211, 75) solid;
   background-color: rgb(163, 234, 100);
 }
 
 .menu-item--card--type.active:hover {
+  border: 1px rgb(139, 211, 75) solid;
   background-color: rgb(176, 237, 122);
 }
 
-.menu-item--card--type.active:hover {
-  background-color: rgb(176, 237, 122);
+.menu-item--card--type.active:active {
+  border: 1px rgb(139, 211, 75) solid;
+  background-color: rgb(198, 246, 156);
 }
 
 .menu-item--add-to-cart {

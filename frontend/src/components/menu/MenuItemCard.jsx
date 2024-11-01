@@ -1,10 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBookOpen,
-  faCartShopping,
-} from "@fortawesome/free-solid-svg-icons";
-
+import { faBookOpen, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 import { Card, Stack, Button, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -22,9 +18,6 @@ function MenuItemCard({
   menuSearchType,
   handleAddType,
 }) {
-
-  
-
   return (
     <Card className="menu-item--card mb-4">
       <Card.Header>
@@ -68,59 +61,61 @@ function MenuItemCard({
           <div className="d-flex justify-content-between align-items-center">
             <Stack gap={2} direction="vertical">
               <Stack gap={2} direction="horizontal">
-                {item.food_tag
-                  .slice(0, item.food_tag.length > 3 ? 3 : item.food_tag.length)
+                {item.tag
+                  .slice(0, item.tag.length > 3 ? 3 : item.tag.length)
                   .map((tag) => {
                     return (
                       <Button
                         variant={""}
                         className={
                           "p-1 py-0 menu-item--card--tag " +
-                          (menuSearchTags.includes(tag) ? "active" : "inactive")
+                          (menuSearchTags.includes(tag.name)
+                            ? "active"
+                            : "inactive")
                         }
-                        onClick={() => handleAddTag(tag)}
+                        onClick={() => handleAddTag(tag.name)}
+                        key={tag._id}
                       >
-                        <span>{tag}</span>
+                        <span>{tag.name}</span>
                       </Button>
                     );
                   })}
               </Stack>
-              {item.food_tag.length >= 3 && (
+              {/* {item.tag.length >= 3 && (
                 <Stack gap={2} direction="horizontal">
-                  {item.food_tag
-                    .slice(
-                      3,
-                      item.food_tag.length > 6 ? 6 : item.food_tag.length
-                    )
+                  {item.tag
+                    .slice(3, item.tag.length > 6 ? 6 : item.tag.length)
                     .map((tag) => {
                       return (
                         <Button
                           variant={
-                            menuSearchTags.includes(tag)
+                            menuSearchTags.includes(tag.name)
                               ? "danger"
                               : "secondary"
                           }
                           className="menu-item--card--tag p-1 py-0 "
-                          onClick={() => handleAddTag(tag)}
+                          onClick={() => handleAddTag(tag.name)}
+                          key={tag._id}
                         >
-                          <span>{tag}</span>
+                          <span>{tag.name}</span>
                         </Button>
                       );
                     })}
                 </Stack>
-              )}
+              )} */}
             </Stack>
-            <StarRating item={item} size={"md"}/>
+            <StarRating item={item} size={"md"} />
           </div>
           <div className="d-flex justify-content-between align-items-center mt-1">
             <Button
-              variant={
-                ""
+              variant={""}
+              className={
+                "menu-item--card--type w-100 me-3 " +
+                (menuSearchType === item.type.name ? "active" : "inactive")
               }
-              className={"menu-item--card--type w-100 me-3 " + (menuSearchType === item.food_type ? "active" : "inactive")}
-              onClick={() => handleAddType(item.food_type)}
+              onClick={() => handleAddType(item.type.name)}
             >
-              <span>{item.food_type}</span>
+              <span>{item.type.name}</span>
             </Button>
             <Stack gap={2} direction="horizontal" className="">
               <Button

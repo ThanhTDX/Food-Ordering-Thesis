@@ -1,3 +1,4 @@
+import { current } from "@reduxjs/toolkit";
 import React from "react";
 
 import { Pagination } from "react-bootstrap";
@@ -23,11 +24,21 @@ function Pageing({ filteredMenu, itemPerPage, currentPage, setCurrentPage }) {
   return (
     <div className="d-flex justify-content-center">
       <Pagination>
-        <Pagination.First />
-        <Pagination.Prev />
+        <Pagination.First
+          onClick={() => setCurrentPage(firstPage)}
+        />
+        <Pagination.Prev
+          onClick={() => setCurrentPage(currentPage - 1)}
+          hidden={currentPage === 1}
+        />
         {pageNumbers}
-        <Pagination.Next />
-        <Pagination.Last />
+        <Pagination.Next
+          onClick={() => setCurrentPage(currentPage + 1)}
+          hidden={currentPage === lastPage}
+        />
+        <Pagination.Last
+          onClick={() => setCurrentPage(lastPage)}
+        />
       </Pagination>
     </div>
   );

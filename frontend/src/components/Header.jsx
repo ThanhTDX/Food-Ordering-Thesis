@@ -14,7 +14,7 @@ function Header() {
       >
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>Traditional Restaurant</Navbar.Brand>
+            <Navbar.Brand>Thành Deli's</Navbar.Brand>
           </LinkContainer>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -12,7 +12,11 @@ import {
   InputGroup,
   Card,
 } from "react-bootstrap";
-import { fetchAllFoodTags, fetchAllFoodType } from "../../api/menuApi";
+import {
+  fetchAllFoodTags,
+  fetchAllFoodType,
+  fetchAllComboType,
+} from "../../api/menuApi";
 
 import "./css/MenuUtility.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,10 +28,10 @@ const MenuTag = ({ foodTag, menuSearchTags, handleUpdateTags }) => {
       <Card.Title>
         <h3>Tags</h3>
       </Card.Title>
-      <Card.Body>
+      <Card.Body className="py-0">
         {foodTag && (
           <Row>
-            {foodTag.map((tag) => (
+            {foodTag.slice(0, 6).map((tag) => (
               <Col key={tag._id} sm={6} md={4}>
                 <Button
                   variant={""}
@@ -57,7 +61,7 @@ const MenuType = ({ foodType, menuSearchType, handleUpdateType }) => {
         {" "}
         <h3>Type</h3>
       </Card.Title>
-      <Card.Body>
+      <Card.Body className="py-0">
         {foodType && foodType.length < 5 && (
           <Row>
             {foodType.map((type) => {
@@ -81,24 +85,47 @@ const MenuType = ({ foodType, menuSearchType, handleUpdateType }) => {
         )}
         {foodType && foodType.length > 5 && (
           <>
-            <Stack direction="horizontal" gap={2}>
-              {foodType.slice(0, 3).map((type) => {
-                return (
-                  <Col key={type._id}>
-                    <Button
-                      variant={""}
-                      className={
-                        "btn btn-block px-3 w-100 menu-utility--type " +
-                        (menuSearchType === type.name ? "active" : "inactive")
-                      }
-                      key={type._id}
-                      onClick={() => handleUpdateType(type.name)}
-                    >
-                      {type.name}
-                    </Button>
-                  </Col>
-                );
-              })}
+            <Stack direction="vertical" gap={1}>
+              <Row>
+                {foodType.slice(0, 4).map((type) => {
+                  return (
+                    <Col key={type._id}>
+                      <Button
+                        variant={""}
+                        className={
+                          "btn btn-block px-3 w-100 menu-utility--type " +
+                          (menuSearchType === type.name ? "active" : "inactive")
+                        }
+                        key={type._id}
+                        onClick={() => handleUpdateType(type.name)}
+                      >
+                        {type.name}
+                      </Button>
+                    </Col>
+                  );
+                })}
+              </Row>
+
+              <Row>
+                {foodType.slice(4, 8).map((type) => {
+                  return (
+                    <Col key={type._id}>
+                      <Button
+                        variant={""}
+                        className={
+                          "btn btn-block px-3 w-100 menu-utility--type " +
+                          (menuSearchType === type.name ? "active" : "inactive")
+                        }
+                        key={type._id}
+                        onClick={() => handleUpdateType(type.name)}
+                      >
+                        {type.name}
+                      </Button>
+                    </Col>
+                  );
+                })}
+              </Row>
+
               {/* <Button
                 onClick={() => setfoodTypeCollapse(!foodTypeCollapse)}
                 className=""
@@ -130,13 +157,33 @@ const MenuType = ({ foodType, menuSearchType, handleUpdateType }) => {
   );
 };
 
-const MenuCombo = () => {
+const MenuCombo = ({ comboType, menuSearchType, handleUpdateType }) => {
   return (
     <Card>
       <Card.Title>
         <h3>Combos</h3>
       </Card.Title>
-      <Card.Body>For</Card.Body>
+      <Card.Body className="ps-0 py-0">
+        {comboType && (
+          <Stack gap={1} direction="vertical">
+            {comboType.map((type) => (
+              <Button
+                variant={""}
+                className={
+                  "menu-utility--combo--type px-3 mb-1 w-100 " +
+                  (menuSearchType === type.name ? "active" : "inactive")
+                }
+                onClick={() => {
+                  handleUpdateType(type.name);
+                }}
+                key={type._id}
+              >
+                {type.name}
+              </Button>
+            ))}
+          </Stack>
+        )}
+      </Card.Body>
     </Card>
   );
 };
@@ -151,20 +198,22 @@ const MenuUtility = ({
 }) => {
   const [foodTypeCollapse, setfoodTypeCollapse] = useState(false);
   const [foodTag, setFoodTag] = useState([]);
-  const [foodType, setFoodType] = useState("");
-  const [combo, setCombo] = useState("");
+  const [foodType, setFoodType] = useState([]);
+  const [comboType, setComboType] = useState([]);
 
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const [result1, result2] = await Promise.all([
+        const [result1, result2, result3] = await Promise.all([
           fetchAllFoodTags(),
           fetchAllFoodType(),
+          fetchAllComboType(),
         ]);
         setFoodTag(result1);
         setFoodType(result2);
+        setComboType(result3);
       } catch (error) {
         if (error.response) setError(error.response.data);
         else setError(`Error: ${error.message}`);
@@ -229,7 +278,11 @@ const MenuUtility = ({
           />
         </Col>
         <Col xs={6} sm={6} md={6} lg={4} xl={4}>
-          <MenuCombo />
+          <MenuCombo
+            comboType={comboType}
+            menuSearchType={menuSearchType}
+            handleUpdateType={handleUpdateType}
+          />
         </Col>
       </Row>
     </Container>

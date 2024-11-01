@@ -20,7 +20,6 @@ class OrderingCombo_FK(models.Model):
   qty = models.SmallIntegerField()
   
   
-  
 class Ordering(models.Model):
   name = models.CharField(max_length=256, null=True, blank=True)
   phone_number = models.CharField(

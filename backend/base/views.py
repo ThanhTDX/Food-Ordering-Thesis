@@ -15,7 +15,7 @@ def getRoutes(request):
     '/api/menu/',
     '/api/menu/food/all/',
     '/api/menu/food/<id>/',
-    '/api/menu/combo/',
+    '/api/menu/combo/all',
     '/api/menu/combo/<id>/',
     '/api/menu/create/',
     '/api/menu/upload/',
@@ -54,6 +54,13 @@ def getAllFoodCombo(request):
 def getFoodComboDetailById(request, pk):
   data = FoodCombo.objects.get(_id=pk)
   serializer = FoodComboSerializer(data, many=False)
+  return Response(serializer.data)
+
+# /api/menu/combo/type/
+@api_view(['GET'])
+def getAllComboType(request):
+  data = ComboType.objects.all()
+  serializer = ComnboTypeSerializer(data, many=True)
   return Response(serializer.data)
 
 # /api/menu/ingredient/

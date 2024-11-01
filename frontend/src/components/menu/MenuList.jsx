@@ -18,7 +18,7 @@ function MenuList({
   handleUpdateTags,
   menuSearchType,
   handleUpdateType,
-  setToasts,
+  handleNewToasts,
 }) {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,26 +33,17 @@ function MenuList({
 
   const handleAddItemToCart = (item) => {
     console.log(item);
-    // TODO : create cartSlice a  nd add this
+    // TODO : create cartSlice and add this
   };
 
   const handleAddItemToMenu = (item) => {
     dispatch(addMenuItem(item));
     const ADD = "ADD";
-    const newToast = {
-      id: nanoid(),
+    const message = {
       data: item,
       type: ADD,
-      show: true,
     };
-    setToasts((prevToasts) => [...prevToasts, newToast]);
-    setTimeout(() => {
-      setToasts((prevToasts) =>
-        prevToasts.map((toast) =>
-          toast.id === item.id ? { ...toast, show: false } : toast
-        )
-      );
-    }, 3000); // Adjust the duration as needed
+    handleNewToasts(message);
   };
 
   const handleAddTag = (tag) => {

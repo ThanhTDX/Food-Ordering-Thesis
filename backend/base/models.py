@@ -51,7 +51,7 @@ class FoodPromotion(models.Model):
 class Food(models.Model):
   name = models.CharField(max_length=256,null=True,blank=True)
   price = models.DecimalField(max_digits=8,decimal_places=0,default=0)
-  image = models.ImageField(upload_to='static/images',null= True, blank=True)
+  image = models.ImageField(upload_to='static/images',null=True,blank=True)
   count_in_stock = models.IntegerField(default=10)
   type = models.ForeignKey("base.FoodType", on_delete=models.CASCADE, null=True, related_name="type")
   tag = models.ManyToManyField("base.FoodTag", related_name="tags")
@@ -99,10 +99,11 @@ class ComboType(models.Model):
 
 class FoodCombo(models.Model):
   name = models.CharField(max_length=256, null=True, blank=True)
-  food = models.ManyToManyField("base.Food", through="FoodComboItem")
+  foods = models.ManyToManyField("base.Food", through="FoodComboItem")
   type = models.ForeignKey("base.ComboType", on_delete=models.CASCADE, null=True)
   price = models.DecimalField(max_digits=8, decimal_places=0, default=0)
   num_ppl_eat = models.IntegerField(default=1)
+  image = models.ImageField(upload_to='static/images',null=True,blank=True)
   
   count_in_stock = models.IntegerField(default=1, editable=False)
   _id = models.AutoField(primary_key=True, editable=False)

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { nanoid } from "@reduxjs/toolkit";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,8 +12,10 @@ import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import StarRating from "../components/StarRating";
-import CustomMenu from "../components/CustomMenu";
+import CustomMenu from "../components/customMenu/CustomMenu";
 import MenuToasts from "../components/Toasts";
+
+import { addMenuItem } from "../slices/customMenuSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -40,12 +43,46 @@ function MenuDetails() {
 
   const menu = useSelector(menuSelector);
   // There's only one item in this
-  const { error, loading, menuItems } = menu;
-  const item = menuItems[0];
+  const { error, loading } = menu;
+  const item = menu.menu.menuItems[0];
 
   useEffect(() => {
     dispatch(fetchFoodById(id));
-  }, [dispatch]);
+  }, [dispatch, id]);
+
+  const handleAddItemToCart = (item) => {
+    console.log(item);
+    // TODO : create cartSlice and add this
+  };
+
+  const handleAddItemToMenu = (item) => {
+    dispatch(addMenuItem(item));
+    const ADD = "ADD";
+    const message = {
+      data: item,
+      type: ADD,
+    };
+    handleNewToasts(message);
+  };
+
+  const handleNewToasts = (data) => {
+    // Create new toasts with show value
+    const newToast = {
+      id: nanoid(),
+      data: data,
+      show: true,
+    };
+    setToasts((prevToasts) => [...prevToasts, newToast]);
+
+    // Set timeout for 3000ms
+    setTimeout(() => {
+      setToasts((prevToasts) =>
+        prevToasts.map((toast) =>
+          toast.id === newToast.id ? { ...toast, show: false } : toast
+        )
+      );
+    }, 3000);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -86,11 +123,11 @@ function MenuDetails() {
                     <Col md={12} lg={8}>
                       <Stack gap={2} direction="vertical">
                         <Row>
-                          {item.food_tag.map((tag) => {
+                          {item.tag.map((tag) => {
                             return (
-                              <Col md={6} lg={4} className="my-1">
+                              <Col md={6} lg={4} className="my-1" key={tag._id}>
                                 <Button variant="light" className="w-100">
-                                  <span>{tag}</span>
+                                  <span>{tag.name}</span>
                                 </Button>
                               </Col>
                             );
@@ -103,11 +140,19 @@ function MenuDetails() {
                     </Col>
                     <Col md={12} lg={4}>
                       <Stack gap={2} direction="vertical">
-                        <Button variant="success" className="d-block w-100">
+                        <Button
+                          variant="success"
+                          className="d-block w-100"
+                          onClick={() => handleAddItemToCart(item)}
+                        >
                           ADD TO CART
                         </Button>
 
-                        <Button variant="success" className="d-block w-100">
+                        <Button
+                          variant="success"
+                          className="d-block w-100"
+                          onClick={() => handleAddItemToMenu(item)}
+                        >
                           ADD CUSTOM MENU
                         </Button>
                       </Stack>
@@ -183,7 +228,7 @@ function MenuDetails() {
               </Card>
             </Col>
             <Col md={4} lg={4}>
-              <CustomMenu toasts={toasts} setToasts={setToasts} />
+              <CustomMenu handleNewToasts={handleNewToasts} />
             </Col>
           </Row>
         </Container>

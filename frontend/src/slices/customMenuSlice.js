@@ -45,7 +45,7 @@ export const customMenuSlice = createSlice({
         menuItem = { ...menuItem, qty: 1 };
         state.menu.menuItems.push(menuItem);
       }
-      state.price += Number(menuItem.price)
+      state.price += Number(menuItem.price);
       localStorage.setItem("customMenu", JSON.stringify(state.menu.menuItems));
     },
 
@@ -56,7 +56,7 @@ export const customMenuSlice = createSlice({
       state.menu.menuItems.map(
         (item) => (item.qty = item._id === menuItem._id ? qty : item.qty)
       );
-      state.price += Number(menuItem.price)*Number(menuItem.qty);
+      state.price = state.price + Number(menuItem.price) * Number(qty - menuItem.qty);
       localStorage.setItem("customMenu", JSON.stringify(state.menu.menuItems));
     },
     removeMenuItem: (state, action) => {
@@ -66,7 +66,10 @@ export const customMenuSlice = createSlice({
         (item) => item._id !== menuItem._id
       );
       state.price -= Number(menuItem.price) * Number(menuItem.qty);
-      localStorage.setItem("customMenuItems", JSON.stringify(state.menu.menuItems));
+      localStorage.setItem(
+        "customMenuItems",
+        JSON.stringify(state.menu.menuItems)
+      );
     },
     addCombo: (state, action) => {
       // action.payload = menuItem

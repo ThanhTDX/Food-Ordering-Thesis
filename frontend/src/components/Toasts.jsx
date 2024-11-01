@@ -14,7 +14,7 @@ function Toasts({toasts, setToasts}) {
             <strong className="me-auto">Notification</strong>
             <small>just now</small>
           </Toast.Header>
-          <Toast.Body>{toast.message}</Toast.Body>
+          <Toast.Body>111</Toast.Body>
         </Toast>
       ))}
     </ToastContainer>

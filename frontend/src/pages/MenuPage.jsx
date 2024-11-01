@@ -4,7 +4,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 import MenuList from "../components/menu/MenuList";
-import CustomMenu from "../components/CustomMenu";
+import CustomMenu from "../components/customMenu/CustomMenu";
 import MenuUtility from "../components/menu/MenuUtility";
 import MenuToasts from "../components/Toasts";
 
@@ -13,9 +13,10 @@ import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Stack, Container, Button } from "react-bootstrap";
 
-import { menuSelector, fetchAllFood } from "../slices/menuSlice";
+import { menuSelector, fetchAllFood, fetchAllCombo } from "../slices/menuSlice";
 
 import "./MenuPage.css";
+import { nanoid } from "@reduxjs/toolkit";
 
 function Menu() {
   const navigate = useNavigate();
@@ -33,11 +34,13 @@ function Menu() {
 
   useEffect(() => {
     dispatch(fetchAllFood());
+    dispatch(fetchAllCombo());
   }, [dispatch]);
 
   useEffect(() => {
-    let { menuItems } = menu;
+    let { menuItems, menuCombos } = menu.menu;
     if (menuSearchKeyWord) {
+      // menuSearchTags: 'keyword'
       console.log("menuSearchKeyWord", menuSearchKeyWord);
       menuItems = menuItems.filter((item) =>
         item.name.toLowerCase().includes(menuSearchKeyWord.toLowerCase())
@@ -46,16 +49,28 @@ function Menu() {
 
     if (menuSearchTags.length) {
       console.log("menuSearchTags", menuSearchTags);
+      // menuSearchTags: ['tags1', 'tags2']
+      // Only take items with ALL tags in it
       menuItems = menuItems.filter((item) => {
+        // iterate through all tag and item.tag
+        // if 1 instace of tag is not found in item.tag
+        // return false
+        let itemHasAllTag = true;
         for (const tag of menuSearchTags) {
-          if (!item.food_tag.includes(tag)) return false;
+          let tagIsFound = false;
+          for (const item_tag of item.tag) {
+            if (tag === item_tag.name) tagIsFound = true;
+          }
+          if (!tagIsFound) itemHasAllTag = false;
         }
-        return true;
+        return itemHasAllTag;
       });
+      console.log(menuItems)
     }
 
     if (menuSearchType) {
-      menuItems = menuItems.filter((item) => item.food_type === menuSearchType);
+      // menuSearchTags: 'type'
+      menuItems = menuItems.filter((item) => item.type.name === menuSearchType);
     }
     setFilteredMenu(menuItems);
   }, [menu, menuSearchKeyWord, menuSearchTags, menuSearchType]);
@@ -79,6 +94,29 @@ function Menu() {
     else setType(null);
   };
 
+  const handleNewToasts = (data) => {
+    // Create new toasts with show value 
+    const newToast = {
+      id: nanoid(),
+      data: data,
+      show: true,
+    }
+    setToasts((prevToasts) => [...prevToasts, newToast]);
+
+    // Set timeout for 3000ms
+    setTimeout(() => {
+      setToasts((prevToasts) =>
+        prevToasts.map((toast) =>
+          toast.id === newToast.id ? { ...toast, show: false } : toast
+        )
+      );
+    }, 3000);
+  };
+
+  const handleSave = () => {
+
+  }
+
   return (
     <div className="roboto-slab">
       <Container fluid className="p-0">
@@ -91,18 +129,28 @@ function Menu() {
             <Col md={0} lg={4} className="mb-3">
               <Container fluid className="p-0">
                 <Stack direction="vertical" gap={2}>
-                  <CustomMenu setToasts={setToasts} />
-                  <Button
-                    variant="success"
-                    onClick={() => navigate("/checkout")}
-                  >
-                    <span className="font-weight-bold">CHECKOUT</span>
-                  </Button>
+                  <CustomMenu handleNewToasts={handleNewToasts} />
+                  <Stack direction="horizontal" gap={2}>
+                    <Button
+                      variant="success"
+                      onClick={() => navigate("/order")}
+                      className="w-100"
+                    >
+                      <span className="fw-bold">CHECKOUT</span>
+                    </Button>
+                    <Button
+                      variant="success"
+                      onClick={handleSave}
+                      className="w-100"
+                    >
+                      <span className="fw-bold">SAVE MENU</span>
+                    </Button>
+                  </Stack>
                   <Button
                     variant="success"
                     onClick={() => navigate("/reservation?customMenu=on")}
                   >
-                    MAKE RESERVATION
+                    <span className="fw-bold">MAKE RESERVATION</span>
                   </Button>
                 </Stack>
               </Container>
@@ -124,7 +172,7 @@ function Menu() {
                 handleUpdateTags={handleUpdateTags}
                 menuSearchType={menuSearchType}
                 handleUpdateType={handleUpdateType}
-                setToasts={setToasts}
+                handleNewToasts={handleNewToasts}
               />
             </Col>
           </Row>

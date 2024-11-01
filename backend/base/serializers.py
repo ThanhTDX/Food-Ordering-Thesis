@@ -35,6 +35,11 @@ class FoodComboItemSerializer(serializers.ModelSerializer):
     model = FoodComboItem
     fields = '__all__'
     
+class ComnboTypeSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = ComboType
+    fields = '__all__'
+    
 class FoodComboSerializer(serializers.ModelSerializer):
   food = FoodComboItemSerializer(many=True, read_only=True)
   

@@ -58,19 +58,20 @@ function MenuItemList({
             <StarRating item={item} size={"md"}/>
             <div className="">
               <Stack gap={1} direction="horizontal">
-                {item.food_tag
-                  .slice(0, item.food_tag.length > 6 ? 6 : item.food_tag.length)
+                {item.tag
+                  .slice(0, item.tag.length > 6 ? 6 : item.tag.length)
                   .map((tag) => {
                     return (
                       <Button
                         variant={""}
                         className={
                           "menu-item--list--tag p-1 py-0 " +
-                          (menuSearchTags.includes(tag) ? "active" : "inactive")
+                          (menuSearchTags.includes(tag.name) ? "active" : "inactive")
                         }
-                        onClick={() => handleAddTag(tag)}
+                        onClick={() => handleAddTag(tag.name)}
+                        key={tag._id}
                       >
-                        <span>{tag}</span>
+                        <span>{tag.name}</span>
                       </Button>
                     );
                   })}
@@ -82,11 +83,11 @@ function MenuItemList({
                 variant={""}
                 className={
                   "menu-item--list--type ms-3 w-100 " +
-                  (menuSearchType === item.food_type ? "active" : "inactive")
+                  (menuSearchType === item.type.name ? "active" : "inactive")
                 }
-                onClick={() => handleAddType(item.food_type)}
+                onClick={() => handleAddType(item.type.name)}
               >
-                <span className="">{item.food_type}</span>
+                <span className="">{item.type.name}</span>
               </Button>
             </div>
           </Col>

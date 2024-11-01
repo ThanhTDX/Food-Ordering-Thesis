@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from "react-router-dom";
 
 import { Form, Button, Row, Col, Stack } from "react-bootstrap";
-import CustomMenu from "../CustomMenu";
+import CustomMenu from "../customMenu/CustomMenu";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faX } from "@fortawesome/free-solid-svg-icons";
@@ -85,9 +85,15 @@ function ReservationForm({ rightView, setRightView }) {
                 <option value="" defaultValue hidden>
                   Choose Restaurant...
                 </option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
+                <option value="1">
+                  28 Võ Văn Tần, Phường 6, Quận 3, Hồ Chí Minh, Vietnam
+                </option>
+                <option value="2">
+                  997 Đ. Phạm Thế Hiển, Phường 5, Quận 8, Hồ Chí Minh, Vietnam
+                </option>
+                <option value="3">
+                  690 Đ. Quang Trung, Phường 8, Gò Vấp, Hồ Chí Minh, Vietnam
+                </option>
               </Form.Control>
             </Form.Group>
           </Col>
@@ -226,7 +232,7 @@ function ReservationForm({ rightView, setRightView }) {
               </Form.Group>
             </Button>
           </Col>
-          {hasMenu && rightView !== "menu" && (
+          {/* {hasMenu && rightView !== "menu" && (
             <Col md={4} lg={4}>
               <Button
                 variant="success"
@@ -247,12 +253,12 @@ function ReservationForm({ rightView, setRightView }) {
                 Cancel View <FontAwesomeIcon icon={faX} size="lg" />
               </Button>
             </Col>
-          )}
+          )} */}
         </Row>
         {hasMenu && <ReservationIncludeMenu />}
         <Form.Group>
           <Button variant="warning" type="submit" className="w-100 p-3">
-            Confirm Booking
+            <span className="fw-bold">Confirm Booking</span>
           </Button>
         </Form.Group>
       </Stack>
