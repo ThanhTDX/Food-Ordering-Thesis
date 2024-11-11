@@ -53,9 +53,10 @@ class Food(models.Model):
   price = models.DecimalField(max_digits=8,decimal_places=0,default=0)
   image = models.ImageField(upload_to='static/images',null=True,blank=True)
   count_in_stock = models.IntegerField(default=10)
+  
   type = models.ForeignKey("base.FoodType", on_delete=models.CASCADE, null=True, related_name="type")
   tag = models.ManyToManyField("base.FoodTag", related_name="tags")
-  ingredient = models.ManyToManyField("base.FoodIngredient", related_name="ingredient")
+  ingredient = models.ManyToManyField("base.FoodIngredient", related_name="ingredients")
   nutrition_value = models.CharField(max_length=256, default='')
   num_ppl_eat = models.IntegerField(default=1)
   is_hot = models.BooleanField(default=False)
@@ -82,30 +83,26 @@ class FoodReview(models.Model):
   def __str__(self):
     return str(self.name)
   
-  
 class ComboType(models.Model):
-  name = models.CharField(max_length=256, null=True, blank=True)
-  
+  name = models.CharField(max_length=100, null=True, blank=True)
   _id = models.AutoField(primary_key=True, editable=False)
+  
   def __str__(self):
     return str(self.name)
-  
-  @classmethod
-  def default_pk(cls):
-      type, created = cls.objects.get_or_create(
-          name='Base Type', 
-      )
-      return type.pk
 
-class FoodCombo(models.Model):
+class Combo(models.Model):
   name = models.CharField(max_length=256, null=True, blank=True)
-  foods = models.ManyToManyField("base.Food", through="FoodComboItem")
-  type = models.ForeignKey("base.ComboType", on_delete=models.CASCADE, null=True)
   price = models.DecimalField(max_digits=8, decimal_places=0, default=0)
-  num_ppl_eat = models.IntegerField(default=1)
   image = models.ImageField(upload_to='static/images',null=True,blank=True)
+  count_in_stock = models.IntegerField(default=10, editable=False)
   
-  count_in_stock = models.IntegerField(default=1, editable=False)
+  foods = models.ManyToManyField("base.Food", through="ComboItem")
+  type = models.ForeignKey("base.ComboType", on_delete=models.CASCADE, null=True)
+  tag = models.ManyToManyField("base.FoodTag", editable=False)
+  ingredient = models.ManyToManyField("base.FoodIngredient", editable=False)
+  num_ppl_eat = models.IntegerField(default=1)
+  is_hot = models.BooleanField(default=False)  
+  
   _id = models.AutoField(primary_key=True, editable=False)
   
   @staticmethod
@@ -115,10 +112,10 @@ class FoodCombo(models.Model):
   
   def __str__(self):
     return str(self.name)
-  
-class FoodComboItem(models.Model):
+   
+class ComboItem(models.Model):
   food = models.ForeignKey(Food, on_delete=models.CASCADE)
-  combo = models.ForeignKey(FoodCombo, on_delete=models.CASCADE)
+  combo = models.ForeignKey(Combo, on_delete=models.CASCADE)
   qty = models.SmallIntegerField(default=1)
   
   def __str__(self):

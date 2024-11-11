@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from reservation.models import *
 from restaurant.models import RestaurantTable, RestaurantVIP
-from base.serializers import FoodSerializer, FoodComboSerializer
+from base.serializers import FoodSerializer, ComboSerializer
     
 class ReservationTableSerializer(serializers.ModelSerializer):
   class Meta:
@@ -21,7 +21,7 @@ class ReservationFoodFKSerializer(serializers.ModelSerializer):
     fields = '__all__'
     
 class ReservationComboFKSerializer(serializers.ModelSerializer):
-  combo = FoodComboSerializer(many=False, read_only=True)
+  combo = ComboSerializer(many=False, read_only=True)
   
   class Meta:
     model = ReservationFood_FK

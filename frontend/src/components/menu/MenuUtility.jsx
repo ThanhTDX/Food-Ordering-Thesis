@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Container,
   Stack,
@@ -11,277 +12,290 @@ import {
   Accordion,
   InputGroup,
   Card,
+  Carousel,
 } from "react-bootstrap";
+
+import Slider from "@mui/material/Slider";
 import {
   fetchAllFoodTags,
   fetchAllFoodType,
   fetchAllComboType,
 } from "../../api/menuApi";
 
-import "./css/MenuUtility.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  menuSelector,
+  updateSearchCombo,
+  updateSearchKeyword,
+  updateSearchTags,
+  updateSearchType,
+  updateView,
+} from "../../slices/menuSlice";
 
-const MenuTag = ({ foodTag, menuSearchTags, handleUpdateTags }) => {
+import "./css/MenuUtility.css";
+
+// Function to split the array into groups of specified size
+const splitArrayIntoGroups = (array, groupSize) => {
+  const groups = [];
+  for (let i = 0; i < array.length; i += groupSize) {
+    groups.push(array.slice(i, i + groupSize));
+  }
+  return groups;
+};
+
+const MenuKeyword = ({ searchKeyword }) => {
+  const dispatch = useDispatch();
+  return (
+    <InputGroup>
+      <Form.Control
+        type="search"
+        className="me-auto"
+        placeholder="Search..."
+        id="searchKeyWordinput"
+        onChange={(e) => dispatch(updateSearchKeyword(e.target.value))}
+      />
+    </InputGroup>
+  );
+};
+
+const MenuPriceSlider = () => {
+
+  const marks = [
+    {
+      value: 0,
+      label: "0",
+    },
+    {
+      value: 50,
+      label: "50K",
+    },
+    {
+      value: 100,
+      label: "100K",
+    },
+    {
+      value: 290,
+      label: "Unlimited",
+    },
+  ];
+
+  function valuetext(value) {
+    return `${value}%`;
+  }
+
+  return (
+    <Slider
+      aria-label="Custom marks"
+      defaultValue={40}
+      getAriaValueText={valuetext}
+      step={5}
+      valueLabelDisplay="auto"
+      marks={marks}
+      color="primary"
+    />
+  );
+};
+
+const MenuView = ({ view }) => {
+  return (
+    <Stack direction="horizontal" gap={2} className="">
+      <Button
+        variant="warning"
+        className="btn btn-block w-100"
+        onClick={() => updateView("card")}
+      >
+        <i className="fa-solid fa-table"></i>
+      </Button>
+      <Button
+        variant="warning"
+        className="btn btn-block w-100"
+        onClick={() => updateView("list")}
+      >
+        <i className="fa-solid fa-list"></i>
+      </Button>
+    </Stack>
+  );
+};
+
+const MenuTag = ({ searchTags, allTags }) => {
+  const dispatch = useDispatch();
+
+  // Splitting items into groups of 6
+  const groups = splitArrayIntoGroups(allTags, 6);
   return (
     <Card>
-      <Card.Title>
-        <h3>Tags</h3>
+      <Card.Title className="m-1">
+        <span>Tags</span>
       </Card.Title>
-      <Card.Body className="py-0">
-        {foodTag && (
-          <Row>
-            {foodTag.slice(0, 6).map((tag) => (
-              <Col key={tag._id} sm={6} md={4}>
+      <Card.Body className="p-0">
+        <Carousel interval={null}>
+          {groups.map((group, index) => (
+            <Carousel.Item key={index}>
+              <Row className="px-4">
+                {group.slice(0, 6).map((tag) => (
+                  <Col key={tag._id} sm={6} md={4} className="px-1">
+                    <Button
+                      variant={""}
+                      className={
+                        "menu-utility--tag p-0 w-100 " +
+                        (searchTags.includes(tag.name) ? "active" : "inactive")
+                      }
+                      onClick={() => {
+                        dispatch(updateSearchTags(tag.name));
+                      }}
+                    >
+                      {tag.name}
+                    </Button>
+                  </Col>
+                ))}
+              </Row>
+            </Carousel.Item>
+          ))}
+        </Carousel>
+      </Card.Body>
+    </Card>
+  );
+};
+
+const MenuType = ({ searchType, allTypes }) => {
+  const dispatch = useDispatch();
+
+  // Splitting items into groups of 6
+  const groups = splitArrayIntoGroups(allTypes, 6);
+  return (
+    <Card>
+      <Card.Title className="m-1">
+        {" "}
+        <span>Type</span>
+      </Card.Title>
+
+      <Card.Body className="p-0">
+        {" "}
+        <Carousel interval={null}>
+          {groups.map((group, index) => (
+            <Carousel.Item className="h-100" key={index}>
+              <Row className="px-4 d-flex align-items-center justify-content-between">
+                {group.map((type) => {
+                  return (
+                    <Col key={type._id} sm={6} md={4} className="px-1">
+                      <Button
+                        variant={""}
+                        className={
+                          "menu-utility--type p-0 w-100 " +
+                          (searchType === type.name ? "active" : "inactive")
+                        }
+                        key={type._id}
+                        onClick={() => dispatch(updateSearchType(type.name))}
+                      >
+                        {type.name}
+                      </Button>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </Carousel.Item>
+          ))}
+        </Carousel>
+      </Card.Body>
+    </Card>
+  );
+};
+
+const MenuCombo = ({ searchCombo, comboType }) => {
+  const dispatch = useDispatch();
+
+  const groups = splitArrayIntoGroups(comboType.slice(0,3), 2);
+  return (
+    <Card>
+      <Card.Title className="m-1">
+        <span>Combos</span>
+      </Card.Title>
+      <Card.Body className="px-0 py-0">
+        <Stack gap={1} direction="vertical">
+          {groups.map((group, index) => (
+            <Stack gap={2} direction="horizontal" key={index}>
+              {group.map((type) => (
                 <Button
                   variant={""}
                   className={
-                    "menu-utility--tag px-3 mb-1 w-100 " +
-                    (menuSearchTags.includes(tag.name) ? "active" : "inactive")
+                    "menu-utility--combo--type p-0 w-50 " +
+                    (searchCombo === type.name ? "active" : "inactive")
                   }
                   onClick={() => {
-                    handleUpdateTags(tag.name);
+                    dispatch(updateSearchCombo(type.name));
                   }}
+                  key={type._id}
                 >
-                  {tag.name}
+                  {type.name}
                 </Button>
-              </Col>
-            ))}
-          </Row>
-        )}
-      </Card.Body>
-    </Card>
-  );
-};
-
-const MenuType = ({ foodType, menuSearchType, handleUpdateType }) => {
-  return (
-    <Card>
-      <Card.Title>
-        {" "}
-        <h3>Type</h3>
-      </Card.Title>
-      <Card.Body className="py-0">
-        {foodType && foodType.length < 5 && (
-          <Row>
-            {foodType.map((type) => {
-              return (
-                <Col key={type._id}>
-                  <Button
-                    variant={""}
-                    className={
-                      "btn btn-block px-3 w-100 menu-utility--type " +
-                      (menuSearchType === type.name ? "active" : "inactive")
-                    }
-                    key={type._id}
-                    onClick={() => handleUpdateType(type.name)}
-                  >
-                    {type.name}
-                  </Button>
-                </Col>
-              );
-            })}
-          </Row>
-        )}
-        {foodType && foodType.length > 5 && (
-          <>
-            <Stack direction="vertical" gap={1}>
-              <Row>
-                {foodType.slice(0, 4).map((type) => {
-                  return (
-                    <Col key={type._id}>
-                      <Button
-                        variant={""}
-                        className={
-                          "btn btn-block px-3 w-100 menu-utility--type " +
-                          (menuSearchType === type.name ? "active" : "inactive")
-                        }
-                        key={type._id}
-                        onClick={() => handleUpdateType(type.name)}
-                      >
-                        {type.name}
-                      </Button>
-                    </Col>
-                  );
-                })}
-              </Row>
-
-              <Row>
-                {foodType.slice(4, 8).map((type) => {
-                  return (
-                    <Col key={type._id}>
-                      <Button
-                        variant={""}
-                        className={
-                          "btn btn-block px-3 w-100 menu-utility--type " +
-                          (menuSearchType === type.name ? "active" : "inactive")
-                        }
-                        key={type._id}
-                        onClick={() => handleUpdateType(type.name)}
-                      >
-                        {type.name}
-                      </Button>
-                    </Col>
-                  );
-                })}
-              </Row>
-
-              {/* <Button
-                onClick={() => setfoodTypeCollapse(!foodTypeCollapse)}
-                className=""
-                aria-controls="food-type-collapse"
-                aria-expanded={foodTypeCollapse}
-              >
-                <FontAwesomeIcon icon={faArrowDown}/>
-              </Button> */}
+              ))}
             </Stack>
-            {/* <Accordion defaultActiveKey={0}>
-              <Accordion.Item eventKey="0">
-                
-                <Stack direction="horizontal" gap={2}>
-                  <Button variant="secondary">Vegan</Button>
-                  <Button variant="secondary">Vegan</Button>
-                  <Button variant="secondary">Vegan</Button>
-                </Stack>
-                <Stack direction="horizontal" gap={2}>
-                  <Button variant="secondary">Vegan</Button>
-                  <Button variant="secondary">Vegan</Button>
-                  <Button variant="secondary">Vegan</Button>
-                </Stack>
-              </Accordion.Item>
-            </Accordion> */}
-          </>
-        )}
+          ))}
+        </Stack>
       </Card.Body>
     </Card>
   );
 };
 
-const MenuCombo = ({ comboType, menuSearchType, handleUpdateType }) => {
+// const MenuPromotion = () => {
+//   return (
+//     <Card>
+//       <Card.Title>
+//         <h3>Combos</h3>
+//       </Card.Title>
+//       <Card.Body className="ps-0 py-0">
+//         {comboType && (
+//           <Stack gap={1} direction="vertical">
+//             {comboType.map((type) => (
+//               <Button
+//                 variant={""}
+//                 className={
+//                   "menu-utility--combo--type px-3 mb-1 w-100 " +
+//                   (menuSearchType === type.name ? "active" : "inactive")
+//                 }
+//                 onClick={() => {
+//                   handleUpdateType(type.name);
+//                 }}
+//                 key={type._id}
+//               >
+//                 {type.name}
+//               </Button>
+//             ))}
+//           </Stack>
+//         )}
+//       </Card.Body>
+//     </Card>
+//   );
+// };
+
+const MenuUtility = () => {
+  const menu = useSelector(menuSelector);
+  const { menuSearch, menuFood, menuView } = menu;
   return (
-    <Card>
-      <Card.Title>
-        <h3>Combos</h3>
-      </Card.Title>
-      <Card.Body className="ps-0 py-0">
-        {comboType && (
-          <Stack gap={1} direction="vertical">
-            {comboType.map((type) => (
-              <Button
-                variant={""}
-                className={
-                  "menu-utility--combo--type px-3 mb-1 w-100 " +
-                  (menuSearchType === type.name ? "active" : "inactive")
-                }
-                onClick={() => {
-                  handleUpdateType(type.name);
-                }}
-                key={type._id}
-              >
-                {type.name}
-              </Button>
-            ))}
-          </Stack>
-        )}
-      </Card.Body>
-    </Card>
-  );
-};
-
-const MenuUtility = ({
-  handleMenuView,
-  handleUpdateKeyWord,
-  menuSearchTags,
-  handleUpdateTags,
-  menuSearchType,
-  handleUpdateType,
-}) => {
-  const [foodTypeCollapse, setfoodTypeCollapse] = useState(false);
-  const [foodTag, setFoodTag] = useState([]);
-  const [foodType, setFoodType] = useState([]);
-  const [comboType, setComboType] = useState([]);
-
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const [result1, result2, result3] = await Promise.all([
-          fetchAllFoodTags(),
-          fetchAllFoodType(),
-          fetchAllComboType(),
-        ]);
-        setFoodTag(result1);
-        setFoodType(result2);
-        setComboType(result3);
-      } catch (error) {
-        if (error.response) setError(error.response.data);
-        else setError(`Error: ${error.message}`);
-      }
-    };
-    getData();
-  }, []);
-  return (
-    <Container className="p-0 mb-4">
+    <Container className="p-0 mb-4 menu-utility">
       <Row>
         <Col md={12} lg={5} className="">
-          <InputGroup>
-            <Form.Control
-              type="search"
-              className="me-auto"
-              placeholder="Search..."
-              id="searchKeyWordinput"
-              onChange={(e) => handleUpdateKeyWord(e.target.value)}
-            />
-            <div className="vr" />
-            <Button
-              variant="outline-danger"
-              onClick={() => handleUpdateKeyWord(null)}
-            >
-              Reset
-            </Button>
-          </InputGroup>
+          <MenuKeyword searchKeyword={menuSearch.keyword} />
         </Col>
-        <Col xs={9} md={10} lg={5} className="p-0">
-          <button></button>
+        <Col xs={9} md={10} lg={5} className="">
+          <MenuPriceSlider />
         </Col>
         <Col xs={3} md={2} lg={2} className="">
-          <Stack direction="horizontal" gap={2} className="">
-            <Button
-              variant="warning"
-              className="btn btn-block w-100"
-              onClick={() => handleMenuView("card")}
-            >
-              <i className="fa-solid fa-table"></i>
-            </Button>
-            <Button
-              variant="warning"
-              className="btn btn-block w-100"
-              onClick={() => handleMenuView("list")}
-            >
-              <i className="fa-solid fa-list"></i>
-            </Button>
-          </Stack>
+          <MenuView menuView={menuView} />
         </Col>
       </Row>
       <Row>
-        <Col xs={6} sm={6} md={6} lg={8} xl={8}>
-          <MenuTag
-            foodTag={foodTag}
-            menuSearchTags={menuSearchTags}
-            handleUpdateTags={handleUpdateTags}
-          />
-          <MenuType
-            foodType={foodType}
-            menuSearchType={menuSearchType}
-            handleUpdateType={handleUpdateType}
-          />
+        <Col xs={6} sm={6} md={6} lg={4} xl={4}>
+          <MenuTag searchTags={menuSearch.tags} allTags={menuFood.tags} />
+        </Col>
+        <Col xs={6} sm={6} md={6} lg={4} xl={4}>
+          <MenuType searchType={menuSearch.type} allTypes={menuFood.types} />
         </Col>
         <Col xs={6} sm={6} md={6} lg={4} xl={4}>
           <MenuCombo
-            comboType={comboType}
-            menuSearchType={menuSearchType}
-            handleUpdateType={handleUpdateType}
+            searchCombo={menuSearch.combo}
+            comboType={menuFood.combo_types}
           />
         </Col>
       </Row>

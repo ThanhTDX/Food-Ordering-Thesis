@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { nanoid } from "@reduxjs/toolkit";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,13 +12,13 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import StarRating from "../components/StarRating";
 import CustomMenu from "../components/customMenu/CustomMenu";
-import MenuToasts from "../components/Toasts";
+import Toasts from "../components/Toasts";
 
 import { addMenuItem } from "../slices/customMenuSlice";
+import { fetchFoodById } from "../api/menuApi";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { menuSelector, fetchFoodById } from "../slices/menuSlice";
 import {
   Container,
   Row,
@@ -32,56 +31,52 @@ import {
 
 import formatVND from "../utils/formatVND";
 
-import "./MenuDetails.css";
+import "./static/css/MenuDetailsPage.css";
+import { addItemToCart } from "../slices/cartSlice";
 
-function MenuDetails() {
+
+const MenuDetailsPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+
+  const [item, setItem] = useState()
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+
   const [toasts, setToasts] = useState([]);
 
   const reviewRef = useRef();
 
-  const menu = useSelector(menuSelector);
-  // There's only one item in this
-  const { error, loading } = menu;
-  const item = menu.menu.menuItems[0];
-
   useEffect(() => {
-    dispatch(fetchFoodById(id));
-  }, [dispatch, id]);
+    const fetchMenuItem = async () => {
+      try {
+        const data = await fetchFoodById(id);
+        setItem(data);
+      } catch (e) {
+        setError(e);
+      }
+    };
+    fetchMenuItem();
+    setLoading(false)
+  }, []);
+
+  useEffect(() => {});
 
   const handleAddItemToCart = (item) => {
-    console.log(item);
+    dispatch(addItemToCart(item));
     // TODO : create cartSlice and add this
   };
 
   const handleAddItemToMenu = (item) => {
     dispatch(addMenuItem(item));
-    const ADD = "ADD";
-    const message = {
-      data: item,
-      type: ADD,
-    };
-    handleNewToasts(message);
-  };
 
-  const handleNewToasts = (data) => {
-    // Create new toasts with show value
-    const newToast = {
-      id: nanoid(),
-      data: data,
-      show: true,
-    };
-    setToasts((prevToasts) => [...prevToasts, newToast]);
-
-    // Set timeout for 3000ms
-    setTimeout(() => {
-      setToasts((prevToasts) =>
-        prevToasts.map((toast) =>
-          toast.id === newToast.id ? { ...toast, show: false } : toast
-        )
-      );
-    }, 3000);
+    // TODO : create toasts functionality
+    // const ADD = "ADD";
+    // const message = {
+    //   data: item,
+    //   type: ADD,
+    // };
+    // handleNewToasts(message);
   };
 
   const handleSubmit = (e) => {
@@ -228,14 +223,13 @@ function MenuDetails() {
               </Card>
             </Col>
             <Col md={4} lg={4}>
-              <CustomMenu handleNewToasts={handleNewToasts} />
+              <CustomMenu />
             </Col>
           </Row>
         </Container>
       )}
-      <MenuToasts toasts={toasts} setToasts={setToasts} />
     </div>
   );
 }
 
-export default MenuDetails;
+export default MenuDetailsPage;

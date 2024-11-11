@@ -1,3 +1,54 @@
+.card-body{
+  border: 1px solid #848484;
+  border-radius: 5px;
+}
+
+.carousel-control-prev {
+  background-color: #848484; /* Change to a custom color */
+  width: 5%;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.carousel-control-prev:hover {
+  background-color: #b9b9b9; /* Change to a custom color */
+}
+
+.carousel-indicators{
+  display: none
+}
+
+.carousel-control-next {
+  background-color: #848484; /* Change to a custom color */
+  width: 5%;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.carousel-control-next:hover {
+  background-color: #b9b9b9; /* Change to a custom color */
+}
+
+.card-body {
+  height: 50%;
+}
+
+.menu-utility--tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  font-style: normal
+}
+
+.menu-utility--type {
+  font-size: 0.75rem;
+  font-weight: 800;
+  font-style: normal
+}
+
+.menu-utility--combo--type {
+  font-size: 0.75rem;
+  font-weight: 800;
+  font-style: normal
+}
+
 .menu-utility--tag:hover {
   text-decoration: underline;
 }

@@ -29,20 +29,21 @@ class FoodSerializer(serializers.ModelSerializer):
     model = Food 
     fields = '__all__'
     
-class FoodComboItemSerializer(serializers.ModelSerializer):
+class ComboItemSerializer(serializers.ModelSerializer):
   food = FoodSerializer(many=False, read_only=True)
   class Meta:
-    model = FoodComboItem
+    model = ComboItem
     fields = '__all__'
     
-class ComnboTypeSerializer(serializers.ModelSerializer):
+class ComboTypeSerializer(serializers.ModelSerializer):
+  
   class Meta:
     model = ComboType
     fields = '__all__'
     
-class FoodComboSerializer(serializers.ModelSerializer):
-  food = FoodComboItemSerializer(many=True, read_only=True)
+class ComboSerializer(serializers.ModelSerializer):
+  food = ComboItemSerializer(many=True, read_only=True)
   
   class Meta:
-    model = FoodCombo
+    model = Combo
     fields = '__all__'

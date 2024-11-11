@@ -9,6 +9,8 @@
   height: 50px;
   width: 30%;
   min-width: 75px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 .custom-menu--edit-button .btn  {
@@ -41,12 +43,12 @@
   margin-left: 5px;
 }
 
-.custom-menu--buttons {
-  width: 40%;
+.custom-menu--edit .btn {
+  padding: 2px;
 }
 
-.custom-menu--buttons .btn {
-  padding: 2px;
+.custom-menu--edit--quantity {
+  font-size: 0.9rem
 }
 
 .custom-menu--report__success {
@@ -65,4 +67,14 @@
   font-size: 20px;
   border: 2px rgb(156, 156, 156) solid;
   border-radius: 10px;
+}
+
+.custom-menu--list--item-info {
+  font-size: 0.8rem;
+  font-weight: 300;
+}
+
+.custom-menu--list--item-price {
+  font-weight: bold;
+  font-size: 1rem;
 }

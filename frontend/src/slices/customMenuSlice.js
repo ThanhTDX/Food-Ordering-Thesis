@@ -52,9 +52,9 @@ export const customMenuSlice = createSlice({
     updateMenuItem: (state, action) => {
       // action.payload = {menuItem, qty}
       const { menuItem, qty } = action.payload;
-      if (qty < 0) return;
+      if (Number(qty) < 0) return;
       state.menu.menuItems.map(
-        (item) => (item.qty = item._id === menuItem._id ? qty : item.qty)
+        (item) => (item.qty = item._id === menuItem._id ? Number(qty) : Number(item.qty))
       );
       state.price = state.price + Number(menuItem.price) * Number(qty - menuItem.qty);
       localStorage.setItem("customMenu", JSON.stringify(state.menu.menuItems));

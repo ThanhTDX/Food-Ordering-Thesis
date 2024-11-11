@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Button, Stack, Card } from "react-bootstrap";
+import { Container, Button, Stack, Card, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
   customMenuSelector,
@@ -20,7 +20,6 @@ import {
   faCog,
 } from "@fortawesome/free-solid-svg-icons";
 
-
 import "./CustomMenu.css";
 import formatVND from "../../utils/formatVND";
 
@@ -35,34 +34,54 @@ const CustomMenuEdit = ({
       <Stack gap={3} direction="vertical">
         {menuItems.map((item) => {
           return (
-            <div
+            <Row
               className="custom-menu--item__wrapper border rounded-3"
               key={item._id}
             >
-              <img src={item.image} alt={item.image} />
-              <div className="custom-menu--title">{item.name}</div>
-              <div className="custom-menu--buttons d-flex align-items-center justify-content-around">
-                <div>{item.qty}</div>
-                <Button
-                  variant="transparent"
-                  onClick={() => handleDecrement(item)}
-                >
-                  <FontAwesomeIcon icon={faArrowDown} />
-                </Button>
-                <Button
-                  variant="transparent"
-                  onClick={() => handleIncrement(item)}
-                >
-                  <FontAwesomeIcon icon={faArrowUp} />
-                </Button>
-                <Button
-                  variant="transparent"
-                  onClick={() => handleDelete(item)}
-                >
-                  <FontAwesomeIcon icon={faTrashCan} />
-                </Button>
-              </div>
-            </div>
+              <Col md={2} className="p-0">
+                <img src={item.image} alt={item.image} />
+              </Col>
+              <Col
+                md={6}
+                className="d-flex flex-column align-items-start justify-content-center p-0"
+              >
+                <div className="custom-menu--title fs-6">{item.name}</div>
+                <div className="ps-4 w-100 d-flex align-items-center justify-content-start custom-menu--list--item-info__small">
+                  <div>
+                    <span className="">Price {formatVND(item.price)}</span>
+                  </div>
+                </div>
+              </Col>
+              <Col
+                md={4}
+                className="p-0 d-flex flex-column align-items-center justify-content-center"
+              >
+                <div className="custom-menu--edit d-flex align-items-center justify-content-around">
+                  <div className="me-1 custom-menu--edit--quantity">
+                    <span>Quantity: {item.qty}</span>
+                  </div>
+                  <Button
+                    variant="transparent"
+                    onClick={() => handleDecrement(item)}
+                  >
+                    <FontAwesomeIcon icon={faArrowDown} />
+                  </Button>
+                  <Button
+                    variant="transparent"
+                    onClick={() => handleIncrement(item)}
+                  >
+                    <FontAwesomeIcon icon={faArrowUp} />
+                  </Button>
+                  <Button
+                    variant="transparent"
+                    onClick={() => handleDelete(item)}
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </Button>
+                </div>
+                <div>{formatVND(item.price*item.qty)}</div>
+              </Col>
+            </Row>
           );
         })}
       </Stack>
@@ -76,15 +95,34 @@ const CustomMenuView = ({ menuItems }) => {
       <Stack gap={3} direction="vertical">
         {menuItems.map((item) => {
           return (
-            <div
+            <Row
               className="custom-menu--item__wrapper border rounded-3"
               key={item._id}
             >
-              <img src={item.image} alt={item.image} />
-              <div className="custom-menu--title">{item.name}</div>
-              <span className="fs-3">Price </span>
-              <span className="fs-3">{item.price}</span>
-            </div>
+              <Col md={2} className="p-0">
+                <img src={item.image} alt={item.image} />
+              </Col>
+
+              <Col
+                md={6}
+                className="d-flex flex-column align-items-start justify-content-center p-0"
+              >
+                <div className="custom-menu--title fs-6">{item.name}</div>
+                <div className="ps-2 w-100 d-flex align-items-center justify-content-around custom-menu--list--item-info__small">
+                  <div>
+                    <span className="">Price {formatVND(item.price)}</span>
+                  </div>
+                  <div>
+                    <span>Quantity: {item.qty}</span>
+                  </div>
+                </div>
+              </Col>
+              <Col md={4}>
+                <div className="custom-menu--list--item-price text-end">
+                  {formatVND(item.price * item.qty)}
+                </div>
+              </Col>
+            </Row>
           );
         })}
       </Stack>
@@ -118,11 +156,13 @@ const CustomMenu = ({ handleNewToasts }) => {
   const handleDelete = (item) => {
     dispatch(removeMenuItem(item));
     const DELETE = "DELETE";
-    const message = {
-      data: item,
-      type: DELETE,
-    };
-    handleNewToasts(message);
+
+    // TODO: create toasts system
+    // const message = {
+    //   data: item,
+    //   type: DELETE,
+    // };
+    // handleNewToasts(message);
   };
 
   return (
@@ -150,10 +190,10 @@ const CustomMenu = ({ handleNewToasts }) => {
             price={price}
           />
         )}
-        {editableCustom && <CustomMenuView menuItems={menuItems}/>}
+        {editableCustom && <CustomMenuView menuItems={menuItems} />}
         <div className="align-self-end">
-          <h5 className="d-inline">Price </h5>
-          <span>{formatVND(price)}</span>
+          <h5 className="d-inline fs-3 fw-bold">Total Price </h5>
+          <span className="fs-3 fw-bold">{formatVND(price)}</span>
         </div>
         <div className="custom-menu--report__wrapper">
           <Container className="custom-menu--report__success border-dark p-3 ps-4">

@@ -14,12 +14,6 @@ class OrderingFood_FK(models.Model):
   food = models.ForeignKey("base.Food", on_delete=models.DO_NOTHING, null=True)
   qty = models.SmallIntegerField()
   
-class OrderingCombo_FK(models.Model):
-  ordering = models.ForeignKey("ordering.Ordering", on_delete=models.CASCADE, null=True)
-  combo = models.ForeignKey("base.FoodCombo", on_delete=models.DO_NOTHING, null=True)
-  qty = models.SmallIntegerField()
-  
-  
 class Ordering(models.Model):
   name = models.CharField(max_length=256, null=True, blank=True)
   phone_number = models.CharField(
@@ -41,7 +35,6 @@ class Ordering(models.Model):
   status = models.CharField(_('Status'), max_length=20 , choices=Statuses.choices, default=Statuses.FINISHED)
     
   food = models.ManyToManyField("base.Food", through=OrderingFood_FK)
-  combo = models.ManyToManyField("base.FoodCombo", through=OrderingCombo_FK)
   date_created = models.DateTimeField(default=timezone.now() + timedelta(days=3))
 
   _id = models.AutoField(primary_key=True, editable=False)

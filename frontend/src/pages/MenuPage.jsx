@@ -1,62 +1,78 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-
 import MenuList from "../components/menu/MenuList";
 import CustomMenu from "../components/customMenu/CustomMenu";
 import MenuUtility from "../components/menu/MenuUtility";
-import MenuToasts from "../components/Toasts";
+import Toasts from "../components/Toasts";
 
 import { useNavigate } from "react-router";
-
 import { useDispatch, useSelector } from "react-redux";
+
 import { Row, Col, Stack, Container, Button } from "react-bootstrap";
 
-import { menuSelector, fetchAllFood, fetchAllCombo } from "../slices/menuSlice";
-
-import "./MenuPage.css";
+import { menuSelector, prefetch } from "../slices/menuSlice";
+import "./static/css/MenuPage.css";
 import { nanoid } from "@reduxjs/toolkit";
 
-function Menu() {
+const MenuPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // Redux data fetching
   const menu = useSelector(menuSelector);
-  const { error, loading } = menu;
-
-  const [menuView, setMenuView] = useState("card");
-  const [menuSearchKeyWord, setKeyWord] = useState(null);
-  const [menuSearchTags, setTags] = useState([]);
-  const [menuSearchType, setType] = useState(null);
-  const [filteredMenu, setFilteredMenu] = useState([]);
-
-  const [toasts, setToasts] = useState([]);
+  const { error, loading, menuFood, menuSearch } = menu;
+  const { combo, keyword, tags, type } = menuSearch;
 
   useEffect(() => {
-    dispatch(fetchAllFood());
-    dispatch(fetchAllCombo());
+    dispatch(prefetch());
   }, [dispatch]);
 
+  const [filteredMenu, setFilteredMenu] = useState([]);
+
   useEffect(() => {
-    let { menuItems, menuCombos } = menu.menu;
-    if (menuSearchKeyWord) {
-      // menuSearchTags: 'keyword'
-      console.log("menuSearchKeyWord", menuSearchKeyWord);
-      menuItems = menuItems.filter((item) =>
-        item.name.toLowerCase().includes(menuSearchKeyWord.toLowerCase())
+    if (!menuFood || !menuFood.combos || !menuFood.items) {
+      console.log("menuFood or its properties are not available:", menuFood);
+      return;
+    }
+
+    // Filter Order:
+    // 1.   Combo / Item
+    // 1.5  If Combo -> Combo keyword
+    // 2.   Keyword
+    // 3.   Tags
+    // 4.   Type
+
+    let menu1 = combo ? menuFood.combos : menuFood.items;
+
+    if (combo) {
+      // menuSearch.combo: 'combo'
+      console.log("menuSearch.combo", combo);
+      menu1 = menu1.filter((item) =>
+        item.name.toLowerCase().includes(combo.toLowerCase())
       );
     }
 
-    if (menuSearchTags.length) {
-      console.log("menuSearchTags", menuSearchTags);
-      // menuSearchTags: ['tags1', 'tags2']
+    if (keyword) {
+      // menuSearch.keyword: 'keyword'
+      console.log("menuSearch.keyword", keyword);
+      menu1 = menu1.filter((item) =>
+        item.name.toLowerCase().includes(keyword.toLowerCase())
+      );
+      console.log(menu1);
+    }
+
+    if (tags.length) {
+      console.log("menuSearch.tags", tags);
+      // menuSearch.tags: ['tags1', 'tags2']
       // Only take items with ALL tags in it
-      menuItems = menuItems.filter((item) => {
+      menu1 = menu1.filter((item) => {
         // iterate through all tag and item.tag
         // if 1 instace of tag is not found in item.tag
         // return false
         let itemHasAllTag = true;
-        for (const tag of menuSearchTags) {
+        for (const tag of tags) {
           let tagIsFound = false;
           for (const item_tag of item.tag) {
             if (tag === item_tag.name) tagIsFound = true;
@@ -65,122 +81,90 @@ function Menu() {
         }
         return itemHasAllTag;
       });
-      console.log(menuItems)
+      console.log(menu1);
     }
 
-    if (menuSearchType) {
-      // menuSearchTags: 'type'
-      menuItems = menuItems.filter((item) => item.type.name === menuSearchType);
+    if (type) {
+      // menuSearch.type: 'type'
+      menu1 = menu1.filter((item) => item.type.name === type);
+      console.log(menu1);
     }
-    setFilteredMenu(menuItems);
-  }, [menu, menuSearchKeyWord, menuSearchTags, menuSearchType]);
-
-  const handleMenuView = (view) => {
-    setMenuView(view);
-  };
-
-  const handleUpdateKeyWord = (keyword) => {
-    setKeyWord(keyword);
-  };
-
-  const handleUpdateTags = (tag) => {
-    if (!menuSearchTags.includes(tag)) setTags([...menuSearchTags, tag]);
-    else setTags(menuSearchTags.filter((_tag) => _tag !== tag));
-  };
-
-  const handleUpdateType = (type) => {
-    if (menuSearchType !== type) setType(type);
-    else if (menuSearchType === type) setType(null);
-    else setType(null);
-  };
-
-  const handleNewToasts = (data) => {
-    // Create new toasts with show value 
-    const newToast = {
-      id: nanoid(),
-      data: data,
-      show: true,
-    }
-    setToasts((prevToasts) => [...prevToasts, newToast]);
-
-    // Set timeout for 3000ms
-    setTimeout(() => {
-      setToasts((prevToasts) =>
-        prevToasts.map((toast) =>
-          toast.id === newToast.id ? { ...toast, show: false } : toast
-        )
-      );
-    }, 3000);
-  };
+    setFilteredMenu(menu1);
+  }, [menuFood, combo, keyword, tags, type]);
 
   const handleSave = () => {
+    console.log("Custom Menu Saved");
+  };
 
-  }
 
-  return (
-    <div className="roboto-slab">
-      <Container fluid className="p-0">
-        {loading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="danger">{error}</Message>
-        ) : (
-          <Row>
-            <Col md={0} lg={4} className="mb-3">
-              <Container fluid className="p-0">
-                <Stack direction="vertical" gap={2}>
-                  <CustomMenu handleNewToasts={handleNewToasts} />
-                  <Stack direction="horizontal" gap={2}>
+  // TODO: Find a way to dynamically implement Toasts mechanism
+  // const handleNewToasts = (data) => {
+  //   // Create new toasts with show value
+  //   const newToast = {
+  //     id: nanoid(),
+  //     data: data,
+  //     show: true,
+  //   };
+  //   setToasts((prevToasts) => [...prevToasts, newToast]);
+
+  //   // Set timeout for 3000ms
+  //   setTimeout(() => {
+  //     setToasts((prevToasts) =>
+  //       prevToasts.map((toast) =>
+  //         toast.id === newToast.id ? { ...toast, show: false } : toast
+  //       )
+  //     );
+  //   }, 3000);
+  // };
+
+  if (error && loading === false)
+    return <Message variant="danger">{error}</Message>;
+  else
+    return (
+      <div className="poppins">
+        <Container fluid className="p-0">
+          {loading ? (
+            <Loader />
+          ) : (
+            <Row>
+              <Col md={0} lg={4} className="mb-3">
+                <Container fluid className="p-0">
+                  <Stack direction="vertical" gap={2}>
+                    <CustomMenu />
+                    <Stack direction="horizontal" gap={2}>
+                      <Button
+                        variant="success"
+                        onClick={() => navigate("/order")}
+                        className="w-100"
+                      >
+                        <span className="fw-bold">CHECKOUT</span>
+                      </Button>
+                      <Button
+                        variant="success"
+                        onClick={() => handleSave()}
+                        className="w-100"
+                      >
+                        <span className="fw-bold">SAVE MENU</span>
+                      </Button>
+                    </Stack>
                     <Button
                       variant="success"
-                      onClick={() => navigate("/order")}
-                      className="w-100"
+                      onClick={() => navigate("/reservation?customMenu=on")}
                     >
-                      <span className="fw-bold">CHECKOUT</span>
-                    </Button>
-                    <Button
-                      variant="success"
-                      onClick={handleSave}
-                      className="w-100"
-                    >
-                      <span className="fw-bold">SAVE MENU</span>
+                      <span className="fw-bold">MAKE RESERVATION</span>
                     </Button>
                   </Stack>
-                  <Button
-                    variant="success"
-                    onClick={() => navigate("/reservation?customMenu=on")}
-                  >
-                    <span className="fw-bold">MAKE RESERVATION</span>
-                  </Button>
-                </Stack>
-              </Container>
-            </Col>
-            <Col md={12} lg={8} className="">
-              <MenuUtility
-                handleMenuView={handleMenuView}
-                handleUpdateKeyWord={handleUpdateKeyWord}
-                menuSearchTags={menuSearchTags}
-                handleUpdateTags={handleUpdateTags}
-                menuSearchType={menuSearchType}
-                handleUpdateType={handleUpdateType}
-              />
-              <MenuList
-                filteredMenu={filteredMenu}
-                menuView={menuView}
-                menuSearchKeyWord={menuSearchKeyWord}
-                menuSearchTags={menuSearchTags}
-                handleUpdateTags={handleUpdateTags}
-                menuSearchType={menuSearchType}
-                handleUpdateType={handleUpdateType}
-                handleNewToasts={handleNewToasts}
-              />
-            </Col>
-          </Row>
-        )}
-      </Container>
-      <MenuToasts toasts={toasts} setToasts={setToasts} />
-    </div>
-  );
+                </Container>
+              </Col>
+              <Col md={12} lg={8} className="">
+                <MenuUtility />
+                <MenuList filteredMenu={filteredMenu} />
+              </Col>
+            </Row>
+          )}
+        </Container>
+      </div>
+    );
 }
 
-export default Menu;
+export default MenuPage;

@@ -7,11 +7,11 @@ import momo from "./images/1631085786958-Thiết kế không tên - 2021-09-08T0
 const OrderPayment = () => {
   const handleDoNothing = () => {};
   return (
-    <Card className="border rounded-3">
+    <Card className="">
       <Card.Title>
         <h3 className="fw-bold">Payment</h3>
       </Card.Title>
-      <Card.Body>
+      <Card.Body >
         <Button variant="light" onClick={handleDoNothing} className="p-0 me-2">
           <Image
             width="45px"
@@ -19,7 +19,6 @@ const OrderPayment = () => {
             alt="Visa"
           />
         </Button>
-
         <Image
           className="me-2"
           width="45px"

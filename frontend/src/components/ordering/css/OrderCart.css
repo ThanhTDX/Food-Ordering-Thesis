@@ -2,3 +2,7 @@
   max-height: 80px;
   width: 100%;
 }
+
+.order--item-list--update input{
+  width: 64px;
+}

@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
@@ -8,16 +9,15 @@ import { Link } from "react-router-dom";
 import "./css/MenuItemCard.css";
 import formatVND from "../../utils/formatVND";
 import StarRating from "../StarRating";
+import { menuSelector, updateSearchTags, updateSearchType } from "../../slices/menuSlice";
+import { addItemToCart } from "../../slices/cartSlice";
+import { addMenuItem } from "../../slices/customMenuSlice";
 
-function MenuItemCard({
-  item,
-  handleAddItemToCart,
-  handleAddItemToMenu,
-  menuSearchTags,
-  handleAddTag,
-  menuSearchType,
-  handleAddType,
-}) {
+function MenuItemCard({ item }) {
+  const menu = useSelector(menuSelector);
+  const dispatch = useDispatch()
+  const { menuSearch } = menu
+
   return (
     <Card className="menu-item--card mb-4">
       <Card.Header>
@@ -32,7 +32,7 @@ function MenuItemCard({
               )}
             </div>
           </div>
-          <Link to={`/menu/${item._id}`} className="z-0">
+          <Link to={`/menu/item/${item._id}`} className="z-0">
             <div className="position-relative menu-item--card--image">
               <Card.Img
                 src={item.image}
@@ -45,7 +45,7 @@ function MenuItemCard({
         </Container>
         <Container className="product-detail-container p-0">
           <div className="d-flex justify-content-between align-items-center">
-            <Link to={`/menu/${item._id}`} className="text-decoration-none">
+            <Link to={`/menu/item/${item._id}`} className="text-decoration-none">
               <h5 className="menu-item--card--title">{item.name}</h5>
             </Link>
             <div className="d-flex flex-column">
@@ -69,11 +69,11 @@ function MenuItemCard({
                         variant={""}
                         className={
                           "p-1 py-0 menu-item--card--tag " +
-                          (menuSearchTags.includes(tag.name)
+                          (menuSearch.tags.includes(tag.name)
                             ? "active"
                             : "inactive")
                         }
-                        onClick={() => handleAddTag(tag.name)}
+                        onClick={() => dispatch(updateSearchTags(tag.name))}
                         key={tag._id}
                       >
                         <span>{tag.name}</span>
@@ -111,9 +111,9 @@ function MenuItemCard({
               variant={""}
               className={
                 "menu-item--card--type w-100 me-3 " +
-                (menuSearchType === item.type.name ? "active" : "inactive")
+                (menuSearch.type === item.type.name ? "active" : "inactive")
               }
-              onClick={() => handleAddType(item.type.name)}
+              onClick={() => dispatch(updateSearchType(item.type.name))}
             >
               <span>{item.type.name}</span>
             </Button>
@@ -121,14 +121,14 @@ function MenuItemCard({
               <Button
                 variant=""
                 className="menu-item--add-to-cart w-100"
-                onClick={() => handleAddItemToCart(item)}
+                onClick={() => dispatch(addItemToCart(item))}
               >
                 <FontAwesomeIcon icon={faCartShopping} />
               </Button>
               <Button
                 variant=""
                 className="menu-item--add-to-menu w-100"
-                onClick={() => handleAddItemToMenu(item)}
+                onClick={() => dispatch(addMenuItem(item))}
               >
                 <FontAwesomeIcon icon={faBookOpen} />
               </Button>

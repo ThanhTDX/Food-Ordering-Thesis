@@ -7,7 +7,7 @@ const OrderInformation = ({ orderingFormRef }) => {
   return (
     <Form
       ref={orderingFormRef}
-      className="border rounded-3 p-2"
+      className=""
       onSubmit={handleSubmit}
     >
       <h3 className="fw-bold">Information</h3>

@@ -15,7 +15,7 @@ class ReservationFood_FK(models.Model):
   
 class ReservationCombo_FK(models.Model):
   reservation = models.ForeignKey("reservation.Reservation", on_delete=models.CASCADE, null=True)
-  combo = models.ForeignKey("base.FoodCombo", on_delete=models.DO_NOTHING, null=True)
+  combo = models.ForeignKey("base.Combo", on_delete=models.DO_NOTHING, null=True)
   qty = models.SmallIntegerField()
 
 class Reservation(models.Model):
@@ -43,7 +43,7 @@ class Reservation(models.Model):
   tables = models.ManyToManyField("restaurant.RestaurantTable", related_name="tables")
   vips = models.ManyToManyField("restaurant.RestaurantVIP", related_name="vips")
   foods = models.ManyToManyField("base.Food", through=ReservationFood_FK, related_name="foods")
-  combos = models.ManyToManyField("base.FoodCombo", through=ReservationCombo_FK, related_name="combos")
+  combos = models.ManyToManyField("base.Combo", through=ReservationCombo_FK, related_name="combos")
   
   date_created = models.DateTimeField(default=timezone.now)
   

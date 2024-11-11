@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import MenuPage from "../pages/MenuPage";
+import MenuPage from "./MenuPage";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,14 +16,15 @@ import {
 import { menuSelector } from "../slices/menuSlice";
 import OpacityImage from "../components/OpacityImage";
 
-import carousel1 from "./img/2f67bc30f37cf8cc1c49e8d51fba0e435555d844-1800x1000.jpg";
-import carousel2 from "./img/photo-1517248135467-4c7edcad34c4.jpg";
-import carousel3 from "./img/quan-lau-ngon-o-hue-1.jpg";
-import building1 from "./img/thiet-ke-quan-cafe-lekao-coffee-dong-khoi-ben-tre-24.png";
-import building2 from "./img/download.jpg";
-import building3 from "./img/the-20-year-old-vietnam-pho-restaurant-in-south-korea-1022.jpg";
+import carousel1 from "./static/img/2f67bc30f37cf8cc1c49e8d51fba0e435555d844-1800x1000.jpg";
+import carousel2 from "./static/img/photo-1517248135467-4c7edcad34c4.jpg";
+import carousel3 from "./static/img/quan-lau-ngon-o-hue-1.jpg";
+import building1 from "./static/img/thiet-ke-quan-cafe-lekao-coffee-dong-khoi-ben-tre-24.png";
+import building2 from "./static/img/download.jpg";
+import building3 from "./static/img/the-20-year-old-vietnam-pho-restaurant-in-south-korea-1022.jpg";
+import customMenu from "./static/img/Screenshot 2024-11-01 141452.png";
 
-import "./Home.css";
+import "./static/css/HomePage.css";
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -41,28 +42,23 @@ function Home() {
     <Message variant="danger">{error}</Message>
   ) : (
     <>
-      <Carousel data-bs-theme="dark" className="w-100 home--carousel">
+      <Carousel fade data-bs-theme="dark" className="w-100 home--carousel">
         <Carousel.Item>
           <OpacityImage src={carousel1} alt="carousel1" opacity={0.2} />
-          <Carousel.Caption className="home--carousel--caption">
+          <Carousel.Caption>
             <h1>Thành's Deli</h1>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
           <OpacityImage src={carousel2} alt="carousel2" opacity={0.2} />
-          <Carousel.Caption className="home--carousel--caption">
+          <Carousel.Caption>
             <h1>Thành's Deli</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
           <OpacityImage src={carousel3} alt="carousel3" opacity={0.2} />
-          <Carousel.Caption className="home--carousel--caption">
+          <Carousel.Caption>
             <h1>Thành's Deli</h1>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
@@ -86,13 +82,12 @@ function Home() {
                 ></iframe>
               </Col>
             </Row>
-
             <Button
-              className="w-100"
+              className="w-100 my-1"
               variant="light"
               onClick={() => navigate("/reservation")}
             >
-              MAKE RESERVATION HERE
+              <span className="fw-bold">MAKE RESERVATION HERE</span>
             </Button>
           </Col>
           <Col lg={4} className="">
@@ -114,11 +109,11 @@ function Home() {
             </Row>
 
             <Button
-              className="w-100"
+              className="w-100 my-1"
               variant="light"
               onClick={() => navigate("/reservation")}
             >
-              MAKE RESERVATION HERE
+              <span className="fw-bold">MAKE RESERVATION HERE</span>
             </Button>
           </Col>
           <Col lg={4} className="">
@@ -140,12 +135,33 @@ function Home() {
             </Row>
 
             <Button
-              className="w-100"
+              className="w-100 my-1"
               variant="light"
               onClick={() => navigate("/reservation")}
             >
-              MAKE RESERVATION HERE
+              <span className="fw-bold">MAKE RESERVATION HERE</span>
             </Button>
+          </Col>
+        </Row>
+      </Container>
+      <Container className="p-0 my-5 home--custom-menu">
+        <Row>
+          <Col
+            md={12}
+            lg={6}
+            className="d-flex flex-column align-items-start justify-content-center"
+          >
+            <h1 className="fw-bold fs-1">CREATE YOUR OWN PERSONAL MENU!</h1>
+            <Button onClick={() => navigate("/menu")}>
+              <span className="fw-bold fs-4">GO TO MENU</span>
+            </Button>
+          </Col>
+          <Col
+            md={12}
+            lg={6}
+            className="d-flex align-items-center justify-content-center"
+          >
+            <Image src={customMenu} alt={customMenu} />
           </Col>
         </Row>
       </Container>

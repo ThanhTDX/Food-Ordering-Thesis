@@ -1,14 +1,14 @@
-import { current } from "@reduxjs/toolkit";
 import React from "react";
 
 import { Pagination } from "react-bootstrap";
 
-function Pageing({ filteredMenu, itemPerPage, currentPage, setCurrentPage }) {
+function Pageing({ items, itemPerPage, currentPage, setCurrentPage }) {
+  const length = items.length === 0 ? 0 : items.length
   const pageNumbers = [];
   const firstPage = currentPage - 2 < 1 ? 1 : currentPage - 2;
   const lastPage =
-    currentPage + 2 > Math.ceil(filteredMenu.length / itemPerPage)
-      ? Math.ceil(filteredMenu.length / itemPerPage)
+    currentPage + 2 > Math.ceil(length / itemPerPage)
+      ? Math.ceil(length / itemPerPage)
       : currentPage + 2;
   for (let i = firstPage; i <= lastPage; i++) {
     pageNumbers.push(

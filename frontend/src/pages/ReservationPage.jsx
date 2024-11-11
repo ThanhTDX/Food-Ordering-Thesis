@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import ReservationForm from "../components/reservation/ReservationForm";
 
-import reservationImage from "./img/2f67bc30f37cf8cc1c49e8d51fba0e435555d844-1800x1000.jpg"
+import reservationImage from "./static/img/2f67bc30f37cf8cc1c49e8d51fba0e435555d844-1800x1000.jpg"
 
 import { Container, Row, Col, Image } from "react-bootstrap";
 
-const Reservation = () => {
+const ReservationPage = () => {
   const [rightView, setRightView] = useState("picture");
 
   return (
@@ -33,4 +33,4 @@ const Reservation = () => {
   );
 };
 
-export default Reservation;
+export default ReservationPage;
