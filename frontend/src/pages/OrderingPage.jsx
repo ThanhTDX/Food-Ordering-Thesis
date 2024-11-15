@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Container, Row, Col, Stack, Button } from "react-bootstrap";
 
@@ -10,6 +10,7 @@ import OrderInformation from "../components/ordering/OrderInformation";
 import OrderPayment from "../components/ordering/OrderPayment";
 
 const OrderingPage = () => {
+  const [isPaid, setPaid] = useState(false)
   return (
     <Container>
       <Row>
@@ -24,8 +25,13 @@ const OrderingPage = () => {
           <Container className="border rounded-3 p-2">
             <Stack direction="vertical" gap={2}>
               <OrderInformation />
-              <OrderPayment />
-              <Button variant="info" type="submit" className="w-100 p-1">
+              <OrderPayment isPaid={isPaid} setPaid={setPaid}/>
+              <Button
+                variant="info"
+                type="submit"
+                className="w-100 p-1"
+                disabled={!isPaid}
+              >
                 <strong>CREATE ORDER</strong>
               </Button>
             </Stack>

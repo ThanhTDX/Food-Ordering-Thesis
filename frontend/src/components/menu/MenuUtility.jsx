@@ -7,20 +7,11 @@ import {
   Button,
   Row,
   Col,
-  Dropdown,
-  Collapse,
-  Accordion,
   InputGroup,
   Card,
   Carousel,
 } from "react-bootstrap";
 
-import Slider from "@mui/material/Slider";
-import {
-  fetchAllFoodTags,
-  fetchAllFoodType,
-  fetchAllComboType,
-} from "../../api/menuApi";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
@@ -59,58 +50,21 @@ const MenuKeyword = ({ searchKeyword }) => {
   );
 };
 
-const MenuPriceSlider = () => {
-
-  const marks = [
-    {
-      value: 0,
-      label: "0",
-    },
-    {
-      value: 50,
-      label: "50K",
-    },
-    {
-      value: 100,
-      label: "100K",
-    },
-    {
-      value: 290,
-      label: "Unlimited",
-    },
-  ];
-
-  function valuetext(value) {
-    return `${value}%`;
-  }
-
-  return (
-    <Slider
-      aria-label="Custom marks"
-      defaultValue={40}
-      getAriaValueText={valuetext}
-      step={5}
-      valueLabelDisplay="auto"
-      marks={marks}
-      color="primary"
-    />
-  );
-};
-
 const MenuView = ({ view }) => {
+  const dispatch = useDispatch()
   return (
     <Stack direction="horizontal" gap={2} className="">
       <Button
         variant="warning"
         className="btn btn-block w-100"
-        onClick={() => updateView("card")}
+        onClick={() => dispatch(updateView("card"))}
       >
         <i className="fa-solid fa-table"></i>
       </Button>
       <Button
         variant="warning"
         className="btn btn-block w-100"
-        onClick={() => updateView("list")}
+        onClick={() => dispatch(updateView("list"))}
       >
         <i className="fa-solid fa-list"></i>
       </Button>
@@ -279,10 +233,10 @@ const MenuUtility = () => {
           <MenuKeyword searchKeyword={menuSearch.keyword} />
         </Col>
         <Col xs={9} md={10} lg={5} className="">
-          <MenuPriceSlider />
+          <Button></Button>
         </Col>
         <Col xs={3} md={2} lg={2} className="">
-          <MenuView menuView={menuView} />
+          <MenuView view={menuView} />
         </Col>
       </Row>
       <Row>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { Form, Button, Row, Col, Stack } from "react-bootstrap";
@@ -8,18 +8,122 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faX } from "@fortawesome/free-solid-svg-icons";
 
 import "./ReservationForm.css";
+import DateInput from "../DateInput";
+import TimeInput from "../TimeInput";
+import Message from "../Message";
+
+function DateTimeInput() {
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [time, setTime] = useState(new Date().toTimeString().slice(0, 5));
+  const [eatTime, setEatTime] = useState("0.5");
+  const [dateError, setDateError] = useState("");
+  const [timeError, setTimeError] = useState("");
+
+  // useEffect to automatically check whenever eatTime and time changes
+  // eatTime + time shouldn't be in the timeRestriction range
+  // in this case it is between 22:00 and 6:00
+  useEffect(() => {
+    const selectedEatTime = parseFloat(eatTime);
+
+    // Restrict time selection between 22:00 and 06:00
+    const timeRestriction = (time) => {
+      const [hours, minutes] = time.split(":").map(Number);
+      // Convert the input time into a number
+      const timeInMinutes = hours * 60 + minutes;
+      const timeAndEatTimeInMinutes = timeInMinutes + selectedEatTime * 60;
+      // Convert to minutes
+      const startTime = 22 * 60; // 22:00 in minutes
+      const endTime = 6 * 60; // 06:00 in minutes
+      // If time is between 22:00 and 06:00, return true
+      if (
+        timeAndEatTimeInMinutes >= startTime ||
+        timeAndEatTimeInMinutes < endTime
+      ) {
+        return true;
+      }
+      return false;
+    };
+
+    // Restrict time selection between 22:00 and 06:00
+    const isTimeInRestrictedRange = timeRestriction(time);
+    if (isTimeInRestrictedRange) {
+      setTimeError("Time selection between 22:00 and 06:00 is not allowed.");
+    } else {
+      setTimeError("");
+    }
+  }, [eatTime, time]);
+
+  return (
+    <>
+      <Stack gap={2} direction="vertical">
+        <Row>
+          <Col md={8} lg={8}>
+            <Row>
+              <Form.Label>
+                <span className="ps-2">Reservation Date</span>
+              </Form.Label>
+              <Col md={6} lg={6}>
+                <DateInput
+                  date={date}
+                  setDate={setDate}
+                  error={dateError}
+                  setError={setDateError}
+                />
+              </Col>
+              <Col md={6} lg={6}>
+                <TimeInput
+                  eatTime={eatTime}
+                  time={time}
+                  setTime={setTime}
+                  error={timeError}
+                  setError={setTimeError}
+                />
+              </Col>
+            </Row>
+          </Col>
+          <Col md={4} lg={4}>
+            <Form.Group className="" controlId="formEatTime">
+              <Form.Label className="">Eat Time</Form.Label>
+              <Form.Control
+                as="select"
+                name="formEatTime"
+                className="custom-select"
+                value={eatTime}
+                onChange={(e) => setEatTime(e.target.value)}
+              >
+                <option value="0.5">30 minutes</option>
+                <option value="1">1 Hour</option>
+                <option value="2">2 Hours</option>
+                <option value="3">3 Hours</option>
+              </Form.Control>
+            </Form.Group>
+          </Col>
+        </Row>
+        {dateError && (
+          <div>
+            <Message variant="danger">{dateError}</Message>
+          </div>
+        )}
+        {timeError && (
+          <div>
+            <Message variant="danger">
+              {timeError}
+            </Message>
+          </div>
+        )}
+      </Stack>
+    </>
+  );
+}
 
 function ReservationForm({ rightView, setRightView }) {
   const [searchParams] = useSearchParams();
   const customMenu = searchParams.get("customMenu");
-
-  const [toasts, setToasts] = useState([]);
   const [hasMenu, setMenu] = useState(customMenu ? true : false);
   const [hasTable, setHasTable] = useState(false);
 
   const [tables, setTables] = useState([]);
   const [vip, setVip] = useState([]);
-
   const reservationFormRef = useRef(null);
 
   const handleSubmit = (e) => {
@@ -29,10 +133,6 @@ function ReservationForm({ rightView, setRightView }) {
     const values = Object.fromEntries(formData.entries());
     console.log("Form Values:", values);
   };
-
-  function ReservationIncludeMenu() {
-    return <CustomMenu setToasts={setToasts} />;
-  }
 
   return (
     <Form
@@ -98,52 +198,7 @@ function ReservationForm({ rightView, setRightView }) {
             </Form.Group>
           </Col>
         </Row>
-        <Row>
-          <Col md={8} lg={8}>
-            <Row>
-              <Form.Label>
-                <span className="ps-2">Reservation Date</span>
-              </Form.Label>
-              <Col md={6} lg={6}>
-                <Form.Group className="" controlId="form-date">
-                  <Form.Control
-                    type="date"
-                    name="form-date"
-                    className="custom-select"
-                    required
-                  ></Form.Control>
-                </Form.Group>
-              </Col>
-              <Col md={6} lg={6}>
-                <Form.Group className="" controlId="form-time">
-                  <Form.Control
-                    type="time"
-                    name="form-time"
-                    className="custom-select"
-                    required
-                  ></Form.Control>
-                </Form.Group>
-              </Col>
-            </Row>
-          </Col>
-          <Col md={4} lg={4}>
-            <Form.Group className="" controlId="form-eat-time">
-              <Form.Label className="">Eat Time</Form.Label>
-              <Form.Control
-                as="select"
-                name="form-eat-time"
-                className="custom-select"
-              >
-                <option value="0.5" defaultValue>
-                  30 minutes
-                </option>
-                <option value="1">1 Hour</option>
-                <option value="2">2 Hour</option>
-                <option value="3">3 Hour</option>
-              </Form.Control>
-            </Form.Group>
-          </Col>
-        </Row>
+        <DateTimeInput />
         <Row>
           <Col md={8} lg={8}>
             <Button
@@ -255,7 +310,7 @@ function ReservationForm({ rightView, setRightView }) {
             </Col>
           )} */}
         </Row>
-        {hasMenu && <ReservationIncludeMenu />}
+        {/* {hasMenu && <ReservationIncludeMenu />} */}
         <Form.Group>
           <Button variant="warning" type="submit" className="w-100 p-3">
             <span className="fw-bold">Confirm Booking</span>

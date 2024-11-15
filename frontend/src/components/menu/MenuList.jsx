@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import MenuItemList from "./MenuItemList";
 import MenuItemCard from "./MenuItemCard";
-import Pageing from "./Pageing";
+import Pageing from "../Pageing";
 
 import { Row, Col, Stack, Container } from "react-bootstrap";
 

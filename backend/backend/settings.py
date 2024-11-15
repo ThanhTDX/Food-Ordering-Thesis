@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-3+yf(4fc^%hh!z*t^&!cgvpw5i@@5473+mu_i7x&s4ry1@zp=(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['7554-2001-ee0-4f07-b00-99e7-e841-4b26-2c72.ngrok-free.app', '127.0.0.1']
 
 
 # Application definition
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'reservation',
     'ordering',
     'promotion',
+    'payment.apps.PaymentConfig',
 ]
 
 MIDDLEWARE = [
@@ -212,3 +213,5 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+

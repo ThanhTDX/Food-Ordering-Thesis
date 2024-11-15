@@ -37,7 +37,7 @@ def getRoutes(request):
 @permission_classes([IsAdminUser])
 def getAllUsers(request):
   user = User.objects.all()
-  serializer = UserSerializer(user, many=True)
+  serializer = CustomUserSerializer(user, many=True)
   return Response(serializer.data)
 
 # api/users/profile
@@ -45,7 +45,7 @@ def getAllUsers(request):
 @permission_classes([IsAuthenticated])
 def getUserProfile(request):
   user = request.user
-  serializer = UserSerializer(user, many=False)
+  serializer = CustomUserSerializer(user, many=False)
   return Response(serializer.data)
 
 # api/users/login

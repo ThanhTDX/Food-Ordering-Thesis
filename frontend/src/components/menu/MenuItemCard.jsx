@@ -1,22 +1,26 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen, faCartShopping } from "@fortawesome/free-solid-svg-icons";
-
 import { Card, Stack, Button, Row, Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import "./css/MenuItemCard.css";
 import formatVND from "../../utils/formatVND";
 import StarRating from "../StarRating";
-import { menuSelector, updateSearchTags, updateSearchType } from "../../slices/menuSlice";
+import {
+  menuSelector,
+  updateSearchTags,
+  updateSearchType,
+} from "../../slices/menuSlice";
 import { addItemToCart } from "../../slices/cartSlice";
 import { addMenuItem } from "../../slices/customMenuSlice";
 
 function MenuItemCard({ item }) {
   const menu = useSelector(menuSelector);
-  const dispatch = useDispatch()
-  const { menuSearch } = menu
+  const dispatch = useDispatch();
+  const { menuSearch } = menu;
 
   return (
     <Card className="menu-item--card mb-4">
@@ -43,9 +47,14 @@ function MenuItemCard({ item }) {
             </div>
           </Link>
         </Container>
+      </Card.Header>
+      <Card.Body>
         <Container className="product-detail-container p-0">
           <div className="d-flex justify-content-between align-items-center">
-            <Link to={`/menu/item/${item._id}`} className="text-decoration-none">
+            <Link
+              to={`/menu/item/${item._id}`}
+              className="text-decoration-none"
+            >
               <h5 className="menu-item--card--title">{item.name}</h5>
             </Link>
             <div className="d-flex flex-column">
@@ -135,7 +144,7 @@ function MenuItemCard({ item }) {
             </Stack>
           </div>
         </Container>
-      </Card.Header>
+      </Card.Body>
     </Card>
   );
 }

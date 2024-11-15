@@ -1,0 +1,8 @@
+.order--payment--logo img {
+  max-height: 50px;
+}
+
+.paypal-buttons {
+  min-width: none;
+  min-height: none;
+}

@@ -18,13 +18,13 @@ const OrderCart = () => {
   const { menuItems, menuCombo } = menu;
   return (
     <>
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1 class="fw-bold mb-0">Ordering Cart</h1>
-        <h6 class="mb-0 text-muted">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h1 className="fw-bold mb-0">Ordering Cart</h1>
+        <h6 className="mb-0 text-muted">
           {menuItems.length + menuCombo.length} items
         </h6>
       </div>
-      <hr class="my-2"></hr>
+      <hr className="my-2"></hr>
       <Stack direction="vertical" gap={3}>
         {menuItems.map((item) => {
           return (
@@ -40,9 +40,6 @@ const OrderCart = () => {
                 />
               </Col>
               <Col md={5} lg={5} xl={5} className="d-flex flex-column">
-                <div>
-                  <h6>T-Shirt</h6>
-                </div>
                 <div>
                   <h4>{item.name}</h4>
                 </div>
@@ -64,9 +61,9 @@ const OrderCart = () => {
                     id="form1"
                     min="0"
                     name="quantity"
-                    value={item.qty}
+                    value={Number(item.qty).toString()}
                     type="number"
-                    className="form-control form-control-sm"
+                    className="form-control form-control-sm text-center"
                     onChange={(e) =>
                       dispatch(
                         updateMenuItem({

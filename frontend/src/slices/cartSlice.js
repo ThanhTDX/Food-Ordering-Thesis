@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as orderApi from "../api/orderApi";
+import { customMenuSelector } from "./customMenuSlice";
 
 const calculateDiscountedPrice = (price, arr) => {
   let currentPrice = price;
@@ -27,13 +28,22 @@ export const cartSlice = createSlice({
     },
     billingInformation: {
       address: "",
-      payment: "",
+      payment: {
+        paymentMethod: "",
+        data: "",
+      },
     },
     status: "",
     loading: "",
     error: "",
   },
   reducers: {
+    copyCartFromCustomMenu: (state, action) => {
+      // get from localStorage (since customMenu saves data in localStorage)
+      state.items = localStorage.getItem("customMenu")
+        ? JSON.parse(localStorage.getItem("customMenu"))
+        : [];
+    },
     addItemToCart: (state, action) => {
       // action.payload: item
       if (!state.cartContent.items.find(action.payload)) {

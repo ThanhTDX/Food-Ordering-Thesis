@@ -1,24 +1,31 @@
+// REACT + REDUX 
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+// CSS + BOOTSTRAP + REACT_BOOTSTRAP 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen, faCartShopping } from "@fortawesome/free-solid-svg-icons";
-
 import { Card, Stack, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
 import "./css/MenuItemList.css";
 
+// UTILS
 import formatVND from "../../utils/formatVND";
 import StarRating from "../StarRating";
 
-function MenuItemList({
-  item,
-  handleAddItemToCart,
-  handleAddItemToMenu,
-  menuSearchTags,
-  handleAddTag,
-  menuSearchType,
-  handleAddType,
-}) {
+// REDUX SLICES
+import {
+  menuSelector,
+  updateSearchTags,
+  updateSearchType,
+} from "../../slices/menuSlice";
+import { addItemToCart } from "../../slices/cartSlice";
+import { addMenuItem } from "../../slices/customMenuSlice";
+
+function MenuItemList({ item }) {
+  const menu = useSelector(menuSelector);
+  const dispatch = useDispatch();
+  const { menuSearch } = menu;
   return (
     <Card className="shadow-0 border rounded-3 menu-item--list">
       <Card.Body className="py-0">
@@ -31,7 +38,7 @@ function MenuItemList({
             xl={3}
             className="p-0 align-items-center justify-content-center d-flex"
           >
-            <Link to={`/menu/${item._id}`}>
+            <Link to={`/menu/item/${item._id}`}>
               <div className="position-relative menu-item--list--image">
                 <Card.Img
                   src={item.image}
@@ -43,7 +50,7 @@ function MenuItemList({
           </Col>
           <Col xs={5} sm={5} md={5} lg={5} xl={6} className="py-1">
             <Link
-              to={`/menu/${item._id}`}
+              to={`/menu/item/${item._id}`}
               className="menu-item--list--title text-decoration-none position-relative"
             >
               <h4>{item.name}</h4>
@@ -55,7 +62,7 @@ function MenuItemList({
               )}
             </Link>
 
-            <StarRating item={item} size={"md"}/>
+            <StarRating item={item} size={"md"} />
             <div className="">
               <Stack gap={1} direction="horizontal">
                 {item.tag
@@ -66,9 +73,11 @@ function MenuItemList({
                         variant={""}
                         className={
                           "menu-item--list--tag p-1 py-0 " +
-                          (menuSearchTags.includes(tag.name) ? "active" : "inactive")
+                          (menuSearch.tags.includes(tag.name)
+                            ? "active"
+                            : "inactive")
                         }
-                        onClick={() => handleAddTag(tag.name)}
+                        onClick={() => dispatch(updateSearchTags(tag.name))}
                         key={tag._id}
                       >
                         <span>{tag.name}</span>
@@ -83,9 +92,9 @@ function MenuItemList({
                 variant={""}
                 className={
                   "menu-item--list--type ms-3 w-100 " +
-                  (menuSearchType === item.type.name ? "active" : "inactive")
+                  (menuSearch.type === item.type.name ? "active" : "inactive")
                 }
-                onClick={() => handleAddType(item.type.name)}
+                onClick={() => dispatch(updateSearchType(item.type.name))}
               >
                 <span className="">{item.type.name}</span>
               </Button>
@@ -111,14 +120,14 @@ function MenuItemList({
                 <Button
                   variant=""
                   className="w-100 menu-item--add-to-cart"
-                  onClick={() => handleAddItemToCart(item)}
+                  onClick={() => dispatch(addItemToCart(item))}
                 >
                   <FontAwesomeIcon icon={faCartShopping} />
                 </Button>
                 <Button
                   variant=""
                   className="w-100 menu-item--add-to-menu"
-                  onClick={() => handleAddItemToMenu(item)}
+                  onClick={() => dispatch(addMenuItem(item))}
                 >
                   <FontAwesomeIcon icon={faBookOpen} />
                 </Button>

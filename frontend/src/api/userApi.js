@@ -1,7 +1,7 @@
 import axios from "axios";
 import __handleError from "./error/__handleError";
 
-// POST /api/users/login
+// POST /api/users/login/
 export const userLogin = async (phone_number, password) => {
   const config = {
     headers: {

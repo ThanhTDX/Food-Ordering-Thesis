@@ -67,7 +67,7 @@ export const customMenuSlice = createSlice({
       );
       state.price -= Number(menuItem.price) * Number(menuItem.qty);
       localStorage.setItem(
-        "customMenuItems",
+        "customMenu",
         JSON.stringify(state.menu.menuItems)
       );
     },

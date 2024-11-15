@@ -38,11 +38,11 @@ const CustomMenuEdit = ({
               className="custom-menu--item__wrapper border rounded-3"
               key={item._id}
             >
-              <Col md={2} className="p-0">
+              <Col xs={2} className="p-0">
                 <img src={item.image} alt={item.image} />
               </Col>
               <Col
-                md={6}
+                xs={6}
                 className="d-flex flex-column align-items-start justify-content-center p-0"
               >
                 <div className="custom-menu--title fs-6">{item.name}</div>
@@ -53,7 +53,7 @@ const CustomMenuEdit = ({
                 </div>
               </Col>
               <Col
-                md={4}
+                xs={4}
                 className="p-0 d-flex flex-column align-items-center justify-content-center"
               >
                 <div className="custom-menu--edit d-flex align-items-center justify-content-around">
@@ -130,7 +130,7 @@ const CustomMenuView = ({ menuItems }) => {
   );
 };
 
-const CustomMenu = ({ handleNewToasts }) => {
+const CustomMenu = ({ }) => {
   const dispatch = useDispatch();
   const [editableCustom, enableEdit] = useState(false);
   const customMenu = useSelector(customMenuSelector);

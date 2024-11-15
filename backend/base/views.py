@@ -26,7 +26,7 @@ def getRoutes(request):
     '/api/menu/type/',
     '/api/menu/comment/',
   ]
-  return Response(routes)
+  return Response(routes, status=status.HTTP_200_OK)
 
 
 # /api/menu/food/all/
