@@ -234,12 +234,11 @@ paypal_client: PaypalServersdkClient = PaypalServersdkClient(
 orders_controller: OrdersController = paypal_client.orders
 payments_controller: PaymentsController = paypal_client.payments
 
-# /api/ordering/paypal/payment
+# /api/ordering/paypal/payment_creation/
 @api_view(['POST'])
 def orderingPaymentPaypal(request):
-  
+
   def convert_vnd_to_usd(vnd_amount):
-    print(vnd_amount)
     # Get the current exchange rate from VND to USD
     api_url = "https://v6.exchangerate-api.com/v6/c628a77b98c1ccb5132e252a/latest/VND"
     
@@ -280,7 +279,6 @@ def orderingPaymentPaypal(request):
   request_data = json.loads(request.body)
   phone_number = request_data.get('phoneNumber')
   vnd_amount = request_data.get('amount')
-  print(vnd_amount)
   usd_amount = convert_vnd_to_usd(vnd_amount)
   
   # use the cart information passed from the front-end to calculate the order amount detals
@@ -307,13 +305,15 @@ def orderingPaymentPaypal(request):
   
   return Response(response_data, status=status.HTTP_200_OK)
 
-# /api/ordering/paypal/callback
+# /api/ordering/paypal/approve_callback/
 @api_view(['POST'])
 def orderingPaymentPaypalCallback(request):
 
   print("--------------------PAYPAL CALLBACK----------------\n")
+  print(request.body)
   request_data = json.loads(request.body)
-  order_id = request_data.get('orderId')    
+  order_id = request_data.get('orderId') 
+  print(order_id)   
   
   order = orders_controller.orders_capture(
     {"id": order_id, "prefer": "return=representation"}
@@ -321,6 +321,7 @@ def orderingPaymentPaypalCallback(request):
   
   response_data = json.loads(ApiHelper.json_serialize(order.body))
   
+  # Update payment order in Django
   payment = Payment.objects.get(order_id=order_id)
   # Error handling needed
   payment.status = Payment.STATUSES.SUCCESSFUL
@@ -331,6 +332,16 @@ def orderingPaymentPaypalCallback(request):
   payment_information.save()
   
   return Response(response_data, status=status.HTTP_200_OK)
+
+# /api/ordering/paypal/webhooks/payment_received/
+@api_view(['POST'])
+def orderingPaymentPaypalWebhooksReceived(request):
+
+  print("--------------------PAYPAL PAYMENT RECEIVED----------------\n")
+  print(request.body)
+  request_data = json.loads(request.body)
+  
+  return Response(status=status.HTTP_204_NO_CONTENT)
   
 
 

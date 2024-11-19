@@ -132,7 +132,7 @@ const CustomMenuView = ({ menuItems }) => {
 
 const CustomMenu = ({ }) => {
   const dispatch = useDispatch();
-  const [editableCustom, enableEdit] = useState(false);
+  const [editableCustom, enableEdit] = useState(true);
   const customMenu = useSelector(customMenuSelector);
   const { menu, price } = customMenu;
   const { menuItems, menuCombo } = menu;

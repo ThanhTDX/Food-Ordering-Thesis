@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { Col, Row, Image, Button, Stack } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
@@ -9,12 +11,15 @@ import {
   removeMenuItem,
   updateMenuItem,
 } from "../../slices/customMenuSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { cartSelector } from "../../slices/cartSlice";
+
 import formatVND from "../../utils/formatVND";
+
 
 const OrderCart = () => {
   const dispatch = useDispatch();
   const { menu, price } = useSelector(customMenuSelector);
+  const { cart } = useSelector(cartSelector)
   const { menuItems, menuCombo } = menu;
   return (
     <>

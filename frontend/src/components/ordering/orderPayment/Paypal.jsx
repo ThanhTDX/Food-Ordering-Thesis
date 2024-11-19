@@ -19,33 +19,6 @@ const Paypal = ({ isPaid, setPaid }) => {
     "data-sdk-integration-source": "developer-studio",
   };
 
-  const handleSendPaymentRequest = async (phoneNumber, price) => {
-    try {
-      let url;
-      if (localStorage.getItem("momo")) {
-        const momoLocalStorage = JSON.parse(localStorage.getItem("momo"));
-        console.log(momoLocalStorage);
-        // if (30000 === Number(price))
-        url = momoLocalStorage.shortLink;
-      } else {
-        const data = {
-          phoneNumber: phoneNumber,
-          price: price.toString(),
-        };
-        const response = await axios.post(
-          `/api/ordering/payment/momo/`,
-          JSON.stringify(data)
-        );
-        localStorage.setItem("momo", JSON.stringify(response.data.data));
-
-        url = response.data.data.shortLink;
-      }
-      window.location.href = url;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const styles = {
     shape: "rect",
     layout: "horizontal",
@@ -63,12 +36,12 @@ const Paypal = ({ isPaid, setPaid }) => {
           createOrder={async () => {
             try {
               const response = await axios.post(
-                "/api/ordering/paypal/payment/",
+                "/api/ordering/paypal/payment_creation/",
                 // only pass in the amount price
-                JSON.stringify({
+                {
                   amount: "50000",
                   phoneNumber: "0999000999",
-                }),
+                },
                 {
                   headers: {
                     "Content-Type": "application/json",
@@ -94,19 +67,18 @@ const Paypal = ({ isPaid, setPaid }) => {
           onApprove={async (data, actions) => {
             try {
               const response = await axios.post(
-                `/api/ordering/paypal/callback/`,
+                `/api/ordering/paypal/approve_callback/`,
                 {
-                  method: "POST",
+                  orderId: data.orderID,
+                },
+                {
                   headers: {
                     "Content-Type": "application/json",
                   },
-                  body: JSON.stringify({
-                    orderId: data.orderId,
-                  }),
                 }
               );
 
-              const orderData = await response.json();
+              const orderData = response.data;
               // Three cases to handle:
               //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
               //   (2) Other non-recoverable errors -> Show a failure message

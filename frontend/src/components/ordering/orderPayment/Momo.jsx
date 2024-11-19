@@ -37,11 +37,11 @@ const Momo = ({isPaid, setPaid}) => {
     <>
       <Button
         variant="light"
-        className="p-0 m-0 order--payment--logo"
+        className="p-0 m-0 order--payment--logo w-100"
         onClick={() => handleSendPaymentRequest("0999000999", 40000)}
         // disabled={!isPaid}
       >
-        <Image className="rounded-3" src={momoImg} alt="Momo" />
+          <Image className="rounded-3" src={momoImg} alt="Momo" />
       </Button>
     </>
   );

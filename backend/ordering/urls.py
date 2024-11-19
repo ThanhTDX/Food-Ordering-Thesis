@@ -7,6 +7,7 @@ urlpatterns = [
     path('<str:pk>/', views.getOrderingById, name="orderingById"),
     path('momo/payment/', views.orderingPaymentMomo, name="orderingPaymentMomo"),
     path('momo/callback', views.orderingPaymentMomoCallback, name="orderingPaymentMomoCallback"),
-    path('paypal/payment/', views.orderingPaymentPaypal, name="orderingPaymentPaypal"),
-    path('paypal/callback', views.orderingPaymentPaypalCallback, name="orderingPaymentPaypalCallback"),
+    path('paypal/payment_creation/', views.orderingPaymentPaypal, name="orderingPaymentPaypal"),
+    path('paypal/approve_callback/', views.orderingPaymentPaypalCallback, name="orderingPaymentPaypalCallback"),
+    path('paypal/webhooks/payment_received/', views.orderingPaymentPaypalWebhooksReceived, name="orderingPaymentPaypalWebhooksReceived"),
 ]

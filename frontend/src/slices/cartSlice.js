@@ -4,7 +4,7 @@ import { customMenuSelector } from "./customMenuSlice";
 
 const calculateDiscountedPrice = (price, arr) => {
   let currentPrice = price;
-  for (const promotion in arr) {
+  for (const promotion of arr) {
     currentPrice =
       promotion.discount_type === "percentage"
         ? currentPrice * parseFloat(promotion.discount_type.replace("%", ""))
@@ -13,11 +13,33 @@ const calculateDiscountedPrice = (price, arr) => {
   return currentPrice;
 };
 
+const initialCartFromCustomMenuStorage = () => {
+  // Fetching Custom Menu from LocalStorage
+  const customMenu = localStorage.getItem("customMenu")
+    ? JSON.parse(localStorage.getItem("customMenu"))
+    : [];
+  // Return Data
+  let result = []
+  // If nothing, return empty array
+  if (!customMenu.length){
+    return result;
+  }
+  // Else extract item/com and put into result
+  for (const item of customMenu){
+    result = [...result, item]
+  }
+  return result
+} 
+
+const initialPrice = () => {
+
+}
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cartContent: {
-      items: [],
+      items: initialCartFromCustomMenuStorage(),
       price: 0,
       promotions: [],
       discountedPrice: 0,
@@ -38,12 +60,6 @@ export const cartSlice = createSlice({
     error: "",
   },
   reducers: {
-    copyCartFromCustomMenu: (state, action) => {
-      // get from localStorage (since customMenu saves data in localStorage)
-      state.items = localStorage.getItem("customMenu")
-        ? JSON.parse(localStorage.getItem("customMenu"))
-        : [];
-    },
     addItemToCart: (state, action) => {
       // action.payload: item
       if (!state.cartContent.items.find(action.payload)) {

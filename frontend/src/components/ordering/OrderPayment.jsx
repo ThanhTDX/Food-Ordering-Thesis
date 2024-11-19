@@ -20,17 +20,14 @@ const OrderPayment = ({isPaid, setPaid}) => {
             xs={3}
             className="p-0 m-0 d-flex justify-content-center align-items-center"
           >
-            <Momo />
+            <Momo setError={setError} isPaid={isPaid} setPaid={setPaid} />
           </Col>
-          <Col
-            xs={6}
-            className="p-0 m-0"
-          >
-            <Paypal />
+          <Col xs={9} className="p-0 m-0">
+            <Paypal setError={setError} isPaid={isPaid} setPaid={setPaid} />
           </Col>
-          <Col xs={3} className="p-0 m-0">
+          {/* <Col xs={3} className="p-0 m-0">
             <Vnpay />
-          </Col>
+          </Col> */}
         </Row>
         {error && (
           <Message variant="danger">
