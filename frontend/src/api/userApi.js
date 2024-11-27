@@ -46,3 +46,42 @@ export const userRegister = async (phone_number, password) => {
     throw new Error(__handleError(error));
   }
 };
+
+// GET /api/users/ordering
+export const fetchUserOrderingbyId = async (user) => {
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  try {
+    const response = await axios.get(
+      `/api/users/${user._id}/ordering/`,
+      config
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error.config);
+    throw new Error(__handleError(error));
+  }
+};
+
+
+// GET /api/users/ordering
+export const fetchUserReservationbyId = async (user) => {
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  try {
+    const response = await axios.get(
+      `/api/users/${user._id}/reservation/`,
+      config
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error.config);
+    throw new Error(__handleError(error));
+  }
+};

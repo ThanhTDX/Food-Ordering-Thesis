@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.conf import settings
 from django.utils import timezone
 
+from base.models import *
 from ordering.models import *
 from payment.models import *
 
@@ -15,6 +16,8 @@ from rest_framework.response import Response
 from ordering.serializers import *
 
 from rest_framework import status
+
+from datetime import datetime
 
 
 
@@ -61,6 +64,7 @@ def getRoutes(request):
     '/api/ordering/<id>/',
     '/api/ordering/momo/payment/',
     '/api/ordering/momo/callback',
+    '/api/ordering/create/'
   ]
   return Response(routes)
 
@@ -342,8 +346,35 @@ def orderingPaymentPaypalWebhooksReceived(request):
   request_data = json.loads(request.body)
   
   return Response(status=status.HTTP_204_NO_CONTENT)
+   
+
+
+
+# /api/ordering/create/
+@api_view(['POST'])
+def orderingCreateNew(request):
+  request_data = json.loads(request.body)
+  print(request_data)
   
-
-
-
-
+  # Create new Ordering in Django and save 
+  new_order = Ordering()
+  new_order.name = request_data.get("name")
+  new_order.phone_number = request_data.get("phoneNumber")
+  new_order.price = request_data.get("price")
+  new_order.address = request_data.get("address")
+  new_order.user_name = request_data.get("username")
+  new_order.delivery_time = datetime.strptime(request_data.get("deliveryTime"), "%Y-%m-%d %H:%M")
+  new_order.date_created = timezone.now()
+  new_order.payment = Payment.objects.get(order_id = request_data.get("orderId"))
+  new_order.save()
+  
+  for item in request_data.get("items"):
+    new_food_order = OrderingFood_FK()
+    new_food_order.ordering = new_order
+    new_food_order.food = Food.objects.get(_id = item.get("_id"))
+    new_food_order.qty = item.get("qty")
+    new_food_order.save()
+    
+  
+  
+  return Response({'status': 'Ordering Complete'}, status=status.HTTP_200_OK)

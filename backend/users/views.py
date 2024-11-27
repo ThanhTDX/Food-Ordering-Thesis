@@ -19,6 +19,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 User = get_user_model()
 
+class MyTokenObtainPairView(TokenObtainPairView):
+  serializer_class = MyTokenObtainPairSerializer
+
+
 # /users
 @api_view(['GET'])
 def getRoutes(request):
@@ -31,6 +35,14 @@ def getRoutes(request):
     'api/users/test_token/',
   ]
   return Response(routes)
+
+# api/users/login/
+# {
+#   'phone_number': 
+#   'password':
+# }
+#
+
 
 # api/users/
 @api_view(['GET'])
@@ -48,16 +60,9 @@ def getUserProfile(request):
   serializer = CustomUserSerializer(user, many=False)
   return Response(serializer.data)
 
-# api/users/login
-# {
-#   'phone_number': 
-#   'password':
-# }
-#
-class MyTokenObtainPairView(TokenObtainPairView):
-  serializer_class = MyTokenObtainPairSerializer
 
-# /users/register
+
+# api/users/register/
 # {
 #   'phone_number': 
 #   'password':
@@ -72,7 +77,7 @@ def registerCustomerUser(request):
       password=make_password(data['password'])
     )
     serializer = UserSerializerWithToken(user, many=False)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
   except ValidationError:
     message = {'detail': 'Invalid Phone Number'}
     return Response(message, status=status.HTTP_400_BAD_REQUEST)

@@ -3,9 +3,15 @@ import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { Image, Button } from "react-bootstrap";
 import paypalImg from "../images/paypal.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { cartSelector, updatePayment } from "../../../slices/cartSlice";
 
-const Paypal = ({ isPaid, setPaid }) => {
+const Paypal = ({ setError, setLoading }) => {
   const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+  const cart = useSelector(cartSelector);
+  const { price } = cart.cartContent;
+  const {phoneNumber} = cart.information
 
   const initialOptions = {
     "client-id":
@@ -23,13 +29,13 @@ const Paypal = ({ isPaid, setPaid }) => {
     shape: "rect",
     layout: "horizontal",
     color: "white",
-    height: 47,
+    height: 51,
     disableMaxWidth: true,
     tagline: false,
   };
 
   return (
-    <div className="d-inline align-top">
+    <>
       <PayPalScriptProvider options={initialOptions}>
         <PayPalButtons
           style={styles}
@@ -39,8 +45,8 @@ const Paypal = ({ isPaid, setPaid }) => {
                 "/api/ordering/paypal/payment_creation/",
                 // only pass in the amount price
                 {
-                  amount: "50000",
-                  phoneNumber: "0999000999",
+                  amount: price,
+                  phoneNumber: phoneNumber,
                 },
                 {
                   headers: {
@@ -98,27 +104,31 @@ const Paypal = ({ isPaid, setPaid }) => {
               } else {
                 // (3) Successful transaction -> Show confirmation or thank you message
                 // Or go to another URL:  actions.redirect('thank_you.html');
-                const transaction =
-                  orderData.purchase_units[0].payments.captures[0];
-                setMessage(
-                  `Transaction ${transaction.status}: ${transaction.id}. See console for all available details`
-                );
                 console.log(
                   "Capture result",
                   orderData,
                   JSON.stringify(orderData, null, 2)
                 );
+                dispatch(
+                  updatePayment({ paymentMethod: "paypal", orderId: orderData })
+                );
               }
             } catch (error) {
               console.error(error);
-              setMessage(
-                `Sorry, your transaction could not be processed...${error}`
-              );
+              setError(error);
             }
+          }}
+          onError={(err) => {
+            console.error(err);
+            setLoading(false);
+            setError(err);
+            setTimeout(() => {
+              setError("");
+            }, 3000);
           }}
         />
       </PayPalScriptProvider>
-    </div>
+    </>
   );
 };
 

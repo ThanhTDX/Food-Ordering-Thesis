@@ -9,6 +9,7 @@ function LoginForm({ setForm }) {
   const dispatch = useDispatch()
   const [rememberMe, setRememberMe] = useState(false);
   const formRef = useRef();
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);

@@ -82,11 +82,11 @@ function DateTimeInput() {
             </Row>
           </Col>
           <Col md={4} lg={4}>
-            <Form.Group className="" controlId="formEatTime">
+            <Form.Group className="" controlId="form-eat-time">
               <Form.Label className="">Eat Time</Form.Label>
               <Form.Control
                 as="select"
-                name="formEatTime"
+                name="form-eat-time"
                 className="custom-select"
                 value={eatTime}
                 onChange={(e) => setEatTime(e.target.value)}
@@ -106,9 +106,7 @@ function DateTimeInput() {
         )}
         {timeError && (
           <div>
-            <Message variant="danger">
-              {timeError}
-            </Message>
+            <Message variant="danger">{timeError}</Message>
           </div>
         )}
       </Stack>
@@ -116,23 +114,50 @@ function DateTimeInput() {
   );
 }
 
-function ReservationForm({ rightView, setRightView }) {
+function ReservationForm({
+  rightView,
+  setRightView,
+  tables,
+  vips,
+}) {
   const [searchParams] = useSearchParams();
   const customMenu = searchParams.get("customMenu");
   const [hasMenu, setMenu] = useState(customMenu ? true : false);
   const [hasTable, setHasTable] = useState(false);
-
-  const [tables, setTables] = useState([]);
-  const [vip, setVip] = useState([]);
+  
+  
+  // Error useEffect for outputting error if anything happens
+  const [error, setError] = useState("");
+  useEffect(() => {
+    if (error) {
+      console.log(error)
+    }
+  }, [error])
+  
+  // Reservation form Data
   const reservationFormRef = useRef(null);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(reservationFormRef.current);
-    console.log("formRef.current", formData);
     const values = Object.fromEntries(formData.entries());
     console.log("Form Values:", values);
+
+    const response = await axios.post(
+                "/api/ordering/paypal/payment_creation/",
+                // only pass in the amount price
+                {
+                  amount: price,
+                  phoneNumber: phoneNumber,
+                },
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
   };
+
+  
 
   return (
     <Form
@@ -249,7 +274,7 @@ function ReservationForm({ rightView, setRightView }) {
                 <Form.Control
                   type="text"
                   name="form-tables"
-                  value={tables.length === 0 ? "None" : "Something"}
+                  value={tables.length === 0 ? "None" : tables.join(", ")}
                   readOnly
                 />
               </Form.Group>
@@ -262,7 +287,7 @@ function ReservationForm({ rightView, setRightView }) {
                 <Form.Control
                   type="text"
                   name="form-vip"
-                  value={vip.length === 0 ? "None" : "Something"}
+                  value={vips.length === 0 ? "None" : vips.join(", ")}
                   readOnly
                 />
               </Form.Group>
@@ -316,6 +341,9 @@ function ReservationForm({ rightView, setRightView }) {
             <span className="fw-bold">Confirm Booking</span>
           </Button>
         </Form.Group>
+        <div>
+          {error && <Message variant={'danger'}>There is an error confirming your order</Message>}
+        </div>
       </Stack>
     </Form>
   );

@@ -23,7 +23,7 @@ const MenuPage = () => {
   // Redux data fetching
   const menu = useSelector(menuSelector);
   const { error, loading, menuFood, menuSearch } = menu;
-  const { combo, keyword, tags, type } = menuSearch;
+  const { combo, keyword, tags, type, priceRange } = menuSearch;
 
   useEffect(() => {
     dispatch(prefetch());
@@ -43,6 +43,7 @@ const MenuPage = () => {
     // 2.   Keyword
     // 3.   Tags
     // 4.   Type
+    // 5.   Price
 
     let menu1 = combo ? menuFood.combos : menuFood.items;
 
@@ -89,8 +90,18 @@ const MenuPage = () => {
       menu1 = menu1.filter((item) => item.type.name === type);
       console.log(menu1);
     }
+
+    if (priceRange.upper - priceRange.lower > 1) {
+      // menuSearch.type: 'type'
+      menu1 = menu1.filter(
+        (item) =>
+          Number(item.price) >= priceRange.lower &&
+          Number(item.price) <= priceRange.upper
+      );
+      console.log(menu1);
+    }
     setFilteredMenu(menu1);
-  }, [menuFood, combo, keyword, tags, type]);
+  }, [menuFood, combo, keyword, tags, type, priceRange]);
 
   const handleSave = () => {
     console.log("Custom Menu Saved");

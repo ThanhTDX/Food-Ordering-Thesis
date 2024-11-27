@@ -16,7 +16,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
   username = serializers.SerializerMethodField(read_only=True)
   _id = serializers.SerializerMethodField(read_only=True)
-  isSuperuser = serializers.SerializerMethodField(read_only=True)
   
   def get__id(self,obj):
     return obj.id
@@ -43,4 +42,4 @@ class UserSerializerWithToken(CustomUserSerializer):
   
   class Meta:
     model = CustomUser
-    fields = ['_id', 'username', 'phone_number', 'isSuperuser', 'token']
+    fields = ['_id', 'username', 'phone_number', 'token']

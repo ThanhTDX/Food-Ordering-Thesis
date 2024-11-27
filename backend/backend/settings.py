@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'user_profile',
     'reservation',
     'ordering',
-    'promotion',
+    'promotion.apps.PromotionConfig',
     'payment.apps.PaymentConfig',
 ]
 

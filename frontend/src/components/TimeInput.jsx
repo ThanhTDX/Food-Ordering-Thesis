@@ -5,9 +5,7 @@ import { Form, Alert } from "react-bootstrap";
 const TimeInput = ({ error, time, setTime, setError }) => {
   useEffect(() => {
     // Set minimum time to current time on mount
-    const now = new Date();
-    const currentTime = now.toTimeString().slice(0, 5); // HH:MM format
-    setTime(currentTime);
+    setTime(time);
   }, []);
 
   // Function to handle time input change

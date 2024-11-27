@@ -43,7 +43,7 @@ const CustomMenuEdit = ({
               </Col>
               <Col
                 xs={6}
-                className="d-flex flex-column align-items-start justify-content-center p-0"
+                className="d-flex flex-column align-items-start justify-content-center p-0 ps-2"
               >
                 <div className="custom-menu--title fs-6">{item.name}</div>
                 <div className="ps-4 w-100 d-flex align-items-center justify-content-start custom-menu--list--item-info__small">
@@ -105,7 +105,7 @@ const CustomMenuView = ({ menuItems }) => {
 
               <Col
                 md={6}
-                className="d-flex flex-column align-items-start justify-content-center p-0"
+                className="d-flex flex-column align-items-start justify-content-center p-0 ps-2"
               >
                 <div className="custom-menu--title fs-6">{item.name}</div>
                 <div className="ps-2 w-100 d-flex align-items-center justify-content-around custom-menu--list--item-info__small">

@@ -12,6 +12,8 @@ import MenuDetailsPage from "./pages/MenuDetailsPage";
 import MenuComboDetailsPage from "./pages/MenuComboDetailsPage";
 import UserPage from "./pages/UserPage";
 import LoginPage from "./pages/LoginPage";
+import UserOrderingPage from "./pages/UserOrderingPage";
+import UserReservationPage from "./pages/UserReservationPage";
 
 function App() {
   return (
@@ -26,8 +28,10 @@ function App() {
             <Route path="menu/combo/:id" element={<MenuComboDetailsPage />} />
             <Route path="reservation/" element={<ReservationPage />} />
             <Route path="order/" element={<OrderingPage />} />
-            <Route path="users/" element={<UserPage />} />
+            <Route path="user/profile/" element={<UserPage />} />
             <Route path="login/" element={<LoginPage />} />
+            <Route path="users/reservation/" element={<UserReservationPage />} />
+            <Route path="users/ordering/" element={<UserOrderingPage />} />
           </Routes>
         </Container>
       </main>

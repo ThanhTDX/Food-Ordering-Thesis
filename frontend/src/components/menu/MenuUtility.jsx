@@ -22,18 +22,15 @@ import {
   updateSearchTags,
   updateSearchType,
   updateView,
+  updateLowerPrice,
+  updateUpperPrice,
 } from "../../slices/menuSlice";
 
 import "./css/MenuUtility.css";
 
-// Function to split the array into groups of specified size
-const splitArrayIntoGroups = (array, groupSize) => {
-  const groups = [];
-  for (let i = 0; i < array.length; i += groupSize) {
-    groups.push(array.slice(i, i + groupSize));
-  }
-  return groups;
-};
+import splitArrayIntoGroups from "../../utils/splitArrayIntoGroups"
+
+
 
 const MenuKeyword = ({ searchKeyword }) => {
   const dispatch = useDispatch();
@@ -49,6 +46,35 @@ const MenuKeyword = ({ searchKeyword }) => {
     </InputGroup>
   );
 };
+
+const MenuPrice = ({priceRange}) => {
+  const dispatch = useDispatch();
+  return (
+    <Stack direction="horizontal" gap={2}>
+      <InputGroup>
+        <Form.Control
+          type="number"
+          className="me-auto"
+          value={priceRange.lower}
+          id="priceRangeLowerInput"
+          onChange={(e) => dispatch(updateLowerPrice(e.target.value))}
+        />
+      </InputGroup>
+      <div>
+        <span>-</span>
+      </div>
+      <InputGroup>
+        <Form.Control
+          type="number"
+          className="me-auto"
+          value={priceRange.upper}
+          id="priceRangeUpperInput"
+          onChange={(e) => dispatch(updateUpperPrice(e.target.value))}
+        />
+      </InputGroup>
+    </Stack>
+  );
+}
 
 const MenuView = ({ view }) => {
   const dispatch = useDispatch()
@@ -233,7 +259,7 @@ const MenuUtility = () => {
           <MenuKeyword searchKeyword={menuSearch.keyword} />
         </Col>
         <Col xs={9} md={10} lg={5} className="">
-          <Button></Button>
+          <MenuPrice priceRange={menuSearch.priceRange} />
         </Col>
         <Col xs={3} md={2} lg={2} className="">
           <MenuView view={menuView} />

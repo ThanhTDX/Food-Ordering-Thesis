@@ -1,8 +1,13 @@
 import React from "react";
 import { Container, Nav, Navbar, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
+import { userSelector } from "../slices/userSlice";
 
 function Header() {
+
+  const user = useSelector(userSelector)
+
   return (
     <header className="mb-4">
       <Navbar
@@ -26,20 +31,25 @@ function Header() {
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer to="/reservation">
-                <Nav.Link>
-                  Reservation
-                </Nav.Link>
+                <Nav.Link>Reservation</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/order">
-                <Nav.Link>
-                  Order
-                </Nav.Link>
+                <Nav.Link>Order</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/login">
-                <Nav.Link>
-                  <i className="fas fa-user"></i> Login
-                </Nav.Link>
-              </LinkContainer>
+              {user && (
+                <LinkContainer to="/user/profile">
+                  <Nav.Link>
+                    Welcome back, {user.login.username} 
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+              {!user && (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <i className="fas fa-user"></i> Login
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

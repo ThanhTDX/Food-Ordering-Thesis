@@ -65,8 +65,8 @@ class Food(models.Model):
   # def update_rating(self):
   #   ratings =self.rating
   
-  # rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
-  # num_of_rating = models.IntegerField(null=True, blank=False, default=0)
+  rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
+  num_of_rating = models.IntegerField(null=True, blank=False, default=0)
     
   def __str__(self):
     return str(self.name)

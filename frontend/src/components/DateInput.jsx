@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 
-const DateInput = ({error, date, setDate}) => {
+const DateInput = ({date, setDate}) => {
   const [minDate, setMinDate] = useState("");
 
   // Set minDate to today's date on mount
@@ -15,9 +15,7 @@ const DateInput = ({error, date, setDate}) => {
   // Function to handle date input change
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
-
-    // Check if selected date is in the past
-    const today = new Date().toISOString().split("T")[0];
+    console.log(selectedDate);
     setDate(selectedDate);
   };
 

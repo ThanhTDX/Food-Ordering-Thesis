@@ -14,14 +14,14 @@ function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form, setForm] = useState("login");
-  const userLogin = useSelector(userSelector);
-  const { error, loading, user } = userLogin;
+  const user = useSelector(userSelector);
+  const { error, loading, userInfo } = user;
 
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate("/users/profile");
-  //   }
-  // }, [user, navigate]);
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/users/profile");
+    }
+  }, [userInfo, navigate]);
 
   return (
     <Container
@@ -35,6 +35,7 @@ function LoginPage() {
         fluid // Optional: makes the image responsive
         className="w-100 mb-2"
       />
+      {error && <Message variant="damger">{error}</Message>}
       {form === "login" && <LoginForm setForm={setForm} />}
       {form === "register" && <RegisterForm setForm={setForm} />}
       {form === "changePassword" && <ChangePasswordForm setForm={setForm} />}

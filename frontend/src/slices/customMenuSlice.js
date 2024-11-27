@@ -18,6 +18,7 @@ const initialPrice =
 export const customMenuSlice = createSlice({
   name: "customMenu",
   initialState: {
+    name: "",
     menu: {
       menuItems: customMenuItemsFromStorage,
       menuCombo: [],
@@ -52,11 +53,27 @@ export const customMenuSlice = createSlice({
     updateMenuItem: (state, action) => {
       // action.payload = {menuItem, qty}
       const { menuItem, qty } = action.payload;
+
+      // this is assuming menuItem has menuItem.qty
+      // if this is adding new item to customMenu, refer to addMenuItem
+
+      // qty can be smaller or larger than the current qty
+      // there could also be custom value that's not incrementing
+      // hence the *update*, instead of increment/decrement
+
+      // Control condition where if qty is somehow smaller than 0, return
       if (Number(qty) < 0) return;
+
+      // Update item based on _id
       state.menu.menuItems.map(
-        (item) => (item.qty = item._id === menuItem._id ? Number(qty) : Number(item.qty))
+        (item) =>
+          (item.qty =
+            item._id === menuItem._id ? Number(qty) : Number(item.qty))
       );
-      state.price = state.price + Number(menuItem.price) * Number(qty - menuItem.qty);
+      // Update price
+      state.price =
+        state.price + Number(menuItem.price) * Number(qty - menuItem.qty);
+      // Save in localStorage
       localStorage.setItem("customMenu", JSON.stringify(state.menu.menuItems));
     },
     removeMenuItem: (state, action) => {

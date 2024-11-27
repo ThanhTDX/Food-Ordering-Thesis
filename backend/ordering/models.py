@@ -19,22 +19,23 @@ class Ordering(models.Model):
   phone_number = models.CharField(
     max_length=15, 
     validators=[RegexValidator(regex=r'^0[19]\d{8}$', message="Wrong number format entered")], 
-    unique=True, 
-    error_messages={'unique': _("This phone number is already in use.")}
+    unique=False,
   )
   user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+  user_name = models.CharField(max_length=256, null=True, blank=True)
   price = models.DecimalField(max_digits=10, decimal_places=0, default=0)
   address = models.CharField(max_length=256, null=True, blank=True)
-  time = models.DateTimeField()
+  delivery_time = models.DateTimeField()
   
   class Statuses(models.TextChoices):
     PENDING = "PENDING", "Pending"
     SHIPPING = "SHIPPING", "Shipping"
     CANCELLED = "CANCELLED", "Cancelled"
     FINISHED = "FINISHED", "Finished"
-  status = models.CharField(_('Status'), max_length=20 , choices=Statuses.choices, default=Statuses.FINISHED)
+  status = models.CharField(_('Status'), max_length=20 , choices=Statuses.choices, default=Statuses.PENDING)
     
+  payment = models.OneToOneField("payment.Payment", on_delete=models.DO_NOTHING, null=True)
   food = models.ManyToManyField("base.Food", through=OrderingFood_FK)
-  date_created = models.DateTimeField(default=timezone.now() + timedelta(days=3))
+  date_created = models.DateTimeField()
 
   _id = models.AutoField(primary_key=True, editable=False)

@@ -69,7 +69,7 @@ function MenuItemCard({ item }) {
           </div>
           <div className="d-flex justify-content-between align-items-center">
             <Stack gap={2} direction="vertical">
-              <Stack gap={2} direction="horizontal">
+              <Stack gap={1} direction="horizontal" className="d-flex flex-wrap">
                 {item.tag
                   .slice(0, item.tag.length > 3 ? 3 : item.tag.length)
                   .map((tag) => {
@@ -113,20 +113,20 @@ function MenuItemCard({ item }) {
                 </Stack>
               )} */}
             </Stack>
-            <StarRating item={item} size={"md"} />
+            <StarRating item={item} size={"2xs"} />
           </div>
           <div className="d-flex justify-content-between align-items-center mt-1">
             <Button
               variant={""}
               className={
-                "menu-item--card--type w-100 me-3 " +
+                "menu-item--card--type w-100 me-3 flex-1 " +
                 (menuSearch.type === item.type.name ? "active" : "inactive")
               }
               onClick={() => dispatch(updateSearchType(item.type.name))}
             >
               <span>{item.type.name}</span>
             </Button>
-            <Stack gap={2} direction="horizontal" className="">
+            {/* <Stack gap={2} direction="horizontal" className="">
               <Button
                 variant=""
                 className="menu-item--add-to-cart w-100"
@@ -134,14 +134,14 @@ function MenuItemCard({ item }) {
               >
                 <FontAwesomeIcon icon={faCartShopping} />
               </Button>
-              <Button
-                variant=""
-                className="menu-item--add-to-menu w-100"
-                onClick={() => dispatch(addMenuItem(item))}
-              >
-                <FontAwesomeIcon icon={faBookOpen} />
-              </Button>
-            </Stack>
+            </Stack> */}
+            <Button
+              variant=""
+              className="menu-item--add-to-menu w-100"
+              onClick={() => dispatch(addMenuItem(item))}
+            >
+              <FontAwesomeIcon icon={faBookOpen} />
+            </Button>
           </div>
         </Container>
       </Card.Body>

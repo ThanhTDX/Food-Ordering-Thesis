@@ -29,6 +29,10 @@ export const menuSlice = createSlice({
       type: "",
       combo: "",
       keyword: "",
+      priceRange: {
+        upper: 100000,
+        lower: 0,
+      },
     },
     menuView: "card",
     error: "",
@@ -69,6 +73,14 @@ export const menuSlice = createSlice({
       //action.payload: view
       state.menuView = action.payload;
     },
+    updateUpperPrice: (state, action) => {
+      //action.payload: price
+      state.menuSearch.priceRange.upper = action.payload;
+    },
+    updateLowerPrice: (state, action) => {
+      //action.payload: price
+      state.menuSearch.priceRange.lower = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -100,6 +112,8 @@ export const {
   updateSearchCombo,
   updateSearchKeyword,
   updateView,
+  updateLowerPrice,
+  updateUpperPrice,
 } = menuSlice.actions;
 
 export const menuSelector = (state) => state.menu;

@@ -11,7 +11,7 @@ import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 function StarRating( {item , size} ) {
   return (
     <div className="d-flex flex-row">
-      <div className="text-warning mb-1 me-2">
+      <div className="text-warning">
         <span>
           {item.rating >= 1 && (
             <FontAwesomeIcon icon={faStarSolid} size={size} />
@@ -67,7 +67,7 @@ function StarRating( {item , size} ) {
             <FontAwesomeIcon icon={faStarRegular} size={size} />
           )}
         </span>
-        <span className="menu-item--list-rating ms-2">
+        <span className="menu-item--list-rating ms-1">
           {item.num_of_rating}
         </span>
       </div>

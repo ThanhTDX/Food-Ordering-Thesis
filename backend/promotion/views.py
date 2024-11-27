@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import JsonResponse
 from promotion.models import *
 
 from rest_framework.decorators import api_view , permission_classes
@@ -9,24 +8,24 @@ from promotion.serializers import *
 
 # Create your views here.
 
-# /api/ordering/
+# /api/promotion/
 @api_view(['GET'])
 def getRoutes(request):
   routes = [
     'api/promotion/',
-    'api/reservation/all',
-    'api/reservation/user',
+    'api/promotion/all',
+    'api/promotion/user',
   ]
   return Response(routes)
 
-# /api/ordering/all/
+# /api/promotion/all/
 @api_view(['GET'])
 def getAllPromotions(request):
-  data = Promotion.objects.all()
-  serializer = PromotionSerializer(data, many=True)
+  promotions = Promotion.objects.all()
+  serializer = PromotionSerializer(promotions, many=True)
   return Response(serializer.data, status=status.HTTP_200_OK)
 
-# /api/ordering/all/
+# /api/promotion/<:id>/
 @api_view(['GET'])
 def getPromotionById(request,pk):
   data = Promotion.objects.get(_id=pk)
@@ -34,9 +33,16 @@ def getPromotionById(request,pk):
   return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# /api/ordering/user/
+# /api/promotion/user/<:id>
 @api_view(['GET'])
-def getAllUserPromotions(request):
-  data = UserPromotion.objects.all()
-  serializer = UserPromotionSerializer(data, many=True)
+def getAllPromotionsFromUser(request, id):
+  user = User.objects.get(_id=id)
+  serializer = UserPromotionSerializer(user, many=True, context={'user':user})
+  return Response(serializer.data, status=status.HTTP_200_OK)
+
+# /api/promotion/user/<:id>/<:promotion>
+@api_view(['GET'])
+def getPromotionFromUser(request, id, promotion):
+  user = User.objects.get(_id=id)
+  serializer = UserPromotionSerializer(user, many=True, context={'user':user})
   return Response(serializer.data, status=status.HTTP_200_OK)

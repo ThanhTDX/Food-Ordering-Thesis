@@ -33,52 +33,24 @@ import formatVND from "../utils/formatVND";
 
 import "./static/css/MenuDetailsPage.css";
 import { addItemToCart } from "../slices/cartSlice";
+import { menuSelector } from "../slices/menuSlice";
+import StarRatingHoverable from "../components/StarRatingHoverable";
 
 
-const MenuDetailsPage = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-
-  const [item, setItem] = useState()
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState("")
-
-  const [toasts, setToasts] = useState([]);
-
-  const reviewRef = useRef();
-
+function ItemReview() {
   useEffect(() => {
-    const fetchMenuItem = async () => {
-      try {
-        const data = await fetchFoodById(id);
-        setItem(data);
-      } catch (e) {
-        setError(e);
-      }
-    };
-    fetchMenuItem();
-    setLoading(false)
-  }, []);
+    
+  
+  }, [])
+  
+  return (
+    <h4 className="m-0">Reviews</h4>
 
-  useEffect(() => {});
+  )
+}
 
-  const handleAddItemToCart = (item) => {
-    dispatch(addItemToCart(item));
-    // TODO : create cartSlice and add this
-  };
-
-  const handleAddItemToMenu = (item) => {
-    dispatch(addMenuItem(item));
-
-    // TODO : create toasts functionality
-    // const ADD = "ADD";
-    // const message = {
-    //   data: item,
-    //   type: ADD,
-    // };
-    // handleNewToasts(message);
-  };
-
+function InputReview() {
+  const reviewRef = useRef();
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(reviewRef.current);
@@ -86,6 +58,79 @@ const MenuDetailsPage = () => {
     const values = Object.fromEntries(formData.entries());
     console.log("Form Values:", values);
   };
+
+  return (
+    <div className="menu-details--personal-comment">
+      <Card>
+        <Card.Header>
+          <h4 className="m-0">Leave Review</h4>
+        </Card.Header>
+        <Card.Body>
+          <Form ref={reviewRef} onSubmit={handleSubmit}>
+            <Row>
+              <Col md={12} lg={8}>
+                <Form.Group className="" controlId="form-name">
+                  <Form.Label>
+                    <span className="">Your Name</span>
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="form-name"
+                    placeholder="Enter Name..."
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col md={12} lg={4}>
+                <Stack direction="vertical" gap={1}>
+                  <span className="lead">Rating</span>
+                  <div className="text-end">
+                    <StarRatingHoverable size={"md"} />
+                  </div>
+                </Stack>
+              </Col>
+            </Row>
+            <Form.Group className="mt-2" controlId="form-context">
+              <Form.Control
+                as="textarea"
+                rows={4}
+                name="form-context"
+                placeholder="Leave Your Review Here..."
+              />
+            </Form.Group>
+            <Button type="submit" variant="primary" className="w-100 mt-2">
+              SUBMIT
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
+    </div>
+  );
+}
+
+const MenuDetailsPage = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  const [item, setItem] = useState();
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    try {
+      const fetchFood = async () => {
+        const data = await fetchFoodById(id)
+        setLoading(false);
+        console.log(data);
+        setItem(data);
+      }
+      fetchFood()
+    } catch (error) {
+      setLoading(false);
+      setError(error);
+    }
+  }, []);
 
   return (
     <div>
@@ -138,17 +183,9 @@ const MenuDetailsPage = () => {
                         <Button
                           variant="success"
                           className="d-block w-100"
-                          onClick={() => handleAddItemToCart(item)}
+                          onClick={() => dispatch(addMenuItem(item))}
                         >
-                          ADD TO CART
-                        </Button>
-
-                        <Button
-                          variant="success"
-                          className="d-block w-100"
-                          onClick={() => handleAddItemToMenu(item)}
-                        >
-                          ADD CUSTOM MENU
+                          ADD TO PERSONAL MENU
                         </Button>
                       </Stack>
                     </Col>
@@ -157,66 +194,10 @@ const MenuDetailsPage = () => {
                 <Card.Footer>
                   <Row>
                     <Col md={12} lg={6}>
-                      <h4>Reviews</h4>
+                      <ItemReview />
                     </Col>
                     <Col md={12} lg={6}>
-                      <div className="menu-details--personal-comment">
-                        <Card>
-                          <Card.Header>
-                            <h4 className="m-0">Leave Review</h4>
-                          </Card.Header>
-                          <Card.Body>
-                            <Form ref={reviewRef} onSubmit={handleSubmit}>
-                              <Row>
-                                <Col md={12} lg={8}>
-                                  <Form.Group
-                                    className=""
-                                    controlId="form-name"
-                                  >
-                                    <Form.Label>
-                                      <span className="">Your Name</span>
-                                    </Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="form-name"
-                                      placeholder="Enter Name..."
-                                    />
-                                  </Form.Group>
-                                </Col>
-
-                                <Col md={12} lg={4}>
-                                  <p className="lead">Rating</p>
-                                  <div className="text-end">
-                                    <FontAwesomeIcon icon={faStarRegular} />
-                                    <FontAwesomeIcon icon={faStarRegular} />
-                                    <FontAwesomeIcon icon={faStarRegular} />
-                                    <FontAwesomeIcon icon={faStarRegular} />
-                                    <FontAwesomeIcon icon={faStarRegular} />
-                                  </div>
-                                </Col>
-                              </Row>
-                              <Form.Group
-                                className="mt-2"
-                                controlId="form-context"
-                              >
-                                <Form.Control
-                                  as="textarea"
-                                  rows={4}
-                                  name="form-context"
-                                  placeholder="Leave Your Review Here..."
-                                />
-                              </Form.Group>
-                              <Button
-                                type="submit"
-                                variant="primary"
-                                className="w-100 mt-2"
-                              >
-                                SUBMIT
-                              </Button>
-                            </Form>
-                          </Card.Body>
-                        </Card>
-                      </div>
+                      <InputReview />
                     </Col>
                   </Row>
                 </Card.Footer>
@@ -230,6 +211,6 @@ const MenuDetailsPage = () => {
       )}
     </div>
   );
-}
+};
 
 export default MenuDetailsPage;
