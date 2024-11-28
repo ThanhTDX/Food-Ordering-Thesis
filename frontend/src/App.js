@@ -30,7 +30,10 @@ function App() {
             <Route path="order/" element={<OrderingPage />} />
             <Route path="user/profile/" element={<UserPage />} />
             <Route path="login/" element={<LoginPage />} />
-            <Route path="users/reservation/" element={<UserReservationPage />} />
+            <Route
+              path="users/reservation/"
+              element={<UserReservationPage />}
+            />
             <Route path="users/ordering/" element={<UserOrderingPage />} />
           </Routes>
         </Container>

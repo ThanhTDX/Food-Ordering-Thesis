@@ -1,12 +1,18 @@
 import React from "react";
-import { Container, Nav, Navbar, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Container, Nav, Navbar, Row, Dropdown } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import { userSelector } from "../slices/userSlice";
+import { userSelector, userIsLoggedIn, userLogout } from "../slices/userSlice";
 
 function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector(userSelector);
 
-  const user = useSelector(userSelector)
+  const handleLogout = () => {
+    dispatch(userLogout);
+  };
 
   return (
     <header className="mb-4">
@@ -36,14 +42,24 @@ function Header() {
               <LinkContainer to="/order">
                 <Nav.Link>Order</Nav.Link>
               </LinkContainer>
-              {user && (
-                <LinkContainer to="/user/profile">
-                  <Nav.Link>
-                    Welcome back, {user.login.username} 
-                  </Nav.Link>
-                </LinkContainer>
+              {userIsLoggedIn && (
+                <Dropdown align="end">
+                  {/* Dropdown.Toggle to make the Nav.Link clickable */}
+                  <Dropdown.Toggle as={Nav.Link} variant="link">
+                    Welcome back, {user.userInfo.username}
+                  </Dropdown.Toggle>
+
+                  {/* Dropdown.Menu containing the dropdown items */}
+                  <Dropdown.Menu>
+                    <LinkContainer to="/user/profile">
+                      <Dropdown.Item>Profile</Dropdown.Item>
+                    </LinkContainer>
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               )}
-              {!user && (
+              {!userIsLoggedIn && (
                 <LinkContainer to="/login">
                   <Nav.Link>
                     <i className="fas fa-user"></i> Login

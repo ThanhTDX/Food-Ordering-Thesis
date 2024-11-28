@@ -26,6 +26,7 @@ class Ordering(models.Model):
   price = models.DecimalField(max_digits=10, decimal_places=0, default=0)
   address = models.CharField(max_length=256, null=True, blank=True)
   delivery_time = models.DateTimeField()
+  bill_url = models.URLField(_("Bill Url"), max_length=200)
   
   class Statuses(models.TextChoices):
     PENDING = "PENDING", "Pending"

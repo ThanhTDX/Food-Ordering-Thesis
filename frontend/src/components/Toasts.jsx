@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import React from 'react'
 import { Button, Toast, ToastContainer } from "react-bootstrap";
 
-function Toasts({message}) {
+function Toasts({message, variant}) {
 
   const [toasts, setToasts] = useState([])
   useEffect(() => {

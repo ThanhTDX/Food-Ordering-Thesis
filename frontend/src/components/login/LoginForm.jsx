@@ -4,21 +4,24 @@ import "./LoginForm.css";
 import { useDispatch } from "react-redux";
 
 import { userLogin as login } from "../../slices/userSlice";
+import { useNavigate } from "react-router";
 
 function LoginForm({ setForm }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
   const formRef = useRef();
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(formRef.current);
     const values = Object.fromEntries(formData.entries());
     const data = {
-      phoneNumber: values['form-tel'],
-      password: values['form-pass']
-    }
-    dispatch(login(data))
+      phoneNumber: values["form-tel"],
+      password: values["form-pass"],
+    };
+    dispatch(login(data));
+    // navigate("/");
   };
 
   return (

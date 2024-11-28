@@ -1,9 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { userLogin as apiLogin, fetchUserOrderingbyId } from "../api/userApi";
 
-const userFromStorage = localStorage.getItem("user")
-  ? JSON.parse(localStorage.getItem("user"))
-  : {};
+export const userIsLoggedIn = localStorage.getItem("user") ? true : false
 
 export const fetchUserOrdering = createAsyncThunk(
   "api/users/ordering",
@@ -44,15 +42,20 @@ export const userLogin = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    login: userFromStorage,
-    userInfo: {},
+    userInfo: {
+      username: "",
+      phoneNumber: "",
+    },
+    token: "",
     error: "",
-    loading: true,
+    loading: false,
   },
   reducers: {
-    userLogout: (state, action) => {},
-    userCancelOrder: (state,action) => {},
-    userCancelReservation: (state,action) => {},
+    userLogout: (state, action) => {
+      localStorage.removeItem("user");
+    },
+    // userCancelOrder: (state,action) => {},
+    // userCancelReservation: (state,action) => {},
   },
   extraReducers(builder) {
     builder
@@ -62,10 +65,12 @@ const userSlice = createSlice({
       .addCase(userLogin.fulfilled, (state, action) => {
         // action.payload =
         state.loading = false;
-        state.login = action.payload;
         state.error = null;
+        state.userInfo.username = action.payload.username
+        state.userInfo.phoneNumber = action.payload.phone_number;
+        state.token = action.payload.token
 
-        localStorage.setItem("user", JSON.stringify(state.userInfo));
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(userLogin.rejected, (state, action) => {
         // action.payload = error

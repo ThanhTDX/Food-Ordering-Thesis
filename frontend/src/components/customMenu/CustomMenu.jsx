@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Button, Stack, Card, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -79,7 +79,7 @@ const CustomMenuEdit = ({
                     <FontAwesomeIcon icon={faTrashCan} />
                   </Button>
                 </div>
-                <div>{formatVND(item.price*item.qty)}</div>
+                <div>{formatVND(item.price * item.qty)}</div>
               </Col>
             </Row>
           );
@@ -130,12 +130,27 @@ const CustomMenuView = ({ menuItems }) => {
   );
 };
 
-const CustomMenu = ({ }) => {
+const CustomMenu = () => {
   const dispatch = useDispatch();
   const [editableCustom, enableEdit] = useState(true);
   const customMenu = useSelector(customMenuSelector);
   const { menu, price } = customMenu;
   const { menuItems, menuCombo } = menu;
+
+  const [reviewMode, setReviewMode] = useState(1);
+  useEffect(() => {
+    // Default return: 0 => Ok Custom Menu
+    let result = 0;
+    if (customMenu.price === 0) result = 1;
+
+    // let sortingMenuByQty = customMenu.menu.menuItems.sort((a, b) => {
+    //   const aValue = Number(a.qty) * Number(a.num_ppl_eat);
+    //   const bValue = Number(b.qty) * Number(b.num_ppl_eat);
+
+    //   return bValue - aValue;
+    // });
+    setReviewMode(result);
+  }, [customMenu]);
 
   const handleIncrement = (item) => {
     dispatch(updateMenuItem({ menuItem: item, qty: item.qty + 1 }));
@@ -196,53 +211,59 @@ const CustomMenu = ({ }) => {
           <span className="fs-3 fw-bold">{formatVND(price)}</span>
         </div>
         <div className="custom-menu--report__wrapper">
-          <Container className="custom-menu--report__success border-dark p-3 ps-4">
-            <div className="">
-              <FontAwesomeIcon
-                icon={faCheck}
-                size="xl"
-                style={{ color: "#2ff906" }}
-              />
-              <span className="ms-3"> Looks Good To Me!</span>
-            </div>
-          </Container>
-
-          <Container className="custom-menu--report__initial border-dark p-3 ps-4">
-            <div className="">
-              <FontAwesomeIcon icon={faComment} size="xl" />
-              <span className="ms-3">Let's Start With This!</span>
-            </div>
-            <div></div>
-          </Container>
-
-          <Container className="custom-menu--report__warning border-dark p-3 ps-4">
-            <div className="">
-              <FontAwesomeIcon
-                icon={faTriangleExclamation}
-                size="xl"
-                style={{ color: "#FFD43B" }}
-              />
-              <span className="ms-3">Hey You're Having Too Many Of ...</span>
-            </div>
-          </Container>
-
-          <Container className="custom-menu--report__warning border-dark p-3 ps-4">
-            <div className="">
-              <FontAwesomeIcon
-                icon={faExclamation}
-                size="xl"
-                style={{ color: "#d42525" }}
-              />
-              <span className="ms-3">Combo Detected! Get This Too!</span>
-            </div>
-          </Container>
-
-          <Container className="custom-menu--report__warning border-dark p-3 ps-4">
-            <div className="">
-              <FontAwesomeIcon icon={faCommentDots} size="xl" />
-              <span className="ms-3">You Should Get More Of ...</span>
-            </div>
-          </Container>
+          {reviewMode === 0 && (
+            <Container className="custom-menu--report__success border-dark p-3 ps-4">
+              <div className="">
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  size="xl"
+                  style={{ color: "#2ff906" }}
+                />
+                <span className="ms-3"> Looks Good To Me!</span>
+              </div>
+            </Container>
+          )}
+          {reviewMode === 1 && (
+            <Container className="custom-menu--report__initial border-dark p-3 ps-4">
+              <div className="">
+                <FontAwesomeIcon icon={faComment} size="xl" />
+                <span className="ms-3">Let's Start With This!</span>
+              </div>
+              <div></div>
+            </Container>
+          )}
+          {reviewMode === 2 && (
+            <Container className="custom-menu--report__warning border-dark p-3 ps-4">
+              <div className="">
+                <FontAwesomeIcon
+                  icon={faTriangleExclamation}
+                  size="xl"
+                  style={{ color: "#FFD43B" }}
+                />
+                <span className="ms-3">Hey You're Having Too Many Of ...</span>
+              </div>
+            </Container>
+          )}
+          {reviewMode === 3 && (
+            <Container className="custom-menu--report__warning border-dark p-3 ps-4">
+              <div className="">
+                <FontAwesomeIcon
+                  icon={faExclamation}
+                  size="xl"
+                  style={{ color: "#d42525" }}
+                />
+                <span className="ms-3">Combo Detected! Get This Too!</span>
+              </div>
+            </Container>
+          )}
+          {reviewMode === 4 && (
+            <Container className="custom-menu--report__warning border-dark p-3 ps-4">
+              <div className="">
+                <FontAwesomeIcon icon={faCommentDots} size="xl" />
+                <span className="ms-3">You Should Get More Of ...</span>
+              </div>
+            </Container>
+          )}
         </div>
       </Card>
     </>

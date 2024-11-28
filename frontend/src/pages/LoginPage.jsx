@@ -4,7 +4,7 @@ import { Container, Row, Col, Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { userSelector } from "../slices/userSlice";
+import { userSelector, userIsLoggedIn } from "../slices/userSlice";
 import LoginForm from "../components/login/LoginForm";
 import RegisterForm from "../components/login/RegisterForm";
 import ChangePasswordForm from "../components/login/ChangePasswordForm";
@@ -18,10 +18,10 @@ function LoginPage() {
   const { error, loading, userInfo } = user;
 
   useEffect(() => {
-    if (userInfo) {
-      navigate("/users/profile");
+    if (userIsLoggedIn) {
+      navigate("/user/profile");
     }
-  }, [userInfo, navigate]);
+  }, [navigate]);
 
   return (
     <Container

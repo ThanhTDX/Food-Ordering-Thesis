@@ -1,5 +1,7 @@
+import axios from "axios";
+
 import React, { useRef, useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { Form, Button, Row, Col, Stack } from "react-bootstrap";
 import CustomMenu from "../customMenu/CustomMenu";
@@ -11,8 +13,11 @@ import "./ReservationForm.css";
 import DateInput from "../DateInput";
 import TimeInput from "../TimeInput";
 import Message from "../Message";
+import { useSelector } from "react-redux";
 
-function DateTimeInput() {
+import userSelector from "../../slices/userSlice";
+
+function DateTimeInput({ setValid }) {
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [time, setTime] = useState(new Date().toTimeString().slice(0, 5));
   const [eatTime, setEatTime] = useState("0.5");
@@ -48,10 +53,12 @@ function DateTimeInput() {
     const isTimeInRestrictedRange = timeRestriction(time);
     if (isTimeInRestrictedRange) {
       setTimeError("Time selection between 22:00 and 06:00 is not allowed.");
+      setValid(false);
     } else {
       setTimeError("");
+      setValid(true);
     }
-  }, [eatTime, time]);
+  }, [eatTime, time, setValid]);
 
   return (
     <>
@@ -114,50 +121,79 @@ function DateTimeInput() {
   );
 }
 
-function ReservationForm({
-  rightView,
-  setRightView,
-  tables,
-  vips,
-}) {
+function ReservationForm({ rightView, setRightView, tables, vips }) {
   const [searchParams] = useSearchParams();
   const customMenu = searchParams.get("customMenu");
   const [hasMenu, setMenu] = useState(customMenu ? true : false);
   const [hasTable, setHasTable] = useState(false);
-  
-  
-  // Error useEffect for outputting error if anything happens
+
+  // User Selector for default values
+  // const user = useSelector(userSelector);
+
+  // Error useEffect for outputting error
+  // and set timeout if anything happens
   const [error, setError] = useState("");
   useEffect(() => {
     if (error) {
-      console.log(error)
+      console.error(error);
     }
-  }, [error])
-  
+    setTimeout(() => {
+      setError("");
+    }, 3000);
+  }, [error]);
+
   // Reservation form Data
+  const navigate = useNavigate();
   const reservationFormRef = useRef(null);
+  const [formIsValid, setValid] = useState(true);
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!formIsValid) {
+      setError("User Form error: Invalid Time Input");
+    }
     const formData = new FormData(reservationFormRef.current);
     const values = Object.fromEntries(formData.entries());
     console.log("Form Values:", values);
+    const postReservation = async () => {
+      try {
+        const response = await axios.post(
+          "/api/reservation/create/",
+          // this is so inconsistent if you look at naming conventions
+          // for that I'll say python uses snake_case
+          // while js uses camelCase
+          {
+            name: values["form-name"],
+            phoneNumber: values["form-tel"],
+            restaurant: values["form-restaurant"],
+            eatTime: values["form-eat-time"],
+            date: values["form-date"],
+            time: values["form-time"],
+            // user: user ? user.login : null,
+            tables: tables,
+            vips: vips,
+            menu: {
+              items: [],
+              combos: [],
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        // # Check if response status is successful
+        // => Throws
+        if (response.status === 200) {
+        }
+        // navigate(`/user/reservation/${response.id}`)
+      } catch (err) {
+        setError(err);
+      }
+    };
 
-    const response = await axios.post(
-                "/api/ordering/paypal/payment_creation/",
-                // only pass in the amount price
-                {
-                  amount: price,
-                  phoneNumber: phoneNumber,
-                },
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                }
-              );
+    postReservation();
   };
-
-  
 
   return (
     <Form
@@ -191,6 +227,8 @@ function ReservationForm({
                 name="form-tel"
                 placeholder="Enter Phone Number..."
                 required
+                pattern="[\+0-9\-\(\)\s]*" // Allows digits, spaces, plus sign, dashes, and parentheses
+                title="Phone number can contain only digits, spaces, +, -, and ()"
               />
             </Form.Group>
           </Col>
@@ -223,7 +261,7 @@ function ReservationForm({
             </Form.Group>
           </Col>
         </Row>
-        <DateTimeInput />
+        <DateTimeInput setValid={setValid} />
         <Row>
           <Col md={8} lg={8}>
             <Button
@@ -236,7 +274,10 @@ function ReservationForm({
                   type="checkbox"
                   name="form-include-table"
                   label="Includes Tables and VIP"
-                  onClick={() => setHasTable(!hasTable)}
+                  onClick={() => {
+                    setHasTable(!hasTable);
+                    setRightView("table");
+                  }}
                 />
               </Form.Group>
             </Button>
@@ -342,7 +383,11 @@ function ReservationForm({
           </Button>
         </Form.Group>
         <div>
-          {error && <Message variant={'danger'}>There is an error confirming your order</Message>}
+          {error && (
+            <Message variant={"danger"}>
+              There is an error confirming your order
+            </Message>
+          )}
         </div>
       </Stack>
     </Form>

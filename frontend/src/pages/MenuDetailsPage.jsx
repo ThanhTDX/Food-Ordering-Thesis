@@ -39,8 +39,6 @@ import StarRatingHoverable from "../components/StarRatingHoverable";
 
 function ItemReview() {
   useEffect(() => {
-    
-  
   }, [])
   
   return (
@@ -68,7 +66,7 @@ function InputReview() {
         <Card.Body>
           <Form ref={reviewRef} onSubmit={handleSubmit}>
             <Row>
-              <Col md={12} lg={8}>
+              <Col md={6} lg={7}>
                 <Form.Group className="" controlId="form-name">
                   <Form.Label>
                     <span className="">Your Name</span>
@@ -81,7 +79,7 @@ function InputReview() {
                 </Form.Group>
               </Col>
 
-              <Col md={12} lg={4}>
+              <Col md={6} lg={5}>
                 <Stack direction="vertical" gap={1}>
                   <span className="lead">Rating</span>
                   <div className="text-end">
@@ -141,55 +139,72 @@ const MenuDetailsPage = () => {
       ) : (
         <Container>
           <Row>
-            <Col md={8} lg={8}>
+            <Col md={12} lg={7}>
               <Card>
                 <Card.Header>
                   <Card.Img
                     src={item.image}
-                    alt={item.name}
+                    alt={item.image}
                     className="d-flex align-self-center menu-detail--image"
                   ></Card.Img>
                 </Card.Header>
                 <Card.Body className="">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <h1 className="m-0">{item.name}</h1>
-                    <div>
-                      <h2 className="mb-2">{formatVND(item.price)}</h2>
-                      <StarRating item={item} size={"xl"} />
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between"></div>
-                  <Row className="mt-2">
-                    <Col md={12} lg={8}>
-                      <Stack gap={2} direction="vertical">
-                        <Row>
-                          {item.tag.map((tag) => {
-                            return (
-                              <Col md={6} lg={4} className="my-1" key={tag._id}>
-                                <Button variant="light" className="w-100">
-                                  <span>{tag.name}</span>
-                                </Button>
-                              </Col>
-                            );
-                          })}
-                        </Row>
-                        <div>
-                          <span>Food Type: {item.food_type}</span>
+                  <Stack gap={2} direction="vertical">
+                    <Row>
+                      <Col lg={8} md={12}>
+                        <h1 className="m-0">{item.name}</h1>
+                      </Col>
+                      <Col lg={4} md={12}>
+                        <div className="text-end">
+                          <h2 className="mb-2">
+                            <span>{formatVND(item.price)}</span>
+                          </h2>
                         </div>
-                      </Stack>
-                    </Col>
-                    <Col md={12} lg={4}>
-                      <Stack gap={2} direction="vertical">
-                        <Button
-                          variant="success"
-                          className="d-block w-100"
-                          onClick={() => dispatch(addMenuItem(item))}
-                        >
-                          ADD TO PERSONAL MENU
-                        </Button>
-                      </Stack>
-                    </Col>
-                  </Row>
+                        <div className="d-flex justify-content-end">
+                          <StarRating item={item} size={"xl"} />
+                        </div>
+                      </Col>
+                    </Row>
+                    <Row className="">
+                      <Col md={12} lg={4}>
+                        <Stack gap={1} direction="vertical">
+                          <Row className="d-flex align-items-center justify-content-between">
+                            {item.tag.map((tag) => {
+                              return (
+                                <Col
+                                  md={6}
+                                  lg={4}
+                                  className="my-1 px-1"
+                                  key={tag._id}
+                                >
+                                  <Button
+                                    variant=""
+                                    className="w-100 p-0 menu-detail--card--tag"
+                                  >
+                                    <span>{tag.name}</span>
+                                  </Button>
+                                </Col>
+                              );
+                            })}
+                          </Row>
+                          <Button variant="" className="menu-detail--card--type">
+                            <span>{item.type.name}</span>
+                          </Button>
+                        </Stack>
+                      </Col>
+                      <Col md={12} lg={4} className="offset-lg-4">
+                        <Stack gap={2} direction="vertical">
+                          <Button
+                            variant="success"
+                            className="d-block w-100"
+                            onClick={() => dispatch(addMenuItem(item))}
+                          >
+                            ADD TO PERSONAL MENU
+                          </Button>
+                        </Stack>
+                      </Col>
+                    </Row>
+                  </Stack>
                 </Card.Body>
                 <Card.Footer>
                   <Row>
@@ -203,7 +218,7 @@ const MenuDetailsPage = () => {
                 </Card.Footer>
               </Card>
             </Col>
-            <Col md={4} lg={4}>
+            <Col md={12} lg={5}>
               <CustomMenu />
             </Col>
           </Row>

@@ -39,9 +39,10 @@ const TimeInput = ({ error, time, setTime, setError }) => {
   };
 
   return (
-    <Form.Group controlId="formTime" className="w-100">
+    <Form.Group controlId="form-time" className="w-100">
       <Form.Control
         type="time"
+        name="form-time"
         value={time}
         onChange={handleTimeChange}
         min={time} // Set the minimum time to current time

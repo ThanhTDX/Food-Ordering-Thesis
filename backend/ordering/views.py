@@ -64,7 +64,8 @@ def getRoutes(request):
     '/api/ordering/<id>/',
     '/api/ordering/momo/payment/',
     '/api/ordering/momo/callback',
-    '/api/ordering/create/'
+    '/api/ordering/create/',
+    '/api/ordering/bill/<:id>',
   ]
   return Response(routes)
 
@@ -373,8 +374,35 @@ def orderingCreateNew(request):
     new_food_order.ordering = new_order
     new_food_order.food = Food.objects.get(_id = item.get("_id"))
     new_food_order.qty = item.get("qty")
-    new_food_order.save()
+    new_food_order.save()  
     
+    
+  def create_txt_file():
+    # Define the path to save the .txt file
+    file_path = os.path.join(settings.MEDIA_ROOT, 'user_files', 'user_report.txt')
+
+    # Ensure the 'user_files' directory exists
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+    # Write some content into the file
+    with open(file_path, 'w') as file:
+        file.write('This is a user-generated text file.\n')
+        file.write('This is a user-generated text file.\n')
+        file.write('This is a user-generated text file.\n')
+        file.write('This is a user-generated text file.\n')
+        file.write('This is a user-generated text file.\n')
+        file.write('This is a user-generated text file.\n')
+        file.write('This is a user-generated text file.\n')
+        file.write('This is a user-generated text file.\n')
+
+    return file_path
   
+  create_txt_file()
+
   
-  return Response({'status': 'Ordering Complete'}, status=status.HTTP_200_OK)
+  return Response({'status': 'success'}, status=status.HTTP_200_OK)
+
+# /api/ordering/bill/<:id>
+@api_view(['GET'])
+def getOrderingBill(request, id):
+  pass

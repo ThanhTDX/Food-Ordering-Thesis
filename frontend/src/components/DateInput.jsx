@@ -20,9 +20,10 @@ const DateInput = ({date, setDate}) => {
   };
 
   return (
-    <Form.Group controlId="formDate" className="w-100">
+    <Form.Group controlId="form-date" className="w-100">
       <Form.Control
         type="date"
+        name="form-date"
         value={date}
         onChange={handleDateChange}
         min={minDate} // Set minimum date to today's date
