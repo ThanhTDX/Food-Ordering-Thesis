@@ -17,7 +17,9 @@ import Toasts from "../components/Toasts";
 import { addMenuItem } from "../slices/customMenuSlice";
 import { fetchFoodById } from "../api/menuApi";
 
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import {
   Container,
@@ -27,24 +29,51 @@ import {
   Button,
   Stack,
   Form,
+  Image,
 } from "react-bootstrap";
 
 import formatVND from "../utils/formatVND";
 
-import "./static/css/MenuDetailsPage.css";
-import { addItemToCart } from "../slices/cartSlice";
-import { menuSelector } from "../slices/menuSlice";
+import "./static/css/MenuItemDetailsPage.css";
 import StarRatingHoverable from "../components/StarRatingHoverable";
+import avatar from "./static/img/avatar.svg"
 
+function ItemReview({ item }) {
+  useEffect(() => {}, []);
 
-function ItemReview() {
-  useEffect(() => {
-  }, [])
-  
   return (
-    <h4 className="m-0">Reviews</h4>
-
-  )
+    <div>
+      <Card>
+        <Card.Header>
+          <h4 className="m-0">Reviews</h4>
+        </Card.Header>
+      </Card>
+      <Card.Body className="menu-detail-comment-body">
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center">
+            <Image
+              src={avatar}
+              alt="Avatar.svg"
+              roundedCircle
+              width={30}
+              height={30}
+            />
+            <div className="ms-2">
+              <h6 className="fw-bold m-0">Lorem, ipsum.</h6>
+              <StarRating rating={1.3} size={"2xs"} />
+            </div>
+          </div>
+          <div className="text-secondary text-end menu-detail-comment-date">
+            <div>25/12/2024</div>
+            <div>12:12</div>
+          </div>
+        </div>
+        <Link to={`/menu/item/${item._id}/review`}>
+          <span className="">Read More...</span>
+        </Link>
+      </Card.Body>
+    </div>
+  );
 }
 
 function InputReview() {
@@ -59,7 +88,7 @@ function InputReview() {
 
   return (
     <div className="menu-details--personal-comment">
-      <Card>
+      <Card className="">
         <Card.Header>
           <h4 className="m-0">Leave Review</h4>
         </Card.Header>
@@ -106,7 +135,7 @@ function InputReview() {
   );
 }
 
-const MenuDetailsPage = () => {
+const MenuItemDetailsPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -118,12 +147,12 @@ const MenuDetailsPage = () => {
   useEffect(() => {
     try {
       const fetchFood = async () => {
-        const data = await fetchFoodById(id)
+        const data = await fetchFoodById(id);
         setLoading(false);
         console.log(data);
         setItem(data);
-      }
-      fetchFood()
+      };
+      fetchFood();
     } catch (error) {
       setLoading(false);
       setError(error);
@@ -187,7 +216,10 @@ const MenuDetailsPage = () => {
                               );
                             })}
                           </Row>
-                          <Button variant="" className="menu-detail--card--type">
+                          <Button
+                            variant=""
+                            className="menu-detail--card--type"
+                          >
                             <span>{item.type.name}</span>
                           </Button>
                         </Stack>
@@ -209,7 +241,7 @@ const MenuDetailsPage = () => {
                 <Card.Footer>
                   <Row>
                     <Col md={12} lg={6}>
-                      <ItemReview />
+                      <ItemReview item={item} />
                     </Col>
                     <Col md={12} lg={6}>
                       <InputReview />
@@ -228,4 +260,4 @@ const MenuDetailsPage = () => {
   );
 };
 
-export default MenuDetailsPage;
+export default MenuItemDetailsPage;

@@ -41,7 +41,7 @@ function Home() {
   ) : error ? (
     <Message variant="danger">{error}</Message>
   ) : (
-    <>
+    <Container>
       <Carousel fade data-bs-theme="dark" className="w-100 home--carousel">
         <Carousel.Item>
           <OpacityImage src={carousel1} alt="carousel1" opacity={0.2} />
@@ -62,7 +62,7 @@ function Home() {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
-      <Container className="p-0 my-5 home--location">
+      <div className="p-0 my-5 home--location">
         <h1 className=" m-auto text-center w-50">FIND US HERE</h1>
         <Row>
           <Col lg={4} className="">
@@ -143,8 +143,8 @@ function Home() {
             </Button>
           </Col>
         </Row>
-      </Container>
-      <Container className="p-0 my-5 home--custom-menu">
+      </div>
+      <div className="p-0 my-5 home--custom-menu">
         <Row>
           <Col
             md={12}
@@ -164,8 +164,8 @@ function Home() {
             <Image src={customMenu} alt={customMenu} />
           </Col>
         </Row>
-      </Container>
-    </>
+      </div>
+    </Container>
   );
 }
 

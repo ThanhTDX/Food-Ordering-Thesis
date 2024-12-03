@@ -114,16 +114,8 @@ function MenuItemList({ item }) {
                 <span class="text-danger align-self-end">
                   <s>{formatVND(item.price)}</s>
                 </span>
-                <h6 class="text-success">Free shipping</h6>
               </div>
               <Stack gap={2} direction="horizontal" className="mb-1">
-                <Button
-                  variant=""
-                  className="w-100 menu-item--add-to-cart"
-                  onClick={() => dispatch(addItemToCart(item))}
-                >
-                  <FontAwesomeIcon icon={faCartShopping} />
-                </Button>
                 <Button
                   variant=""
                   className="w-100 menu-item--add-to-menu"

@@ -31,9 +31,7 @@ import {
 
 import formatVND from "../utils/formatVND";
 
-import "./static/css/MenuDetailsPage.css";
-import { addItemToCart } from "../slices/cartSlice";
-import { menuSelector } from "../slices/menuSlice";
+import "./static/css/MenuItemDetailsPage.css";
 import StarRatingHoverable from "../components/StarRatingHoverable";
 
 function ItemReview() {

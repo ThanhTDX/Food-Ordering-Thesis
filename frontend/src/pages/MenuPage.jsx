@@ -13,12 +13,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Stack, Container, Button } from "react-bootstrap";
 
 import { menuSelector, prefetch } from "../slices/menuSlice";
+import { userSelector } from "../slices/userSlice";
 import "./static/css/MenuPage.css";
 import { nanoid } from "@reduxjs/toolkit";
 
 const MenuPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  
 
   // Redux data fetching
   const menu = useSelector(menuSelector);
@@ -30,6 +33,11 @@ const MenuPage = () => {
   }, [dispatch]);
 
   const [filteredMenu, setFilteredMenu] = useState([]);
+
+  // User-centered funcionalities
+
+  const user = useSelector(userSelector)
+  const { login } = user
 
   useEffect(() => {
     if (!menuFood || !menuFood.combos || !menuFood.items) {
@@ -142,14 +150,7 @@ const MenuPage = () => {
                 <Container fluid className="p-0">
                   <Stack direction="vertical" gap={2}>
                     <CustomMenu />
-                    <Stack direction="horizontal" gap={2}>
-                      <Button
-                        variant="success"
-                        onClick={() => navigate("/order")}
-                        className="w-100"
-                      >
-                        <span className="fw-bold">CHECKOUT</span>
-                      </Button>
+                    {login && (
                       <Button
                         variant="success"
                         onClick={() => handleSave()}
@@ -157,13 +158,23 @@ const MenuPage = () => {
                       >
                         <span className="fw-bold">SAVE MENU</span>
                       </Button>
+                    )}
+                    <Stack direction="horizontal" gap={2}>
+                      <Button
+                        variant="success"
+                        onClick={() => navigate("/order?checkout=true")}
+                        className="w-100"
+                      >
+                        <span className="fw-bold">CHECKOUT</span>
+                      </Button>
+                      <Button
+                        variant="success"
+                        onClick={() => navigate("/reservation?customMenu=on")}
+                        className="w-100"
+                      >
+                        <span className="fw-bold">MAKE RESERVATION</span>
+                      </Button>
                     </Stack>
-                    <Button
-                      variant="success"
-                      onClick={() => navigate("/reservation?customMenu=on")}
-                    >
-                      <span className="fw-bold">MAKE RESERVATION</span>
-                    </Button>
                   </Stack>
                 </Container>
               </Col>

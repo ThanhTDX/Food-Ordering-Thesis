@@ -47,3 +47,7 @@
   border: 1px rgb(142, 177, 36) solid;
   background-color: rgb(233, 243, 202);
 }
+
+.menu-detail-comment-date {
+  font-size: 0.75rem
+}

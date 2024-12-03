@@ -8,7 +8,8 @@ import HomePage from "./pages/HomePage";
 import ReservationPage from "./pages/ReservationPage";
 import MenuPage from "./pages/MenuPage";
 import OrderingPage from "./pages/OrderingPage";
-import MenuDetailsPage from "./pages/MenuDetailsPage";
+import MenuItemDetailsPage from "./pages/MenuItemDetailsPage";
+import MenuItemReviewPage from "./pages/MenuItemReviewPage";
 import MenuComboDetailsPage from "./pages/MenuComboDetailsPage";
 import UserPage from "./pages/UserPage";
 import LoginPage from "./pages/LoginPage";
@@ -24,7 +25,11 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} exact />
             <Route path="menu/" element={<MenuPage />} />
-            <Route path="menu/item/:id" element={<MenuDetailsPage />} />
+            <Route path="menu/item/:id" element={<MenuItemDetailsPage />} />
+            <Route
+              path="menu/item/:id/review"
+              element={<MenuItemReviewPage />}
+            />
             <Route path="menu/combo/:id" element={<MenuComboDetailsPage />} />
             <Route path="reservation/" element={<ReservationPage />} />
             <Route path="order/" element={<OrderingPage />} />

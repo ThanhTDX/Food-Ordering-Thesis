@@ -1,3 +1,11 @@
+.carousel-control-prev {
+  width: 2%;
+}
+
+.carousel-control-next {
+  width: 2%;
+}
+
 .order-suggestion__wrapper {
   height: 500px;
   display: flex;
@@ -6,9 +14,9 @@
   justify-content: center;
 }
 
-.order-suggestion--image {
-  width: 30%;
-  height: auto;
+.order-suggestion--image img {
+  width: 100px;
+  height: 75px;
 }
 
 .order-suggestion--title {
@@ -18,5 +26,37 @@
 
 .order-suggestion--add-to-cart {
   width: 45%;
-  font-size: 0.8rem
+  font-size: 0.8rem;
+}
+
+.order-suggestion--tag {
+  font-size: small;
+  border: 1px rgb(175, 177, 36) solid;
+  background-color: rgb(253, 255, 158);
+}
+
+.order-suggestion--tag:hover {
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(254, 255, 208);
+}
+
+.order-suggestion--tag:active {
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(254, 255, 208);
+}
+
+.order-suggestion--type {
+  font-size: small;
+  border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(225, 250, 148);
+}
+
+.order-suggestion--type:hover {
+  border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(221, 237, 175);
+}
+
+.order-suggestion--type:active {
+  border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(233, 243, 202);
 }

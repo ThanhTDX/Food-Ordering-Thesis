@@ -6,6 +6,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 1rem;
 }
+html, body{
+  height: 100vh;
+  display:flex;
+  flex-direction:column
+}
 
 .roboto-slab {
   font-family: "Roboto Slab", serif;
@@ -14,12 +19,19 @@ body {
   font-style: normal;
 }
 
-.menu-item img 
-{
+.menu-item img {
   height: 150px;
   width: 100%;
 }
 
 .menu-item .menu-item--tag {
   font-size: 13px;
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  position: relative; /* Normal flow */
 }

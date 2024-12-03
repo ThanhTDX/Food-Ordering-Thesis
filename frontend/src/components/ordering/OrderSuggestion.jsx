@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { menuSelector, prefetch } from "../../slices/menuSlice";
 
 import { Carousel, Row, Col, Button, Image, Stack } from "react-bootstrap";
@@ -17,7 +17,7 @@ const OrderSuggestion = () => {
   const cart = useSelector(cartSelector)
   const { orderId } = cart.payment;
 
-  const menu = useSelector(menuSelector);
+  const menu = useSelector(menuSelector, shallowEqual);
   const { items } = menu.menuFood;
 
   const array = [...items];
@@ -34,12 +34,12 @@ const OrderSuggestion = () => {
 
   return (
     <div>
-      <Carousel interval={null}>
+      <Carousel interval={null} className="px-4">
         {selectedItems.slice(0, 3).map((groups, index) => (
           <Carousel.Item key={index}>
             <Row>
               {groups.map((item) => (
-                <Col md={4} sm={12} key={item._id}>
+                <Col md={4} sm={12} key={item._id} className="mb-sm-2">
                   <Stack direction="vertical" gap={1}>
                     <div className="d-flex align-items-center">
                       <div className="order-suggestion--image">
@@ -49,11 +49,11 @@ const OrderSuggestion = () => {
                           className=" img-fluid rounded-3"
                         />
                       </div>
-                      <div className="flex-grow-1 ms-3">
+                      <div className="flex-grow-1 ms-1">
                         <h6>{item.name}</h6>
-                        <div className="d-flex flex-wrap justify-content-between">
+                        <div className="d-flex justify-content-between align-items-center">
                           <StarRating item={item} size={"2xs"} />
-                          <h6>{formatVND(item.price)}</h6>
+                          <span className="fs-6">{formatVND(item.price)}</span>
                         </div>
                       </div>
                     </div>
@@ -64,7 +64,7 @@ const OrderSuggestion = () => {
                           return (
                             <Button
                               variant={""}
-                              className="p-1 py-0 menu-item--card--tag "
+                              className="p-1 py-0 order-suggestion--tag "
                               key={tag._id}
                             >
                               <span>{tag.name}</span>
@@ -72,14 +72,26 @@ const OrderSuggestion = () => {
                           );
                         })}
                     </Stack>
-                    <Button
-                      variant="danger"
-                      className="order-suggestion--add-to-cart align-self-end p-0"
-                      onClick={() => dispatch(addItemToCart(item))}
-                      disabled={orderId}
+                    <Stack
+                      gap={2}
+                      direction="horizontal"
+                      className="d-flex justify-content-between align-items-center"
                     >
-                      <span className="fw-bold">ADD TO CART</span>
-                    </Button>
+                      <Button
+                        variant=""
+                        className="order-suggestion--type px-1 py-0"
+                      >
+                        <span className="">{item.type.name}</span>
+                      </Button>
+                      <Button
+                        variant="danger"
+                        className="order-suggestion--add-to-cart justify-self-end p-0"
+                        onClick={() => dispatch(addItemToCart(item))}
+                        disabled={orderId}
+                      >
+                        <span className="fw-bold">ADD TO CART</span>
+                      </Button>
+                    </Stack>
                   </Stack>
                 </Col>
               ))}

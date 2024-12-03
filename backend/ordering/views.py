@@ -103,7 +103,7 @@ def orderingPaymentMomo(request):
   # Order specific 
   orderInfo = "Ordering for " + str(phone_number)
   redirectUrl = "http://localhost:3000/order"
-  ipnUrl = "https://7554-2001-ee0-4f07-b00-99e7-e841-4b26-2c72.ngrok-free.app/api/ordering/momo/callback"
+  ipnUrl = "https://767f-2001-ee0-50c6-6870-a0a5-afcf-bc20-989b.ngrok-free.app/api/ordering/momo/callback"
   amount = str(price)
   orderId = str(uuid.uuid4())
   requestId = str(uuid.uuid4())

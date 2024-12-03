@@ -12,7 +12,6 @@ import {
   Carousel,
 } from "react-bootstrap";
 
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -28,9 +27,8 @@ import {
 
 import "./css/MenuUtility.css";
 
-import splitArrayIntoGroups from "../../utils/splitArrayIntoGroups"
-
-
+import splitArrayIntoGroups from "../../utils/splitArrayIntoGroups";
+import formatVND from "../../utils/formatVND";
 
 const MenuKeyword = ({ searchKeyword }) => {
   const dispatch = useDispatch();
@@ -47,37 +45,72 @@ const MenuKeyword = ({ searchKeyword }) => {
   );
 };
 
-const MenuPrice = ({priceRange}) => {
+const MenuPrice = ({ priceRange }) => {
   const dispatch = useDispatch();
+
+  const formattedPrice = (price) => {
+    // Ensure that the number is an integer before formatting
+    if (isNaN(price)) return price;
+    const result = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    console.log(result)
+    return result  // Add dots as thousand separators
+  };
+  const handleChangeLowerInput = (e) => {
+    // For debugging
+    console.log(e.target.value);
+    let value = parseInt(e.target.value.replace(".", "").replace(" ", ""));  
+
+    // Check if the input meets the regex requirements (only numbers and/or 'dots')
+    // I ChatGPT this btw
+    const regex = /^(\d{1,3}(\.\d{3})*)?$/;
+    if(!regex.test(e.target.value)) return
+      
+    console.log(value)
+
+    // Remove leading zeros unless the value is "0"
+    // if (value !== "0") {
+    //   value = value.replace(/^0+/, ""); // Remove leading zeros
+    // }
+
+    // Check if the value is a valid number using a regex (including decimal numbers)
+    
+
+    if (regex.test(value)) {
+      // Dispatch only if the value is a valid number
+      dispatch(updateLowerPrice(value));
+    }
+  };
   return (
     <Stack direction="horizontal" gap={2}>
       <InputGroup>
         <Form.Control
-          type="number"
+          type="text"
           className="me-auto"
-          value={priceRange.lower}
+          value={formattedPrice(priceRange.lower)}
           id="priceRangeLowerInput"
-          onChange={(e) => dispatch(updateLowerPrice(e.target.value))}
+          onChange={handleChangeLowerInput}
         />
+        <InputGroup.Text id="vnd-icon">₫</InputGroup.Text>
       </InputGroup>
       <div>
         <span>-</span>
       </div>
       <InputGroup>
         <Form.Control
-          type="number"
-          className="me-auto"
+          type="text"
+          className="me-auto text-end"
           value={priceRange.upper}
           id="priceRangeUpperInput"
           onChange={(e) => dispatch(updateUpperPrice(e.target.value))}
         />
+        <InputGroup.Text id="vnd-icon">₫</InputGroup.Text>
       </InputGroup>
     </Stack>
   );
-}
+};
 
 const MenuView = ({ view }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <Stack direction="horizontal" gap={2} className="">
       <Button
@@ -185,7 +218,7 @@ const MenuType = ({ searchType, allTypes }) => {
 const MenuCombo = ({ searchCombo, comboType }) => {
   const dispatch = useDispatch();
 
-  const groups = splitArrayIntoGroups(comboType.slice(0,3), 2);
+  const groups = splitArrayIntoGroups(comboType.slice(0, 3), 2);
   return (
     <Card>
       <Card.Title className="m-1">

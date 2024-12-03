@@ -27,6 +27,7 @@ const fetchCustomMenuStorage = () => {
     price: 0,
     discountedPrice: 0,
   };
+
   const customMenu = localStorage.getItem("customMenu")
     ? JSON.parse(localStorage.getItem("customMenu"))
     : [];
@@ -45,11 +46,9 @@ const fetchCustomMenuStorage = () => {
 };
 
 // TODO: this value is HORRIBLE
-const initialCartContentFromLocalStorage =
-  // Fetching cart from LocalStorage
-  localStorage.getItem("cart")
-    ? JSON.parse(localStorage.getItem("cart")).cartContent
-    : fetchCustomMenuStorage();
+const initialCartContentFromLocalStorage = localStorage.getItem("cart") 
+  ? JSON.parse(localStorage.getItem("cart")).cartContent
+  : fetchCustomMenuStorage();
 
 // Initial value setup for cart information
 const initialInformationFromLocalStorage =
@@ -134,7 +133,7 @@ export const cartSlice = createSlice({
       state.cartContent.price += Number(action.payload.price);
 
       // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state));
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     removeItemFromCart: (state, action) => {
       // action.payload: cartItem
@@ -157,12 +156,14 @@ export const cartSlice = createSlice({
           Number(action.payload.price) * Number(action.payload.qty);
       }
       // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state));
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     updateItemInCart: (state, action) => {
       // action.payload = {cartItem, qty}
       const { cartItem, qty } = action.payload;
-      console.log(cartItem);
+
+      // for debugging
+      // console.log(cartItem);
 
       // this is assuming cartContent.item has item.qty
       // if this is adding new item to customMenu, refer to addMenuItem
@@ -186,6 +187,7 @@ export const cartSlice = createSlice({
         state.price + Number(cartItem.price) * Number(qty - cartItem.qty);
 
       // Save to localStorage
+      console.log(state);
       localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     addPromotion: (state, action) => {
@@ -199,7 +201,7 @@ export const cartSlice = createSlice({
       // );
 
       // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state));
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     removePromotion: (state, action) => {
       // action.payload: promotion
@@ -214,20 +216,20 @@ export const cartSlice = createSlice({
       // );
 
       // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state));
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     updateName: (state, action) => {
       // action.payload: name - string
       state.information.name = action.payload;
       // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state));
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     updateAddress: (state, action) => {
       // action.payload: address - string
       state.information.address = action.payload;
 
       // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state));
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     updatePhoneNumber: (state, action) => {
       // action.payload: phoneNumber - string
@@ -243,20 +245,20 @@ export const cartSlice = createSlice({
         state.information.phoneNumber = action.payload;
       }
       // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state));
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     updatePayment: (state, action) => {
       // action.payload: {method, orderId} - string
       state.payment = action.payload;
       // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state));
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     updateDeliveryTime: (state, action) => {
       // action.payload: {date, time}
       state.information.deliveryTime.date = action.payload.date;
       state.information.deliveryTime.time = action.payload.time;
       // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state));
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
   },
 });

@@ -80,6 +80,8 @@ export const menuSlice = createSlice({
     updateLowerPrice: (state, action) => {
       //action.payload: price
       state.menuSearch.priceRange.lower = action.payload;
+      if (state.menuSearch.priceRange.upper < state.menuSearch.priceRange.lower)
+        state.menuSearch.priceRange.upper = state.menuSearch.priceRange.lower;
     },
   },
   extraReducers(builder) {
