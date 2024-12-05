@@ -1,0 +1,32 @@
+.or-container {
+    position: relative;
+    text-align: center;
+    margin: 0.5rem 0; /* Adjust as needed */
+}
+
+.or-text {
+    position: relative;
+    background: white; /* Match the background color */
+    z-index: 1; /* Ensure text is above the line */
+    padding: 0 10px; /* Add some padding around the text */
+}
+
+.or-line {
+    position: absolute;
+    top: 50%; /* Center the line vertically */
+    left: 0;
+    right: 0;
+    height: 2px; /* Thickness of the line */
+    background: black; /* Color of the line */
+    z-index: 0; /* Place line behind the text */
+}
+
+
+.forgot-password{
+  text-decoration: underline;
+  cursor:pointer;
+}
+
+.forgot-password:hover{
+  color: red
+}

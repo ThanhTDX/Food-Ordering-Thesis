@@ -1,0 +1,53 @@
+.menu-detail--image {
+  max-height: 250px;
+}
+
+.menu-detail--card--tag span{
+  font-size: small;
+}
+
+.menu-detail--card--tag:hover {
+  text-decoration: underline;
+}
+
+.menu-detail--card--tag {
+  border: 1px rgb(175, 177, 36) solid;
+  background-color: rgb(253, 255, 158);
+}
+
+.menu-detail--card--tag:hover {
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(254, 255, 208);
+}
+
+.menu-detail--card--tag:active {
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(254, 255, 208);
+}
+
+.menu-detail--card--type {
+  font-size: medium;
+}
+
+.menu-detail--card--type:hover {
+  text-decoration: underline;
+}
+
+.menu-detail--card--type {
+  border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(225, 250, 148);
+}
+
+.menu-detail--card--type:hover {
+  border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(221, 237, 175);
+}
+
+.menu-detail--card--type:active {
+  border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(233, 243, 202);
+}
+
+.menu-detail-comment-date {
+  font-size: 0.75rem
+}

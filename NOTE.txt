@@ -1,0 +1,5 @@
+1. download ngrok 
+2. run ngrok.exe
+3. run ngrok.exe http 8000 (create web hosting server on django)
+3.1 DO NOT TURN OFF THE SERVER OR ELSE RUN BACK STEP 3
+4. go to backend settings, ALLOWED_HOSTS, and copy paste (allow) generated domain

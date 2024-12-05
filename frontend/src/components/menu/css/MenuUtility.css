@@ -1,0 +1,148 @@
+.card-body{
+  border: 1px solid #848484;
+  border-radius: 5px;
+}
+
+.carousel-control-prev {
+  background-color: #848484; /* Change to a custom color */
+  width: 5%;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.carousel-control-prev:hover {
+  background-color: #b9b9b9; /* Change to a custom color */
+}
+
+.carousel-indicators{
+  display: none
+}
+
+.carousel-control-next {
+  background-color: #848484; /* Change to a custom color */
+  width: 5%;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.carousel-control-next:hover {
+  background-color: #b9b9b9; /* Change to a custom color */
+}
+
+.card-body {
+  height: 50%;
+}
+
+.menu-utility--tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  font-style: normal
+}
+
+.menu-utility--type {
+  font-size: 0.75rem;
+  font-weight: 800;
+  font-style: normal
+}
+
+.menu-utility--combo--type {
+  font-size: 0.75rem;
+  font-weight: 800;
+  font-style: normal
+}
+
+.menu-utility--tag:hover {
+  text-decoration: underline;
+}
+
+.menu-utility--tag.inactive {
+  border: 1px rgb(175, 177, 36) solid;
+  background-color: rgb(253, 255, 158);
+}
+
+.menu-utility--tag.inactive:hover {
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(254, 255, 208);
+}
+
+.menu-utility--tag.inactive:active {
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(240, 240, 227);
+}
+
+.menu-utility--tag.active {
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(245, 247, 108);
+}
+
+.menu-utility--tag.active:hover {
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(241, 243, 121);
+}
+
+.menu-utility--tag.active:active {
+  border: 1px rgb(206, 209, 15) solid;
+  background-color: rgb(254, 255, 195);
+}
+
+.menu-utility--type:hover {
+  text-decoration: underline;
+}
+
+.menu-utility--type.inactive {
+  border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(225, 250, 148);
+}
+
+.menu-utility--type.inactive:hover {
+  border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(221, 237, 175);
+}
+
+.menu-utility--type.inactive:active {
+  border: 1px rgb(142, 177, 36) solid;
+  background-color: rgb(233, 243, 202);
+}
+
+.menu-utility--type.active {
+  border: 1px rgb(139, 211, 75) solid;
+  background-color: rgb(163, 234, 100);
+}
+
+.menu-utility--type.active:hover {
+  border: 1px rgb(139, 211, 75) solid;
+  background-color: rgb(176, 237, 122);
+}
+
+.menu-utility--type.active:active {
+  border: 1px rgb(139, 211, 75) solid;
+  background-color: rgb(198, 246, 156);
+}
+
+
+.menu-utility--combo--type.inactive {
+  border: 1px rgb(177, 113, 36) solid;
+  background-color: rgb(243, 222, 195);
+}
+
+.menu-utility--combo--type.inactive:hover {
+  border: 1px rgb(177, 113, 36) solid;
+  background-color: rgb(237, 229, 218);
+}
+
+.menu-utility--combo--type.inactive:active {
+  border: 1px rgb(177, 113, 36) solid;
+  background-color: rgb(255, 255, 255);
+}
+.menu-utility--combo--type.active {
+  border: 1px rgb(177, 113, 36) solid;
+  background-color: rgb(220, 163, 94);
+}
+
+.menu-utility--combo--type.active:hover {
+  border: 1px rgb(177, 113, 36) solid;
+  background-color: rgb(231, 185, 129);
+}
+
+.menu-utility--combo--type.active:active {
+  border: 1px rgb(177, 113, 36) solid;
+  background-color: rgb(244, 216, 182);
+}

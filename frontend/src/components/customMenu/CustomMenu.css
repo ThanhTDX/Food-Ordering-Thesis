@@ -1,0 +1,80 @@
+.custom-menu__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: space-evenly;
+  justify-content: center;
+}
+
+.custom-menu__wrapper img {
+  height: 50px;
+  width: 30%;
+  min-width: 75px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.custom-menu--edit-button .btn  {
+  background-color: rgb(159, 221, 255);
+  border: 1px solid rgb(143, 193, 219);
+}
+
+.custom-menu--edit-button .btn:hover {
+  background-color: rgb(193, 233, 255);
+  border: 1px solid rgb(143, 193, 219);
+}
+
+.custom-menu--edit-button .btn:active {
+  background-color: rgb(207, 235, 250);
+  border: 1px solid rgb(143, 193, 219);
+}
+
+
+.custom-menu--item__wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-menu--title {
+  font-weight: bold;
+  width: 100%;
+  align-self: center;
+  margin-left: 5px;
+}
+
+.custom-menu--edit .btn {
+  padding: 2px;
+}
+
+.custom-menu--edit--quantity {
+  font-size: 0.9rem
+}
+
+.custom-menu--report__success {
+  font-size: 20px;
+  border: 2px rgb(156, 156, 156) solid;
+  border-radius: 10px;
+}
+
+.custom-menu--report__initial {
+  font-size: 20px;
+  border: 2px rgb(156, 156, 156) solid;
+  border-radius: 10px;
+}
+
+.custom-menu--report__warning {
+  font-size: 20px;
+  border: 2px rgb(156, 156, 156) solid;
+  border-radius: 10px;
+}
+
+.custom-menu--list--item-info {
+  font-size: 0.8rem;
+  font-weight: 300;
+}
+
+.custom-menu--list--item-price {
+  font-weight: bold;
+  font-size: 1rem;
+}

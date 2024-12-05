@@ -1,0 +1,15 @@
+.home--carousel img{
+  height: 720px;
+  width: 100%;
+}
+
+.carousel-caption{
+  position:absolute;
+  right: 15%;
+  bottom: 50%;
+}
+
+.home--location img{
+  width: 100%;
+  height: 300px;
+}
