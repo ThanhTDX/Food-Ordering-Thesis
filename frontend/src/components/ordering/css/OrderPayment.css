@@ -6,3 +6,8 @@
   min-width: none;
   min-height: none;
 }
+
+.order--payment--choice img{
+  width: auto;
+  max-height: 8vh;
+}

@@ -1,0 +1,23 @@
+Thành's Deli Restaurant
+Order number: 9f96fb67-7378-4f67-9725-dca07cfaa170
+Customer Name: zdfxgzsdfg123
+Phone Number: 0999111999
+Address: a
+
+
+Order Items: 
+1: Rice vermicelli and tofu with shrimp sauce
+	Quantity: 1 	Price: 40000VND
+2: Soft thin vermicelli noodles
+	Quantity: 1 	Price: 25000VND
+3: Steamed Flat Cake
+	Quantity: 1 	Price: 25000VND
+4: Yangzhou Fried Rice
+	Quantity: 1 	Price: 25000VND
+5: Stew with organ meats
+	Quantity: 1 	Price: 20000VND
+6: Fried rice flour cake
+	Quantity: 1 	Price: 15000VND
+
+
+Total Price:150000

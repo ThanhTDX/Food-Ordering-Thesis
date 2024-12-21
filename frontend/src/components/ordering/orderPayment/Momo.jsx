@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Image, Button } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
-import momoImg from "../images/1631085786958-Thiết kế không tên - 2021-09-08T002253.248.png";
+
 import React from "react";
 
 import "../css/OrderPayment.css";

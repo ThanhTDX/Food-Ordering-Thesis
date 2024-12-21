@@ -13,15 +13,20 @@ import {
   updateDeliveryTime,
 } from "../../slices/cartSlice";
 
-function DateTimeInput() {
+function DateTimeInput({paid}) {
+  const currentDate = new Date();
+  const currentTime = currentDate.toISOString().slice(11, 16);
+
   const dispatch = useDispatch();
   const cart = useSelector(cartSelector);
   const { deliveryTime } = cart.information;
   // Honestly bad code, wish to find another approach to automatically update
   // when user change delivery time + date
 
-  const [date, setDate] = useState(deliveryTime.date);
-  const [time, setTime] = useState(deliveryTime.time);
+  const [date, setDate] = useState(
+    deliveryTime.date || currentDate.toISOString().slice(0, 10)
+  );
+  const [time, setTime] = useState(deliveryTime.time || currentTime);
   const [timeError, setTimeError] = useState("");
   useEffect(() => {
     dispatch(updateDeliveryTime({ date: date, time: time }));
@@ -34,8 +39,8 @@ function DateTimeInput() {
         direction="horizontal"
         className="d-flex justify-content-center"
       >
-        <DateInput date={date} setDate={setDate} />
-        <TimeInput time={time} setTime={setTime} setError={setTimeError} />
+        <DateInput date={date} setDate={setDate} disabled={paid}/>
+        <TimeInput time={time} setTime={setTime} setError={setTimeError} disabled={paid}/>
       </Stack>
       {timeError && <Message variant="danger">{timeError}</Message>}
     </Stack>
@@ -46,18 +51,20 @@ const OrderInformation = () => {
   const dispatch = useDispatch();
   const cart = useSelector(cartSelector);
   const { name, phoneNumber, address } = cart.information;
+  const { paid } = cart.status
+  const [localPhoneNumber, setLocalPhoneNumber] = useState(phoneNumber);
 
-  const handlePhoneNumber = (phoneNum) => {
+  useEffect(() => {
     if (
-      phoneNum.length < 10 ||
-      phoneNum.length > 12 ||
-      phoneNum.indexOf(0) !== 0
+      localPhoneNumber === "" ||
+      (localPhoneNumber.startsWith("0") &&
+      localPhoneNumber.length > 9 &&
+      localPhoneNumber.length < 12)
     ) {
-      return;
-    } else {
-      dispatch(updatePhoneNumber(phoneNum));
+      // Only update Redux state if the phone number is valid
+      dispatch(updatePhoneNumber(localPhoneNumber));
     }
-  };
+  }, [localPhoneNumber, dispatch]);
 
   return (
     <Form className="">
@@ -72,8 +79,10 @@ const OrderInformation = () => {
               type="text"
               name="formName"
               placeholder="Enter name..."
+              value={name || ""}
               required
               onChange={(e) => dispatch(updateName(e.target.value))}
+              disabled={paid}
             />
           </Form.Group>
           <Form.Group className="" controlId="formTel">
@@ -84,8 +93,10 @@ const OrderInformation = () => {
               type="tel"
               name="formTel"
               placeholder="Enter Phone Number..."
+              value={localPhoneNumber || ""}
               required
-              onChange={(e) => handlePhoneNumber(e.target.value)}
+              onChange={(e) => setLocalPhoneNumber(e.target.value)}
+              disabled={paid}
             />
           </Form.Group>
         </Stack>
@@ -97,15 +108,17 @@ const OrderInformation = () => {
             type="text"
             name="formAddress"
             placeholder="Enter Address..."
+            value={address || ""}
             required
             onChange={(e) => dispatch(updateAddress(e.target.value))}
+            disabled={paid}
           />
         </Form.Group>
         <Form.Group className="" controlId="formDateTime">
           <Form.Label className="m-0">
             <span className="ps-2">Delivery Time</span>
           </Form.Label>
-          <DateTimeInput />
+          <DateTimeInput paid={paid}/>
         </Form.Group>
       </Stack>
     </Form>

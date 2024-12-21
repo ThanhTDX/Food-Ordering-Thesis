@@ -1,8 +1,8 @@
 # Food-Ordering-Thesis
 
-Made with Django. Link to project: <https://github.com/ThanhTDX/Food-Ordering-Thesis/>
+Made with Django and React (+ Redux). Link to project: <https://github.com/ThanhTDX/Food-Ordering-Thesis/>
 
-Frontend: Bootstrap 5
+Frontend: React + Bootstrap 5 + Redux
 
 Frontend template is from [HTML Codex](https://htmlcodex.com/bootstrap-restaurant-template/)
 
@@ -10,6 +10,8 @@ Frontend template is from [HTML Codex](https://htmlcodex.com/bootstrap-restauran
 
 - Python: 3.12.2. Download Python [here](https://www.python.org/downloads/release/python-3122/)
 - Django: 4.2.11. Download Django [here](https://www.djangoproject.com/download/)
+- React: 
+- Redux: 
 
 ## Other Django addons used in the project
 

@@ -219,7 +219,7 @@ const CustomMenu = () => {
                   size="xl"
                   style={{ color: "#2ff906" }}
                 />
-                <span className="ms-3"> Looks Good To Me!</span>
+                <span className="ms-3">Looks Good To Me!</span>
               </div>
             </Container>
           )}

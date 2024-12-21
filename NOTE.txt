@@ -3,3 +3,18 @@
 3. run ngrok.exe http 8000 (create web hosting server on django)
 3.1 DO NOT TURN OFF THE SERVER OR ELSE RUN BACK STEP 3
 4. go to backend settings, ALLOWED_HOSTS, and copy paste (allow) generated domain
+
+ATM:
+
+Số thẻ: 9704 0000 0000 0018	
+Tên chủ thẻ: NGUYEN VAN A	
+Ngày phát hành: 03/07	
+Mật khẩu: OTP
+
+VISA/MASTER/JCB:
+
+Number: 5200 0000 0000 1096
+Name: NGUYEN VAN A
+Exp/Date: 05/25
+CVC: 111
+Password: OTP

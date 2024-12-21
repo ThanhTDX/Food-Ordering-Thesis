@@ -52,28 +52,42 @@ const MenuPrice = ({ priceRange }) => {
     // Ensure that the number is an integer before formatting
     if (isNaN(price)) return price;
     const result = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    console.log(result)
-    return result  // Add dots as thousand separators
+    return result; // Add dots as thousand separators
   };
+
+  const handleChangeUpperInput = (e) => {
+    // If input is none (Delete all number) dispatch lowerPrice
+    if (!e.target.value) {
+      dispatch(updateUpperPrice(0));
+    }
+
+    // Convert current string with dots into integer
+    // eg: 12.345.678 => 12345678
+    let value = parseInt(e.target.value.replace(/\./g, "").replace(" ", ""));
+
+    // Check if the input meets the regex requirements (only numbers)
+    const regex = /([1-9])(\d*)/;
+    if (!regex.test(e.target.value)) return;
+
+    if (regex.test(value)) {
+      // Dispatch only if the value is a valid number
+      dispatch(updateUpperPrice(value));
+    }
+  };
+
   const handleChangeLowerInput = (e) => {
-    // For debugging
-    console.log(e.target.value);
-    let value = parseInt(e.target.value.replace(".", "").replace(" ", ""));  
+    // If input is none (Delete all number) dispatch lowerPrice
+    if (!e.target.value) {
+      dispatch(updateLowerPrice(0));
+    }
 
-    // Check if the input meets the regex requirements (only numbers and/or 'dots')
-    // I ChatGPT this btw
-    const regex = /^(\d{1,3}(\.\d{3})*)?$/;
-    if(!regex.test(e.target.value)) return
-      
-    console.log(value)
+    // Convert current string with dots into integer
+    // eg: 12.345.678 => 12345678
+    let value = parseInt(e.target.value.replace(/\./g, "").replace(" ", ""));
 
-    // Remove leading zeros unless the value is "0"
-    // if (value !== "0") {
-    //   value = value.replace(/^0+/, ""); // Remove leading zeros
-    // }
-
-    // Check if the value is a valid number using a regex (including decimal numbers)
-    
+    // Check if the input meets the regex requirements (only numbers)
+    const regex = /([1-9])(\d*)/;
+    if (!regex.test(e.target.value)) return;
 
     if (regex.test(value)) {
       // Dispatch only if the value is a valid number
@@ -85,7 +99,7 @@ const MenuPrice = ({ priceRange }) => {
       <InputGroup>
         <Form.Control
           type="text"
-          className="me-auto"
+          className="me-auto text-end"
           value={formattedPrice(priceRange.lower)}
           id="priceRangeLowerInput"
           onChange={handleChangeLowerInput}
@@ -99,9 +113,9 @@ const MenuPrice = ({ priceRange }) => {
         <Form.Control
           type="text"
           className="me-auto text-end"
-          value={priceRange.upper}
+          value={formattedPrice(priceRange.upper)}
           id="priceRangeUpperInput"
-          onChange={(e) => dispatch(updateUpperPrice(e.target.value))}
+          onChange={handleChangeUpperInput}
         />
         <InputGroup.Text id="vnd-icon">₫</InputGroup.Text>
       </InputGroup>
@@ -147,7 +161,12 @@ const MenuTag = ({ searchTags, allTags }) => {
             <Carousel.Item key={index}>
               <Row className="px-4">
                 {group.slice(0, 6).map((tag) => (
-                  <Col key={tag._id} sm={6} md={4} className="px-1">
+                  <Col
+                    key={tag._id}
+                    sm={6}
+                    md={4}
+                    className="px-1 d-flex align-items-center py-1"
+                  >
                     <Button
                       variant={""}
                       className={
@@ -179,19 +198,22 @@ const MenuType = ({ searchType, allTypes }) => {
   return (
     <Card>
       <Card.Title className="m-1">
-        {" "}
         <span>Type</span>
       </Card.Title>
 
       <Card.Body className="p-0">
-        {" "}
         <Carousel interval={null}>
           {groups.map((group, index) => (
             <Carousel.Item className="h-100" key={index}>
               <Row className="px-4 d-flex align-items-center justify-content-between">
                 {group.map((type) => {
                   return (
-                    <Col key={type._id} sm={6} md={4} className="px-1">
+                    <Col
+                      key={type._id}
+                      sm={6}
+                      md={4}
+                      className="px-1 d-flex align-items-center py-1"
+                    >
                       <Button
                         variant={""}
                         className={
@@ -286,7 +308,7 @@ const MenuUtility = () => {
   const menu = useSelector(menuSelector);
   const { menuSearch, menuFood, menuView } = menu;
   return (
-    <Container className="p-0 mb-4 menu-utility">
+    <Container className="p-0 mb-2 menu-utility">
       <Row>
         <Col md={12} lg={5} className="">
           <MenuKeyword searchKeyword={menuSearch.keyword} />

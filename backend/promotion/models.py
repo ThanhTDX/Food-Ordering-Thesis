@@ -5,7 +5,7 @@ from django.utils import timezone
 
 class Promotion_FoodFK(models.Model):
   promotion = models.ForeignKey("promotion.Promotion", verbose_name=_("Promotion"), on_delete=models.CASCADE)
-  food = models.ForeignKey("base.Food", verbose_name=_(""), on_delete=models.CASCADE)
+  food = models.ForeignKey("base.Food", verbose_name=_("Food"), on_delete=models.CASCADE)
   qty = models.IntegerField(default=1)
   
   def __str__(self):

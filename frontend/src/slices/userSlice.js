@@ -31,7 +31,7 @@ export const userLogin = createAsyncThunk(
   "api/users/login",
   async ({ phoneNumber, password }, thunkAPI) => {
     try {
-      const data = apiLogin(phoneNumber, password);
+      const data = await apiLogin(phoneNumber, password);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -42,17 +42,17 @@ export const userLogin = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    userInfo: {
-      username: "",
-      phoneNumber: "",
-    },
+    userInfo: {},
     token: "",
-    error: "",
-    loading: false,
+    status: {
+      error: "",
+      loading: false,
+    },
   },
   reducers: {
     userLogout: (state, action) => {
       localStorage.removeItem("user");
+      state.userInfo = {};
     },
     // userCancelOrder: (state,action) => {},
     // userCancelReservation: (state,action) => {},
@@ -60,35 +60,34 @@ const userSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(userLogin.pending, (state, action) => {
-        state.loading = true;
+        state.status.loading = true;
       })
       .addCase(userLogin.fulfilled, (state, action) => {
         // action.payload =
-        state.loading = false;
-        state.error = null;
-        state.userInfo.username = action.payload.username
+        state.status.loading = false;
+        state.status.error = null;
+        state.userInfo.username = action.payload.username;
         state.userInfo.phoneNumber = action.payload.phone_number;
-        state.token = action.payload.token
-
+        state.token = action.payload.token;
         localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(userLogin.rejected, (state, action) => {
         // action.payload = error
-        state.loading = false;
-        state.error = action.payload;
+        state.status.loading = false;
+        state.status.error = action.payload;
       })
       .addCase(fetchUserOrdering.pending, (state, action) => {
-        state.loading = true;
+        state.status.loading = true;
       })
       .addCase(fetchUserOrdering.fulfilled, (state, action) => {
         // TODO: set user's order to value
-        state.loading = false;
+        state.status.loading = false;
       })
       .addCase(fetchUserOrdering.rejected, (state, action) => {
         // action.payload = error
-        state.loading = false;
-        state.error = action.payload;
-      })
+        state.status.loading = false;
+        state.status.error = action.payload;
+      });
   },
 });
 

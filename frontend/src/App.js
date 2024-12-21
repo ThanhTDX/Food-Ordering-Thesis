@@ -13,8 +13,6 @@ import MenuItemReviewPage from "./pages/MenuItemReviewPage";
 import MenuComboDetailsPage from "./pages/MenuComboDetailsPage";
 import UserPage from "./pages/UserPage";
 import LoginPage from "./pages/LoginPage";
-import UserOrderingPage from "./pages/UserOrderingPage";
-import UserReservationPage from "./pages/UserReservationPage";
 
 function App() {
   return (
@@ -25,21 +23,16 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} exact />
             <Route path="menu/" element={<MenuPage />} />
-            <Route path="menu/item/:id" element={<MenuItemDetailsPage />} />
+            <Route path="menu/item/:id/" element={<MenuItemDetailsPage />} />
             <Route
-              path="menu/item/:id/review"
+              path="menu/item/:id/review/"
               element={<MenuItemReviewPage />}
             />
-            <Route path="menu/combo/:id" element={<MenuComboDetailsPage />} />
+            <Route path="menu/combo/:id/" element={<MenuComboDetailsPage />} />
             <Route path="reservation/" element={<ReservationPage />} />
             <Route path="order/" element={<OrderingPage />} />
             <Route path="user/profile/" element={<UserPage />} />
             <Route path="login/" element={<LoginPage />} />
-            <Route
-              path="users/reservation/"
-              element={<UserReservationPage />}
-            />
-            <Route path="users/ordering/" element={<UserOrderingPage />} />
           </Routes>
         </Container>
       </main>

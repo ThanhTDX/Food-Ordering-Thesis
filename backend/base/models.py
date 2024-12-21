@@ -37,16 +37,6 @@ class FoodType(models.Model):
   def __str__(self):
     return str(self.name)
   
-class FoodPromotion(models.Model):
-  name = models.CharField(max_length=256, null=True, blank=True)
-  start_date = models.DateTimeField(auto_now=True)
-  end_date = models.DateTimeField(auto_now_add=False)
-  amount_percentage = models.IntegerField(default=0)
-  amount_value = models.IntegerField(default=0)
-  _id = models.AutoField(primary_key=True, editable=False)
-  
-  def __str__(self):
-    return str(self.name)
 
 class Food(models.Model):
   name = models.CharField(max_length=256,null=True,blank=True)
@@ -124,7 +114,7 @@ class ComboItem(models.Model):
 class FoodComment(models.Model):
   commenter_name = models.CharField(max_length=256, null=False, default="Commenter")
   description = models.TextField(null=True, blank=True)
-  # time = models.DateTimeField(default=)
+  date_created = models.DateTimeField(null=True)
   like_reaction = models.IntegerField(null=True, blank=True, default=0)
   dislike_reaction = models.IntegerField(null=True, blank=True, default=0)
   star_rating = models.DecimalField(max_digits=2, decimal_places=0)
@@ -133,4 +123,4 @@ class FoodComment(models.Model):
   food_id = models.ForeignKey(Food, on_delete=models.CASCADE, null=True)
   
   def __str__(self):
-    return str(self._id) + str(self.commenter_name) 
+    return "Id: " + str(self._id) + ". Made by: " +  str(self.commenter_name) 

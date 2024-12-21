@@ -142,3 +142,7 @@
 .menu-item--add-to-menu:hover {
   background-color: rgb(224, 185, 30) !important;
 }
+
+.product-detail-body-header {
+  height:75px;
+}

@@ -1,12 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
-
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBookOpen,
-  faCartShopping,
-  faStar as faStarSolid,
-} from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+import { faCheck, faX } from "@fortawesome/free-solid-svg-icons";
 
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -15,7 +10,7 @@ import CustomMenu from "../components/customMenu/CustomMenu";
 import Toasts from "../components/Toasts";
 
 import { addMenuItem } from "../slices/customMenuSlice";
-import { fetchFoodById } from "../api/menuApi";
+import { fetchFoodById, fetchFoodCommentById } from "../api/menuApi";
 
 import { Link } from "react-router-dom";
 
@@ -36,10 +31,27 @@ import formatVND from "../utils/formatVND";
 
 import "./static/css/MenuItemDetailsPage.css";
 import StarRatingHoverable from "../components/StarRatingHoverable";
-import avatar from "./static/img/avatar.svg"
+import avatar from "./static/img/avatar.svg";
 
 function ItemReview({ item }) {
-  useEffect(() => {}, []);
+  const { id } = useParams();
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    try {
+      const fetchReviews = async () => {
+        const data = await fetchFoodCommentById(id);
+        const sortedData = data.sort((a, b) => {
+          return new Date(b.date_created) - new Date(a.date_created); // Compare dates in descending order
+        });
+        console.log(sortedData);
+        setReviews(sortedData.slice(0,4));
+      };
+      fetchReviews();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <div>
@@ -48,42 +60,109 @@ function ItemReview({ item }) {
           <h4 className="m-0">Reviews</h4>
         </Card.Header>
       </Card>
-      <Card.Body className="menu-detail-comment-body">
-        <div className="d-flex justify-content-between align-items-center">
-          <div className="d-flex justify-content-between align-items-center">
-            <Image
-              src={avatar}
-              alt="Avatar.svg"
-              roundedCircle
-              width={30}
-              height={30}
-            />
-            <div className="ms-2">
-              <h6 className="fw-bold m-0">Lorem, ipsum.</h6>
-              <StarRating rating={1.3} size={"2xs"} />
-            </div>
-          </div>
-          <div className="text-secondary text-end menu-detail-comment-date">
-            <div>25/12/2024</div>
-            <div>12:12</div>
-          </div>
+      <Card.Body className="menu-detail-comment-body p-2">
+        <Stack direction="vertical" gap={1}>
+          {
+            reviews.length === 0 && <Card>
+              <Card.Body className="text-center">
+                <div className="fw-bold ">There's no comments about this food</div>
+                <div>Be the first to comment!</div>
+              </Card.Body>
+            </Card>
+          }
+          {reviews.map((review) => {
+            return (
+              <Card className="border rounded-3 pe-1">
+                <Card.Header className="d-flex justify-content-between align-items-center p-0 px-1">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <Image
+                      src={avatar}
+                      alt="Avatar.svg"
+                      roundedCircle
+                      width={30}
+                      height={30}
+                    />
+                    <div className="ms-2">
+                      <h6 className="fw-bold m-0">{review.commenter_name}</h6>
+                      <StarRating rating={review.star_rating} size={"2xs"} />
+                    </div>
+                  </div>
+                  <div className="text-secondary text-end menu-detail-comment-date">
+                    <div>{review.date_created.split("T")[0]}</div>
+                    <div>{review.date_created.split("T")[1].split(".")[0]}</div>
+                  </div>
+                </Card.Header>
+                <Card.Body className="border-0 p-0 ps-2">
+                  {review.description}
+                </Card.Body>
+              </Card>
+            );
+          })}
+        </Stack>
+        <div className="text-end">
+          <Link to={`/menu/item/${item._id}/review/`}>
+            <span>Read More...</span>
+          </Link>
         </div>
-        <Link to={`/menu/item/${item._id}/review`}>
-          <span className="">Read More...</span>
-        </Link>
       </Card.Body>
     </div>
   );
 }
 
 function InputReview() {
+  const { id } = useParams();
   const reviewRef = useRef();
+
+  const [rating, setRating] = useState(-1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const reloadPage = () => {
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+  };
+
+  const axiosPostCall = useCallback(
+    async (form) => {
+      try {
+        setSuccess(false);
+        setLoading(true);
+        setError("");
+        const response = await axios.post(
+          "/api/menu/comment/create/",
+          {
+            food: id,
+            username: form["form-name"],
+            description: form["form-context"],
+            star_rating: rating,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const responseData = response.data;
+        console.log(responseData);
+        setLoading(false);
+        setSuccess(true);
+        reloadPage();
+      } catch (error) {
+        setLoading(false);
+        setError("There's an error uploading your comment");
+        console.error(error);
+      }
+    },
+    [id, rating]
+  );
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(reviewRef.current);
-    console.log("formRef.current", formData);
     const values = Object.fromEntries(formData.entries());
     console.log("Form Values:", values);
+    axiosPostCall(values);
   };
 
   return (
@@ -91,6 +170,7 @@ function InputReview() {
       <Card className="">
         <Card.Header>
           <h4 className="m-0">Leave Review</h4>
+
         </Card.Header>
         <Card.Body>
           <Form ref={reviewRef} onSubmit={handleSubmit}>
@@ -104,6 +184,7 @@ function InputReview() {
                     type="text"
                     name="form-name"
                     placeholder="Enter Name..."
+                    required
                   />
                 </Form.Group>
               </Col>
@@ -112,7 +193,11 @@ function InputReview() {
                 <Stack direction="vertical" gap={1}>
                   <span className="lead">Rating</span>
                   <div className="text-end">
-                    <StarRatingHoverable size={"md"} />
+                    <StarRatingHoverable
+                      size={"lg"}
+                      fixedIndex={rating}
+                      setFixedIndex={setRating}
+                    />
                   </div>
                 </Stack>
               </Col>
@@ -128,6 +213,31 @@ function InputReview() {
             <Button type="submit" variant="primary" className="w-100 mt-2">
               SUBMIT
             </Button>
+            {loading && <Loader height={25} width={25} />}
+            {error && (
+              <Message variant={"danger"}>
+                <FontAwesomeIcon
+                  icon={faX}
+                  style={{ color: "#c32222" }}
+                  size="xl"
+                />
+                <span className="ms-2">
+                  There's an error uploading your comment.
+                </span>
+              </Message>
+            )}
+            {success && (
+              <Message variant={"success"}>
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  style={{ color: "#55d64c" }}
+                  size="xl"
+                />
+                <span className="ms-2">
+                  Your Comment has been sent successfully!
+                </span>
+              </Message>
+            )}
           </Form>
         </Card.Body>
       </Card>
@@ -149,7 +259,6 @@ const MenuItemDetailsPage = () => {
       const fetchFood = async () => {
         const data = await fetchFoodById(id);
         setLoading(false);
-        console.log(data);
         setItem(data);
       };
       fetchFood();
@@ -168,9 +277,9 @@ const MenuItemDetailsPage = () => {
       ) : (
         <Container>
           <Row>
-            <Col md={12} lg={7}>
+            <Col md={12} lg={8}>
               <Card>
-                <Card.Header>
+                <Card.Header className="p-0">
                   <Card.Img
                     src={item.image}
                     alt={item.image}
@@ -250,7 +359,7 @@ const MenuItemDetailsPage = () => {
                 </Card.Footer>
               </Card>
             </Col>
-            <Col md={12} lg={5}>
+            <Col md={12} lg={4}>
               <CustomMenu />
             </Col>
           </Row>

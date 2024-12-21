@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Col, Row, Image, Button, Stack } from "react-bootstrap";
@@ -6,14 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 import "./css/OrderCart.css";
-import {
-  removeMenuItem,
-  updateMenuItem,
-} from "../../slices/customMenuSlice";
+import { removeMenuItem, updateMenuItem } from "../../slices/customMenuSlice";
 import {
   cartSelector,
   updateItemInCart,
   removeItemFromCart,
+  clearCart,
+  setCartToCustomMenu,
 } from "../../slices/cartSlice";
 
 import formatVND from "../../utils/formatVND";
@@ -22,16 +21,44 @@ const OrderCart = () => {
   const dispatch = useDispatch();
   const cart = useSelector(cartSelector);
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+
+    // Only dispatch if the query parameter is present and the cart hasn't been set yet
+    if (queryParams?.get("checkout") === "customMenu") {
+      // Only dispatch if not already set, this prevents an infinite loop
+      dispatch(setCartToCustomMenu());
+    }
+  }, [dispatch]);
+
   // All methods regarding cart adjustments will be disabled once
   // payment has been finished
-  const { orderId } = cart.payment;
   const { items, price, promotions, discountedPrice } = cart.cartContent;
-  
+  const { paid } =cart.status
+
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h1 className="fw-bold mb-0">Ordering Cart</h1>
-        <h6 className="mb-0 text-muted">{items.length} items</h6>
+      <div className="d-flex justify-content-between align-items-center">
+        <span className="h1 fw-bold mb-0">Order Cart</span>
+        <span className="h6 mb-0 text-muted">{items.length} items</span>
+      </div>
+      <div className="text-end">
+        <Button
+          variant="light"
+          className="me-2"
+          onClick={() => dispatch(clearCart())} 
+          disabled={paid}
+        >
+          <span>Clear Cart</span>
+        </Button>
+        <Button
+          variant="light"
+          className="ms-2"
+          onClick={() => dispatch(setCartToCustomMenu())}
+          disabled={paid}
+        >
+          <span>Set Cart To Personal Menu</span>
+        </Button>
       </div>
       <hr className="my-2"></hr>
       <Stack direction="vertical" gap={3}>
@@ -56,13 +83,10 @@ const OrderCart = () => {
                     className="btn btn-link px-2 me-1"
                     onClick={() => {
                       dispatch(
-                        updateMenuItem({ menuItem: item, qty: item.qty - 1 })
-                      );
-                      dispatch(
                         updateItemInCart({ cartItem: item, qty: item.qty - 1 })
                       );
                     }}
-                    disabled={orderId}
+                    disabled={paid}
                   >
                     <FontAwesomeIcon icon={faMinus} color="#000000" />
                   </Button>
@@ -75,19 +99,13 @@ const OrderCart = () => {
                     className="form-control form-control-sm text-center"
                     onChange={(e) => {
                       dispatch(
-                        updateMenuItem({
-                          menuItem: item,
-                          qty: e.target.value,
-                        })
-                      );
-                      dispatch(
                         updateItemInCart({
                           cartItem: item,
                           qty: e.target.value,
                         })
                       );
                     }}
-                    disabled={orderId}
+                    disabled={paid}
                   />
 
                   <Button
@@ -95,13 +113,10 @@ const OrderCart = () => {
                     variant="light"
                     onClick={() => {
                       dispatch(
-                        updateMenuItem({ menuItem: item, qty: item.qty + 1 })
-                      );
-                      dispatch(
                         updateItemInCart({ cartItem: item, qty: item.qty + 1 })
                       );
                     }}
-                    disabled={orderId}
+                    disabled={paid}
                   >
                     <FontAwesomeIcon icon={faPlus} color="#000000" />
                   </Button>
@@ -110,10 +125,9 @@ const OrderCart = () => {
                     className="btn btn-link ms-3 px-3"
                     variant="light"
                     onClick={() => {
-                      dispatch(removeMenuItem(item));
                       dispatch(removeItemFromCart(item));
                     }}
-                    disabled={orderId}
+                    disabled={paid}
                   >
                     <FontAwesomeIcon icon={faTrashCan} color="#000000" />
                   </Button>

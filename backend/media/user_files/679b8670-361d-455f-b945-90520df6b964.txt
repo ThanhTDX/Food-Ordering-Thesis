@@ -1,0 +1,17 @@
+Thành's Deli Restaurant
+Order number: 679b8670-361d-455f-b945-90520df6b964
+Customer Name: sdfag
+Phone Number: 0888111999
+Address: 123414141452352345
+
+
+Order Items: 
+1: Coca Cola
+	Quantity: 2 	Price: 24000VND
+2: Coffee
+	Quantity: 2 	Price: 30000VND
+3: Beef Noodle Soup
+	Quantity: 1 	Price: 45000VND
+
+
+Total Price:99000

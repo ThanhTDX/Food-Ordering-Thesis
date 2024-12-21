@@ -1,0 +1,15 @@
+Thành's Deli Restaurant
+Order number: ce789f1d-0d9e-4337-ae24-f4ff9ab0f573
+Customer Name: zdfxgzsdfg123
+Phone Number: 0999111999
+Address: a
+
+
+Order Items: 
+1: Beef Noodle Soup
+	Quantity: 1+ 	Price: 45000VND
+2: Soft thin vermicelli noodles
+	Quantity: 1+ 	Price: 25000VND
+3: Quang style noodles
+	Quantity: 1+ 	Price: 35000VND
+Total Price:105000

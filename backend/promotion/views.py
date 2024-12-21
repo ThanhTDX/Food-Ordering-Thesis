@@ -13,8 +13,10 @@ from promotion.serializers import *
 def getRoutes(request):
   routes = [
     'api/promotion/',
-    'api/promotion/all',
-    'api/promotion/user',
+    'api/promotion/all/',
+    'api/promotion/<:id>/',
+    'api/promotion/user/<:id>/',
+    'api/promotion/user/<:id>/<:promotion>'
   ]
   return Response(routes)
 
@@ -32,8 +34,7 @@ def getPromotionById(request,pk):
   serializer = PromotionSerializer(data, many=False)
   return Response(serializer.data, status=status.HTTP_200_OK)
 
-
-# /api/promotion/user/<:id>
+# /api/promotion/user/<:id>/
 @api_view(['GET'])
 def getAllPromotionsFromUser(request, id):
   user = User.objects.get(_id=id)

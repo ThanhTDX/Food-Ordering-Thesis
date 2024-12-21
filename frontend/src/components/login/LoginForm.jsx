@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Form, Stack, Button } from "react-bootstrap";
 import "./LoginForm.css";
 import { useDispatch } from "react-redux";
 
-import { userLogin as login } from "../../slices/userSlice";
+import { userLogin } from "../../slices/userSlice";
 import { useNavigate } from "react-router";
 
 function LoginForm({ setForm }) {
@@ -11,6 +11,14 @@ function LoginForm({ setForm }) {
   const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
   const formRef = useRef();
+
+  const login = useCallback(
+    async (data) => {
+      dispatch(userLogin(data));
+    },
+
+    []
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,8 +28,7 @@ function LoginForm({ setForm }) {
       phoneNumber: values["form-tel"],
       password: values["form-pass"],
     };
-    dispatch(login(data));
-    // navigate("/");
+    dispatch(userLogin(data));
   };
 
   return (

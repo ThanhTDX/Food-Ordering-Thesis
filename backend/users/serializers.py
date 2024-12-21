@@ -11,6 +11,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
       serializer = UserSerializerWithToken(self.user).data
       for k, v in serializer.items() :
         data[k] = v
+        
+      print(data)
       return data
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -34,12 +36,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
     fields = ['_id', 'phone_number', 'username', 'isSuperuser']
 
 class UserSerializerWithToken(CustomUserSerializer):
-  token = serializers.SerializerMethodField(read_only=True)
   
-  def get_token(self, obj): 
-    token = RefreshToken.for_user(obj)
-    return str(token.access_token)
   
   class Meta:
     model = CustomUser
-    fields = ['_id', 'username', 'phone_number', 'token']
+    fields = ['username', 'phone_number', 'role']

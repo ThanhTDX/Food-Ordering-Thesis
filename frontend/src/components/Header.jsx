@@ -4,14 +4,17 @@ import { Container, Nav, Navbar, Row, Dropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { userSelector, userIsLoggedIn, userLogout } from "../slices/userSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(userSelector);
 
-  const handleLogout = () => {
-    dispatch(userLogout);
+  const handleLogout = async() => {
+    await dispatch(userLogout());
+    navigate("/");
   };
 
   return (
@@ -31,27 +34,27 @@ function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <LinkContainer to="/menu">
+              <LinkContainer to="/menu/">
                 <Nav.Link>
                   <i className="fas fa-shopping-cart"></i> Menu
                 </Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/reservation">
+              <LinkContainer to="/reservation/">
                 <Nav.Link>Reservation</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/order">
+              <LinkContainer to="/order/">
                 <Nav.Link>Order</Nav.Link>
               </LinkContainer>
               {userIsLoggedIn && (
                 <Dropdown align="end">
                   {/* Dropdown.Toggle to make the Nav.Link clickable */}
                   <Dropdown.Toggle as={Nav.Link} variant="link">
-                    Welcome back, {user.userInfo.username}
+                    Welcome back, {user.username}
                   </Dropdown.Toggle>
 
                   {/* Dropdown.Menu containing the dropdown items */}
                   <Dropdown.Menu>
-                    <LinkContainer to="/user/profile">
+                    <LinkContainer to="/user/profile/">
                       <Dropdown.Item>Profile</Dropdown.Item>
                     </LinkContainer>
                     <Dropdown.Divider />
@@ -60,9 +63,9 @@ function Header() {
                 </Dropdown>
               )}
               {!userIsLoggedIn && (
-                <LinkContainer to="/login">
+                <LinkContainer to="/login/">
                   <Nav.Link>
-                    <i className="fas fa-user"></i> Login
+                    <FontAwesomeIcon icon={faUser} size="sm"></FontAwesomeIcon> Login
                   </Nav.Link>
                 </LinkContainer>
               )}

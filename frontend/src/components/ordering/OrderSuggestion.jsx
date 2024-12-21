@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { menuSelector, prefetch } from "../../slices/menuSlice";
 
@@ -11,29 +11,29 @@ import "./css/OrderSuggestion.css";
 import StarRating from "../StarRating";
 import { addItemToCart, cartSelector } from "../../slices/cartSlice";
 
+
+
 const OrderSuggestion = () => {
   const dispatch = useDispatch();
 
-  const cart = useSelector(cartSelector)
+  const cart = useSelector(cartSelector);
   const { orderId } = cart.payment;
 
   const menu = useSelector(menuSelector, shallowEqual);
   const { items } = menu.menuFood;
-
-  const array = [...items];
-  // Shuffle items for random choices
-  const shuffled = array.sort(() => 0.5 - Math.random());
-  // Get sub-array of first 9 elements after shuffled
-  let selectedItems = shuffled.slice(0, 9);
-  // And split it into groups of 3
-  selectedItems = splitArrayIntoGroups(selectedItems, 3);
-
   useEffect(() => {
     dispatch(prefetch());
-  }, []);
+  }, [dispatch]);
+
+  const selectedItems = useMemo(() => {
+    // Shuffle items for random choices
+    const shuffled = [...items].sort(() => 0.5 - Math.random());
+    // And split it into groups of 3
+    return splitArrayIntoGroups(shuffled.slice(0, 9), 3);
+  }, [items]);
 
   return (
-    <div>
+    <div className="cart__suggestion__carousel">
       <Carousel interval={null} className="px-4">
         {selectedItems.slice(0, 3).map((groups, index) => (
           <Carousel.Item key={index}>

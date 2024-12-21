@@ -25,29 +25,31 @@ User = get_user_model()
 @api_view(['GET'])
 def getRoutes(request):
   routes = [
-    'api/reservation/',
-    'api/reservation/all',
-    'api/reservation/<id>',
+    '/api/reservation/',
+    '/api/reservation/all/',
+    '/api/reservation/create/',
+    '/api/reservation/<id>/',
   ]
   return Response(routes)
 
-# /api/ordering/all/
+# /api/reservation/all/
 @api_view(['GET'])
 def getAllReservation(request):
   data = Reservation.objects.all()
   serializer = ReservationSerializer(data, many=True)
   return Response(serializer.data)
 
-# /api/ordering/<id>/
+# /api/reservation/<id>/
 @api_view(['GET'])
 def getReservationById(request, pk):
   data = Reservation.objects.get(_id=pk)
   serializer = ReservationSerializer(data, many=False)
   return Response(serializer.data)
 
-# /api/ordering/<id>/
+# /api/reservation/create/
 @api_view(['POST'])
 def createReservation(request):
+  print(request.body)
   try:
     request_data = json.loads(request.body)
     # USER information

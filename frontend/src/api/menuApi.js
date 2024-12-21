@@ -88,3 +88,25 @@ export const fetchAllComboType = async () => {
     throw new Error(__handleError(error));
   }
 };
+
+// GET /api/menu/comment/
+export const fetchAllComment = async () => {
+  try {
+    const response = await axios.get(`/api/menu/comment/`);
+    return response.data;
+  } catch (error) {
+    console.log(error.config);
+    throw new Error(__handleError(error));
+  }
+};
+
+// GET /api/menu/food/<id>/comment/
+export const fetchFoodCommentById = async (id) => {
+  try {
+    const response = await axios.get(`/api/menu/food/${id}/comment/`);
+    return response.data;
+  } catch (error) {
+    console.log(error.config);
+    throw new Error(__handleError(error));
+  }
+};

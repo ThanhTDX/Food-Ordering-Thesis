@@ -1,3 +1,4 @@
+import io
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -6,6 +7,8 @@ import logging
 from django.shortcuts import render
 from django.conf import settings
 from django.utils import timezone
+from django.core.files import File
+from django.http import FileResponse, HttpResponse
 
 from base.models import *
 from ordering.models import *
@@ -61,11 +64,16 @@ def getRoutes(request):
   routes = [
     '/api/ordering/',
     '/api/ordering/all/',
-    '/api/ordering/<id>/',
-    '/api/ordering/momo/payment/',
-    '/api/ordering/momo/callback',
     '/api/ordering/create/',
-    '/api/ordering/bill/<:id>',
+    '/api/ordering/bill/<:id>/',
+    '/api/ordering/<str:pk>/',
+    
+    '/api/ordering/momo/payment/',
+    '/api/ordering/momo/webhooks/callback',
+    '/api/ordering/paypal/payment_creation/',
+    '/api/ordering/paypal/approve_callback/',
+    '/api/ordering/paypal/webhooks/payment_received/',
+    
   ]
   return Response(routes)
 
@@ -84,7 +92,7 @@ def getOrderingById(request, pk):
   return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# /api/ordering/momo/payment/
+# /api/ordering/momo/webhooks/callback
 @api_view(['POST'])
 def orderingPaymentMomo(request):
   # unloads request content
@@ -103,7 +111,7 @@ def orderingPaymentMomo(request):
   # Order specific 
   orderInfo = "Ordering for " + str(phone_number)
   redirectUrl = "http://localhost:3000/order"
-  ipnUrl = "https://767f-2001-ee0-50c6-6870-a0a5-afcf-bc20-989b.ngrok-free.app/api/ordering/momo/callback"
+  ipnUrl = "https://78ce-2001-ee0-50c7-b710-4510-42c6-2f07-74d.ngrok-free.app/api/ordering/momo/webhooks/callback"
   amount = str(price)
   orderId = str(uuid.uuid4())
   requestId = str(uuid.uuid4())
@@ -357,6 +365,32 @@ def orderingCreateNew(request):
   request_data = json.loads(request.body)
   print(request_data)
   
+  def create_txt_file(request_data):
+    # Create an in-memory file-like object
+    file_content = io.StringIO()
+
+    # Write content into the in-memory file
+    file_content.write("Thành's Deli Restaurant\n")
+    file_content.write("Order number: " + request_data.get("orderId") + "\n")
+    file_content.write("Customer Name: " + request_data.get("username") + "\n")
+    file_content.write("Phone Number: " + request_data.get("phoneNumber") + "\n")
+    file_content.write("Address: " + request_data.get("address") + "\n")
+    file_content.write("\n\n")
+    file_content.write("Order Items: \n")
+    
+    counter = 1
+    for item in request_data.get("items"):
+        file_content.write(str(counter) + ": " + item["name"] + "\n")
+        file_content.write("\t" + "Quantity: " + str(item["qty"]) + " \tPrice: " + str(int(item["qty"]) * int(item["price"])) + "VND\n")
+        counter += 1
+    file_content.write("\n\n")
+    file_content.write("Total Price:" + str(request_data.get("price")) + "\n")
+    
+    # Reset file pointer to the beginning
+    file_content.seek(0)
+
+    return file_content
+  
   # Create new Ordering in Django and save 
   new_order = Ordering()
   new_order.name = request_data.get("name")
@@ -376,33 +410,22 @@ def orderingCreateNew(request):
     new_food_order.qty = item.get("qty")
     new_food_order.save()  
     
-    
-  def create_txt_file():
-    # Define the path to save the .txt file
-    file_path = os.path.join(settings.MEDIA_ROOT, 'user_files', 'user_report.txt')
-
-    # Ensure the 'user_files' directory exists
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
-
-    # Write some content into the file
-    with open(file_path, 'w') as file:
-        file.write('This is a user-generated text file.\n')
-        file.write('This is a user-generated text file.\n')
-        file.write('This is a user-generated text file.\n')
-        file.write('This is a user-generated text file.\n')
-        file.write('This is a user-generated text file.\n')
-        file.write('This is a user-generated text file.\n')
-        file.write('This is a user-generated text file.\n')
-        file.write('This is a user-generated text file.\n')
-
-    return file_path
-  
-  create_txt_file()
-
-  
+  new_bill_file = create_txt_file(request_data)
+  new_order.bill = File(new_bill_file, name=request_data.get("orderId") + ".txt")
+  new_order.save()
   return Response({'status': 'success'}, status=status.HTTP_200_OK)
 
-# /api/ordering/bill/<:id>
+# /api/ordering/download_file/<:filename>/
 @api_view(['GET'])
-def getOrderingBill(request, id):
-  pass
+def getOrderingBill(request, filename):
+    file_path = os.path.join(settings.MEDIA_ROOT,'user_files', filename + ".txt")
+    if os.path.exists(file_path):
+      with open(file_path, 'r') as file:
+        file_content = file.read()
+        response = HttpResponse(file_content, content_type='text/plain')
+        # Set Content-Disposition header to make it downloadable and show filename
+        response['Content-Disposition'] = f'attachment; filename="{filename}.txt"'
+
+        return response
+    else:
+        return Response("File not found", status=status.HTTP_404_NOT_FOUND)

@@ -11,7 +11,6 @@ import ChangePasswordForm from "../components/login/ChangePasswordForm";
 import LoginStaffForm from "../components/login/LoginStaffForm";
 
 function LoginPage() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form, setForm] = useState("login");
   const user = useSelector(userSelector);

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Alert } from "react-bootstrap";
 
-const TimeInput = ({ error, time, setTime, setError }) => {
+const TimeInput = ({ error, time, setTime, setError, disabled }) => {
   useEffect(() => {
     // Set minimum time to current time on mount
     setTime(time);
@@ -46,6 +46,7 @@ const TimeInput = ({ error, time, setTime, setError }) => {
         value={time}
         onChange={handleTimeChange}
         min={time} // Set the minimum time to current time
+        disabled={disabled}
       />
       {/* Display an error message if time is invalid */}
     </Form.Group>

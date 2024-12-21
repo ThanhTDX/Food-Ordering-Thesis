@@ -1,0 +1,13 @@
+Thành's Deli Restaurant
+Order number: ee663493-bb13-4bd3-9071-f96805d07587
+Customer Name: Thanh
+Phone Number: 0999111999
+Address: 220 Le Dai Hanh, P.26, Q.9
+
+
+Order Items: 
+1: Beef hotpot
+	Quantity: 3 	Price: 240000VND
+
+
+Total Price:80000

@@ -7,10 +7,9 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
 
-const StarRatingHoverable = ({size}) => {
+const StarRatingHoverable = ({size, fixedIndex, setFixedIndex}) => {
   // State to track the hovered star index
   const [hoveredIndex, setHoveredIndex] = useState(-1);
-  const [fixedIndex, setFixedIndex] = useState(-1)
   
   // Array of 5 stars (can be used to dynamically generate the icons)
   const totalStars = 5

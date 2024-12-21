@@ -1,9 +1,9 @@
-.carousel-control-prev {
-  width: 2%;
+.cart__suggestion__carousel .carousel-control-prev {
+  width: 2%  !important;
 }
 
-.carousel-control-next {
-  width: 2%;
+.cart__suggestion__carousel .carousel-control-next {
+  width: 2%  !important;
 }
 
 .order-suggestion__wrapper {

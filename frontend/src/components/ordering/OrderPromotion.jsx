@@ -84,23 +84,12 @@ const OrderPromotion = () => {
               onClick={handleSearch}
               className="border rounded-end"
             >
-              <FontAwesomeIcon icon={faMagnifyingGlass} size="md" />
+              <FontAwesomeIcon icon={faMagnifyingGlass} size="sm" />
             </Button>
           </InputGroup>
         </Col>
         <Col md={3}>
           <span>Applied Promotions: </span>
-          <div>
-            {fetchPromotion.map((promotion) => (
-              <Button
-                key={promotion._id}
-                className="order-promotion__chosen"
-                value={promotion.name}
-              >
-                <span>{promotion.name}</span>
-              </Button>
-            ))}
-          </div>
         </Col>
       </Row>
     </div>

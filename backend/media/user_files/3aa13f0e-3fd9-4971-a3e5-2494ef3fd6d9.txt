@@ -1,0 +1,17 @@
+Thành's Deli Restaurant
+Order number: 3aa13f0e-3fd9-4971-a3e5-2494ef3fd6d9
+Customer Name: asdfgasgasgg
+Phone Number: 0123456789
+Address: asdfasdfasdfasdfasdfasf
+
+
+Order Items: 
+1: Coca Cola
+	Quantity: 4 	Price: 48000VND
+2: Coconut water
+	Quantity: 2 	Price: 30000VND
+3: Quang style noodles
+	Quantity: 1 	Price: 35000VND
+
+
+Total Price:89000

@@ -1,0 +1,24 @@
+.reservation__accordion {
+  background-color: #fff; /* Default background */
+  border-color: #ddd; /* Default border color */
+  --bs-accordion-btn-focus-box-shadow: none; 
+}
+
+.reservation__accordion .accordion-button:not(.collapsed) {
+  background-color: #f8f9fa00 !important; /* Set to your desired background color */
+  --bs-accordion-btn-focus-box-shadow: none; /* Border color when expanded */
+  color: #000; /* You can also change the text color */
+}
+
+
+.ordering__accordion {
+  background-color: #fff; /* Default background */
+  border-color: #ddd; /* Default border color */
+  --bs-accordion-btn-focus-box-shadow: none; 
+}
+
+.ordering__accordion .accordion-button:not(.collapsed) {
+  background-color: #f8f9fa !important; /* Set to your desired background color */
+  --bs-accordion-btn-focus-box-shadow: none; /* Border color when expanded */
+  color: #000; /* You can also change the text color */
+}

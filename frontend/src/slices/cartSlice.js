@@ -13,100 +13,43 @@ const calculateDiscountedPrice = (price, arr) => {
   return currentPrice;
 };
 
-const fetchCustomMenuStorage = () => {
-  // Because data is from customMenu only the cartContent is updated
-  // everything else is defaulted to it's initial value
-  let result = {
+const initialState = {
+  name: "",
+  cartContent: {
     items: [],
-    promotions: [
+    promotion: [
       {
         name: "",
-        discountAmount: "",
+        discountPercentage: "",
       },
     ],
     price: 0,
     discountedPrice: 0,
-  };
-
-  const customMenu = localStorage.getItem("customMenu")
-    ? JSON.parse(localStorage.getItem("customMenu"))
-    : [];
-  // Return Data
-
-  // If nothing, return empty array
-  if (!customMenu.length) {
-    return result;
-  }
-  // Else extract item/combo and put into result
-  for (const item of customMenu) {
-    result.items.push(item);
-    result.price += Number(item.price) * Number(item.qty);
-  }
-  return result;
-};
-
-// TODO: this value is HORRIBLE
-const initialCartContentFromLocalStorage = localStorage.getItem("cart") 
-  ? JSON.parse(localStorage.getItem("cart")).cartContent
-  : fetchCustomMenuStorage();
-
-// Initial value setup for cart information
-const initialInformationFromLocalStorage =
-  // Fetch from localStorage
-  localStorage.getItem("cart")
-    ? JSON.parse(localStorage.getItem("cart")).information
-    : {
-        phoneNumber: "",
-        name: "",
-        address: "",
-        deliveryTime: {
-          date: new Date().toISOString().split("T")[0],
-          time: new Date().toTimeString().slice(0, 5),
-        },
-      };
-// Initial value setup for cart information
-const initialPaymentFromLocalStorage =
-  // Fetch from localStorage
-  localStorage.getItem("cart")
-    ? JSON.parse(localStorage.getItem("cart")).payment
-    : {
-        paymentMethod: "",
-        orderId: "",
-      };
-
-export const cartSlice = createSlice({
-  // cart redux structure (i don't know how to do this so)
-  // cartContent: {
-  //   promotion: [
-  //     {
-  //       name: "",
-  //       discountPercentage: "",
-  //     },
-  //   ],
-  //   price: "",
-  //   discountedPrice: "",
-  // },
-  // information: {
-  //   phoneNumber: "",
-  //   name: "",
-  //   address: "",
-  //   deliveryTime: "",
-  // },
-  // payment: {
-  //   orderId: "",
-  //   paymentMethod: "",
-  // },
-  name: "cart",
-  initialState: {
+  },
+  information: {
+    phoneNumber: "",
     name: "",
-    cartContent: initialCartContentFromLocalStorage,
-    information: initialInformationFromLocalStorage,
-    payment: initialPaymentFromLocalStorage,
-    status: {
-      loading: "",
-      error: "",
+    address: "",
+    deliveryTime: {
+      date: null,
+      time: null,
     },
   },
+  payment: {
+    orderId: "",
+    method: "",
+  },
+  status: {
+    loading: false,
+    error: "",
+    valid: false,
+    paid: false,
+  },
+};
+
+export const cartSlice = createSlice({
+  name: "cart",
+  initialState,
   reducers: {
     addItemToCart: (state, action) => {
       // action.payload: cartItem
@@ -131,13 +74,11 @@ export const cartSlice = createSlice({
       }
       // Update new price
       state.cartContent.price += Number(action.payload.price);
-
-      // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     removeItemFromCart: (state, action) => {
       // action.payload: cartItem
-      console.log(action.payload);
+      // for debugging
+      // console.log(action.payload);
 
       // Find item in cart (assumming the item is already in cart)
       const itemExists = state.cartContent.items.find(
@@ -155,8 +96,6 @@ export const cartSlice = createSlice({
           Number(state.cartContent.price) -
           Number(action.payload.price) * Number(action.payload.qty);
       }
-      // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     updateItemInCart: (state, action) => {
       // action.payload = {cartItem, qty}
@@ -183,12 +122,32 @@ export const cartSlice = createSlice({
       );
       // Calculate difference between item's qty and new qty (which can be negative)
       // then multiple with price and add the current price
-      state.price =
-        state.price + Number(cartItem.price) * Number(qty - cartItem.qty);
+      state.cartContent.price =
+        state.cartContent.price +
+        Number(cartItem.price) * Number(qty - cartItem.qty);
+    },
+    resetCart: () => initialState,
+    setCartToCustomMenu: (state, action) => {
+      const customMenu = localStorage.getItem("customMenu")
+        ? JSON.parse(localStorage.getItem("customMenu"))
+        : undefined;
+      // Return Data
 
-      // Save to localStorage
-      console.log(state);
-      localStorage.setItem("cart", JSON.stringify(state.cart));
+      console.log(customMenu);
+
+      // If nothing, return empty array
+      if (customMenu === undefined) return;
+
+      // Else extract item/combo and put into result
+      state.cartContent.items = customMenu.menu.menuItems;
+      state.cartContent.price = customMenu.price;
+    },
+    clearCart: (state, action) => {
+      state.cartContent.items = [];
+      state.cartContent.price = 0;
+      state.cartContent.discountedPrice = 0;
+      state.payment.orderId = "";
+      state.payment.method = "";
     },
     addPromotion: (state, action) => {
       // action.payload: promotion
@@ -199,9 +158,6 @@ export const cartSlice = createSlice({
       //   state.cartContent.price,
       //   state.cartContent.promotions
       // );
-
-      // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     removePromotion: (state, action) => {
       // action.payload: promotion
@@ -214,51 +170,52 @@ export const cartSlice = createSlice({
       //   state.cartContent.price,
       //   state.cartContent.promotions
       // );
-
-      // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     updateName: (state, action) => {
       // action.payload: name - string
       state.information.name = action.payload;
-      // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     updateAddress: (state, action) => {
       // action.payload: address - string
       state.information.address = action.payload;
-
-      // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     updatePhoneNumber: (state, action) => {
       // action.payload: phoneNumber - string
       // TODO: put VN phone validator here
       if (
-        action.payload.length < 10 ||
-        action.payload.length > 12 ||
-        action.payload.indexOf(0) !== 0
+        action.payload === "" ||
+        (action.payload.length > 9 &&
+          action.payload.length < 12 &&
+          action.payload.indexOf(0) === 0)
       ) {
-        return;
-      } else {
-        console.log(action.payload);
         state.information.phoneNumber = action.payload;
       }
-      // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     updatePayment: (state, action) => {
-      // action.payload: {method, orderId} - string
-      state.payment = action.payload;
-      // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state.cart));
+      // action.payload: payment - string
+      state.payment.method = action.payload;
+    },
+    updateFinishedPayment: (state, action) => {
+      // action.payload = orderId;
+      state.payment.hasPaid = true;
+      state.payment.orderId = action.payload;
     },
     updateDeliveryTime: (state, action) => {
       // action.payload: {date, time}
       state.information.deliveryTime.date = action.payload.date;
       state.information.deliveryTime.time = action.payload.time;
-      // Save to localStorage
-      localStorage.setItem("cart", JSON.stringify(state.cart));
+    },
+    updateOrderId: (state, action) => {
+      //action.payload: orderId - string
+      state.payment.orderId = action.payload;
+    },
+    updateValid: (state, action) => {
+      // action.payload: true/false
+      state.status.valid = action.payload;
+    },
+    updatePaid: (state, action) => {
+      // action.payload: true/false
+      state.status.paid = action.payload;
     },
   },
 });
@@ -267,6 +224,9 @@ export const {
   addItemToCart,
   removeItemFromCart,
   updateItemInCart,
+  resetCart,
+  clearCart,
+  setCartToCustomMenu,
   addPromotion,
   removePromotion,
   updatePayment,
@@ -274,6 +234,9 @@ export const {
   updateName,
   updateAddress,
   updateDeliveryTime,
+  updateOrderId,
+  updateValid,
+  updatePaid,
 } = cartSlice.actions;
 
 export const cartSelector = (state) => state.cart;

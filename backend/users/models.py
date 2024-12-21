@@ -215,4 +215,32 @@ class Admin(CustomUser):
             self.is_superuser = True
         return super().save(*args, **kwargs)
     
+class UserProfile(models.Model):
+  user = models.OneToOneField("users.CustomUser", on_delete=models.CASCADE, null=True)
+
+class UserCustomMenuDetailsFood_FK(models.Model):
+  custom_menu = models.ForeignKey("users.UserCustomMenu", on_delete=models.CASCADE)
+  food = models.ForeignKey("base.Food", on_delete=models.CASCADE)
+  qty = models.IntegerField(_("Quantity"), default=1)
+  
+class UserCustomMenuDetailsCombo_FK(models.Model):
+  custom_menu = models.ForeignKey("users.UserCustomMenu", on_delete=models.CASCADE)
+  combo = models.ForeignKey("base.Combo", on_delete=models.CASCADE)
+  qty = models.IntegerField(_("Quantity"), default=1)
+  
+class UserCustomMenu(models.Model):
+  name = models.CharField(max_length=256, default="Custom Menu")
+  user = models.ForeignKey("users.UserProfile", on_delete=models.CASCADE, null=True)
+  date_created = models.DateTimeField(default=timezone.now)
+  price = models.DecimalField(max_digits=8, decimal_places=0, default=0)
+  _id = models.AutoField(primary_key=True, editable=False)
+  
+  nutrition_value = models.TextField(null=True)
+  num_ppl_eating = models.IntegerField(_("Number of people eating"), default=1)
+  
+  foods = models.ManyToManyField("base.Food", verbose_name=_("food_list"), related_name="custommenufood_set", through=UserCustomMenuDetailsFood_FK)
+  combos = models.ManyToManyField("base.Combo", verbose_name=_("combo_list"), related_name="custommenucombo_set",through=UserCustomMenuDetailsCombo_FK)
+  def __str__(self):
+    return str(self.name) + " made by: " + str(self.user.username)
+  
     

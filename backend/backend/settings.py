@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-3+yf(4fc^%hh!z*t^&!cgvpw5i@@5473+mu_i7x&s4ry1@zp=(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['767f-2001-ee0-50c6-6870-a0a5-afcf-bc20-989b.ngrok-free.app', '127.0.0.1']
+ALLOWED_HOSTS = ['78ce-2001-ee0-50c7-b710-4510-42c6-2f07-74d.ngrok-free.app', '127.0.0.1']
 
 
 # Application definition
@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
     'users',
     'restaurant',
-    'user_profile',
     'reservation',
     'ordering',
     'promotion.apps.PromotionConfig',

@@ -13,8 +13,8 @@ from restaurant.serializers import *
 def getRoutes(request):
   routes = [
     '/api/restaurant/',
-    '/api/restaurant/all',
-    '/api/restaurant/<id>',
+    '/api/restaurant/all/',
+    '/api/restaurant/<id>/',
   ]
   return Response(routes)
 

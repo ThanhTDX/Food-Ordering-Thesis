@@ -1,0 +1,13 @@
+Thành's Deli Restaurant
+Order number: 0cce6b17-3119-4b31-9074-96395aecee67
+Customer Name: asdasd
+Phone Number: 0999111999
+Address: a
+
+
+Order Items: 
+1: Fruit Juice
+	Quantity: 1 	Price: 15000VND
+
+
+Total Price:15000

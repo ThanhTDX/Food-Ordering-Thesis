@@ -1,0 +1,13 @@
+Thành's Deli Restaurant
+Order number: 1b55964c-2976-4c2c-a92d-e870d89477fc
+Customer Name: awdtasdf
+Phone Number: 0123456789
+Address: a
+
+
+Order Items: 
+1: Coca Cola
+	Quantity: 1 	Price: 12000VND
+
+
+Total Price:12000

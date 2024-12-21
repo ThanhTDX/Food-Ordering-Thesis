@@ -1,0 +1,13 @@
+Thành's Deli Restaurant
+Order number: e0f2c2d3-df57-409d-8111-7173f352f93c
+Customer Name: zdfxgzsdfg123
+Phone Number: 0112333222
+Address: a
+
+
+Order Items: 
+1: Sugar cane juice
+	Quantity: 1 	Price: 10000VND
+
+
+Total Price:10000

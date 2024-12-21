@@ -1,0 +1,23 @@
+Thành's Deli Restaurant
+Order number: 1bcbbfd8-1e93-47ec-8f96-f0b78e71222d
+Customer Name: zsdfgdfzg
+Phone Number: 0999111999
+Address: satasdgfas
+
+
+Order Items: 
+1: Coca Cola
+	Quantity: 1 	Price: 12000VND
+2: Coffee
+	Quantity: 1 	Price: 15000VND
+3: Beef Noodle Soup
+	Quantity: 1 	Price: 45000VND
+4: Bread Omelettle
+	Quantity: 1 	Price: 18000VND
+5: Chicken Fried Rice
+	Quantity: 1 	Price: 30000VND
+6: Chicken Soup
+	Quantity: 1 	Price: 35000VND
+
+
+Total Price:155000

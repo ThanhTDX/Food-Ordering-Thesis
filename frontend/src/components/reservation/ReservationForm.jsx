@@ -126,9 +126,10 @@ function ReservationForm({ rightView, setRightView, tables, vips }) {
   const customMenu = searchParams.get("customMenu");
   const [hasMenu, setMenu] = useState(customMenu ? true : false);
   const [hasTable, setHasTable] = useState(false);
+  // const user = useSelector(userSelector)
 
-  // User Selector for default values
-  // const user = useSelector(userSelector);
+  const [successful, setSuccessful] = useState(false);
+
 
   // Error useEffect for outputting error
   // and set timeout if anything happens
@@ -143,7 +144,6 @@ function ReservationForm({ rightView, setRightView, tables, vips }) {
   }, [error]);
 
   // Reservation form Data
-  const navigate = useNavigate();
   const reservationFormRef = useRef(null);
   const [formIsValid, setValid] = useState(true);
   const handleSubmit = (e) => {
@@ -185,6 +185,7 @@ function ReservationForm({ rightView, setRightView, tables, vips }) {
         // # Check if response status is successful
         // => Throws
         if (response.status === 200) {
+          setSuccessful(true);
         }
         // navigate(`/user/reservation/${response.id}`)
       } catch (err) {
@@ -335,60 +336,28 @@ function ReservationForm({ rightView, setRightView, tables, vips }) {
             </Col>
           </Row>
         )}
-        <Row>
-          <Col md={8} lg={8}>
-            <Button
-              variant=""
-              size="md"
-              className="w-100 d-flex justify-content-start border-white py-0"
-            >
-              <Form.Group className="" controlId="form-include-menu">
-                <Form.Check
-                  type="checkbox"
-                  name="form-include-menu"
-                  label="Includes Your Menu"
-                  defaultChecked={hasMenu}
-                  onClick={() => setMenu(!hasMenu)}
-                />
-              </Form.Group>
-            </Button>
-          </Col>
-          {/* {hasMenu && rightView !== "menu" && (
-            <Col md={4} lg={4}>
-              <Button
-                variant="success"
-                className="px-3 py-0 align-self-end"
-                onClick={() => setRightView("menu")}
-              >
-                View Menu <FontAwesomeIcon icon={faArrowRight} size="lg" />
-              </Button>
-            </Col>
-          )}
-          {hasMenu && rightView === "menu" && (
-            <Col md={4} lg={4}>
-              <Button
-                variant="success"
-                className="px-3 py-0 align-self-end"
-                onClick={() => setRightView("picture")}
-              >
-                Cancel View <FontAwesomeIcon icon={faX} size="lg" />
-              </Button>
-            </Col>
-          )} */}
-        </Row>
-        {/* {hasMenu && <ReservationIncludeMenu />} */}
         <Form.Group>
           <Button variant="warning" type="submit" className="w-100 p-3">
             <span className="fw-bold">Confirm Booking</span>
           </Button>
         </Form.Group>
-        <div>
-          {error && (
-            <Message variant={"danger"}>
-              There is an error confirming your order
+        {successful && (
+          <div>
+            <Message variant={"success"}>
+              Your Reservation has been created successfully!
             </Message>
-          )}
-        </div>
+            <div className="gap-3 text-end">
+              
+              
+              <Button variant="info">View Reservation Bill</Button>
+            </div>
+          </div>
+        )}
+        {error && (
+          <Message variant={"danger"}>
+            There is an error confirming the reservation
+          </Message>
+        )}
       </Stack>
     </Form>
   );

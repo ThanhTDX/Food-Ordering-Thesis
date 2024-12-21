@@ -16,6 +16,7 @@ import {
 import { menuSelector } from "../slices/menuSlice";
 import OpacityImage from "../components/OpacityImage";
 
+import title from "./static/img/9178644350_18a7c5f6-0a91-4377-b092-b3f7a9540101.png";
 import carousel1 from "./static/img/2f67bc30f37cf8cc1c49e8d51fba0e435555d844-1800x1000.jpg";
 import carousel2 from "./static/img/photo-1517248135467-4c7edcad34c4.jpg";
 import carousel3 from "./static/img/quan-lau-ngon-o-hue-1.jpg";
@@ -37,28 +38,28 @@ function Home() {
   // }, []);
 
   return loading ? (
-    <Loader height={100} width={100}/>
+    <Loader height={100} width={100} />
   ) : error ? (
     <Message variant="danger">{error}</Message>
   ) : (
     <Container>
       <Carousel fade data-bs-theme="dark" className="w-100 home--carousel">
-        <Carousel.Item>
-          <OpacityImage src={carousel1} alt="carousel1" opacity={0.2} />
+        <Carousel.Item interval={5000}>
+          <OpacityImage src={carousel1} alt="carousel1" opacity={0.4} />
           <Carousel.Caption>
-            <h1>Thành's Deli</h1>
+              <Image src={title} />
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item>
-          <OpacityImage src={carousel2} alt="carousel2" opacity={0.2} />
+        <Carousel.Item interval={5000}>
+          <OpacityImage src={carousel2} alt="carousel2" opacity={0.4} />
           <Carousel.Caption>
-            <h1>Thành's Deli</h1>
+              <Image src={title} />
           </Carousel.Caption>
         </Carousel.Item>
-        <Carousel.Item>
-          <OpacityImage src={carousel3} alt="carousel3" opacity={0.2} />
+        <Carousel.Item interval={5000}>
+          <OpacityImage src={carousel3} alt="carousel3" opacity={0.4} />
           <Carousel.Caption>
-            <h1>Thành's Deli</h1>
+              <Image src={title} className="m-auto"/>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>

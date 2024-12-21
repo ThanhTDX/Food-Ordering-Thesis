@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen, faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { Card, Stack, Button, Row, Col, Container } from "react-bootstrap";
+import { Card, Stack, Button, Row, Col, Container, Popover, OverlayTrigger } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import "./css/MenuItemCard.css";
@@ -17,19 +17,26 @@ import {
 import { addItemToCart } from "../../slices/cartSlice";
 import { addMenuItem } from "../../slices/customMenuSlice";
 
+const popover = (
+  <Popover id="popover-add-to-menu">
+    <Popover.Body>
+      Add To Menu
+    </Popover.Body>
+  </Popover>
+);
+
 function MenuItemCard({ item }) {
   const menu = useSelector(menuSelector);
   const dispatch = useDispatch();
   const { menuSearch } = menu;
 
   return (
-    <Card className="menu-item--card mb-4">
+    <Card className="menu-item--card mb-2">
       <Card.Header>
         <Container className="position-relative p-0">
           <div className="z-1 position-absolute w-100 p-1">
             <div className="d-flex justify-content-between align-items-center">
               {/* TODO: promotion conditioning */}
-              <span className="menu-item--card--promotion">-25%</span>
               {/* TODO: isHot conditioning */}
               {item.is_hot && (
                 <span className="menu-item--card--hot">!HOT</span>
@@ -50,7 +57,7 @@ function MenuItemCard({ item }) {
       </Card.Header>
       <Card.Body>
         <Container className="product-detail-container p-0">
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between align-items-center product-detail-body-header">
             <Link
               to={`/menu/item/${item._id}`}
               className="text-decoration-none"
@@ -60,16 +67,15 @@ function MenuItemCard({ item }) {
             <div className="d-flex flex-column">
               {/* TODO: CHANGE PRICE COLOR + PROMOTION CONDITIONING */}
               <span className="new-price">{formatVND(item.price)}</span>
-              <span className="old-price align-self-end">
-                <small className="">
-                  <s>{formatVND(item.price)}</s>
-                </small>
-              </span>
             </div>
           </div>
           <div className="d-flex justify-content-between align-items-center">
             <Stack gap={2} direction="vertical">
-              <Stack gap={1} direction="horizontal" className="d-flex flex-wrap">
+              <Stack
+                gap={1}
+                direction="horizontal"
+                className="d-flex flex-wrap"
+              >
                 {item.tag
                   .slice(0, item.tag.length > 3 ? 3 : item.tag.length)
                   .map((tag) => {
@@ -135,13 +141,20 @@ function MenuItemCard({ item }) {
                 <FontAwesomeIcon icon={faCartShopping} />
               </Button>
             </Stack> */}
-            <Button
-              variant=""
-              className="menu-item--add-to-menu w-100"
-              onClick={() => dispatch(addMenuItem(item))}
+            <OverlayTrigger
+              trigger={["hover", "focus"]}
+              placement="top"
+              overlay={popover}
+              containerPadding={5}
             >
-              <FontAwesomeIcon icon={faBookOpen} />
-            </Button>
+              <Button
+                variant=""
+                className="menu-item--add-to-menu w-100"
+                onClick={() => dispatch(addMenuItem(item))}
+              >
+                <FontAwesomeIcon icon={faBookOpen} />
+              </Button>
+            </OverlayTrigger>
           </div>
         </Container>
       </Card.Body>

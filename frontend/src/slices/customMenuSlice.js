@@ -1,35 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const customMenuItemsFromStorage = localStorage.getItem("customMenu")
-  ? JSON.parse(localStorage.getItem("customMenu"))
-  : [];
-
-const initialPrice =
-  customMenuItemsFromStorage.length === 0
-    ? 0
-    : Object.keys(customMenuItemsFromStorage).reduce(function (previous, key) {
-        return (
-          previous +
-          Number(customMenuItemsFromStorage[key].price) *
-            Number(customMenuItemsFromStorage[key].qty)
-        );
-      }, 0);
-
-export const customMenuSlice = createSlice({
-  name: "customMenu",
-  initialState: {
-    name: "",
-    menu: {
-      menuItems: customMenuItemsFromStorage,
-      menuCombo: [],
-    },
-    price: initialPrice,
-    numOfPeople: 0,
-    nutritionValue: [],
-    evaluation: [],
+ 
+const initialState = {
+  name: "",
+  menu: {
+    menuItems: [],
+    menuCombo: [],
+  },
+  price: 0,
+  numOfPeople: 0,
+  nutritionValue: [],
+  evaluation: [],
+  status: {
     loading: false,
     error: "",
   },
+};
+
+export const customMenuSlice = createSlice({
+  name: "customMenu",
+  initialState,
   reducers: {
     addMenuItem: (state, action) => {
       // action.payload = menuItem
@@ -47,7 +36,6 @@ export const customMenuSlice = createSlice({
         state.menu.menuItems.push(menuItem);
       }
       state.price += Number(menuItem.price);
-      localStorage.setItem("customMenu", JSON.stringify(state.menu.menuItems));
     },
 
     updateMenuItem: (state, action) => {
@@ -74,7 +62,6 @@ export const customMenuSlice = createSlice({
       state.price =
         state.price + Number(menuItem.price) * Number(qty - menuItem.qty);
       // Save in localStorage
-      localStorage.setItem("customMenu", JSON.stringify(state.menu.menuItems));
     },
     removeMenuItem: (state, action) => {
       // action.payload = menuItem
@@ -83,10 +70,6 @@ export const customMenuSlice = createSlice({
         (item) => item._id !== menuItem._id
       );
       state.price -= Number(menuItem.price) * Number(menuItem.qty);
-      localStorage.setItem(
-        "customMenu",
-        JSON.stringify(state.menu.menuItems)
-      );
     },
     addCombo: (state, action) => {
       // action.payload = menuItem

@@ -147,7 +147,7 @@ const MenuPage = () => {
           ) : (
             <Row>
               <Col md={0} lg={4} className="mb-3">
-                <Container fluid className="p-0">
+                <div fluid className="p-0">
                   <Stack direction="vertical" gap={2}>
                     <CustomMenu />
                     {login && (
@@ -162,7 +162,7 @@ const MenuPage = () => {
                     <Stack direction="horizontal" gap={2}>
                       <Button
                         variant="success"
-                        onClick={() => navigate("/order?checkout=true")}
+                        onClick={() => navigate("/order?checkout=customMenu")}
                         className="w-100"
                       >
                         <span className="fw-bold">CHECKOUT</span>
@@ -176,7 +176,7 @@ const MenuPage = () => {
                       </Button>
                     </Stack>
                   </Stack>
-                </Container>
+                </div>
               </Col>
               <Col md={12} lg={8} className="">
                 <MenuUtility />

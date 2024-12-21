@@ -1,0 +1,17 @@
+Thành's Deli Restaurant
+Order number: fc3040c6-3c2d-44de-9e78-a7dfe946b39e
+Customer Name: zdfxgzsdfg123
+Phone Number: 0999111999
+Address: a
+
+
+Order Items: 
+1: Coffee
+	Quantity: 1 	Price: 15000VND
+2: Coca Cola
+	Quantity: 1 	Price: 12000VND
+3: Almond panna cotta lychee
+	Quantity: 1 	Price: 28000VND
+
+
+Total Price:55000
